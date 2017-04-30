@@ -73,9 +73,13 @@ class EditorController extends Controller
         $this->config = $config;
     }
 
-    //creates new file
-    public function create($name, $dir)
-    {
+
+     /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     */
+     public function create($name, $dir)
+     {
         $userId = $this->userSession->getUser()->getUID();
         $userFolder = $this->root->getUserFolder($userId);
         $folder = $userFolder->get($dir);
@@ -175,7 +179,10 @@ class EditorController extends Controller
     }
 
 
-
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+    */
     public function load($fileId)
     {
         list ($file, $error) = $this->getFile($fileId);
@@ -210,7 +217,10 @@ class EditorController extends Controller
         return $params;
     }
 
-
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+    */
     public function save($fileId)
     {
         $content = $_POST['content'];
@@ -264,7 +274,9 @@ class EditorController extends Controller
         return $params;
     }
 
-
+    /**
+     * @NoAdminRequired
+    */
     private function getFile($fileId)
     {
         if (empty($fileId))

@@ -10,14 +10,14 @@ This app enables users to create and edit diagrams in [Nextcloud](https://nextcl
 
 ## Info ##
 - Requires [Nextcloud](https://nextcloud.com) >11.0.0
-- Tested with Chrome 57 and Firefox 52
-- Multi language support
+- Tested with Chrome 58 and Firefox 53
+- Multi language support (l10n)
 - Inspired by the old Draw.io Integration and OnlyOffice
 
 
 
 ## Download ##
-[Current version 0.8.4](https://github.com/pawelrojek/nextcloud-drawio/raw/master/drawio-v.0.8.4_beta.zip)
+[Current version 0.8.5](https://github.com/pawelrojek/nextcloud-drawio/raw/master/drawio.zip)
 
 
 
