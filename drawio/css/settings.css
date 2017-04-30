@@ -1,0 +1,22 @@
+
+.section-drawio h2
+{
+    display: inline;
+}
+
+.drawio-header
+{
+    margin-top: 16px;
+}
+
+.section-drawio input
+{
+    display: block;
+    margin: 6px 0 4px;
+    width: 250px;
+}
+
+.drawio-hide
+{
+    display: none;
+}

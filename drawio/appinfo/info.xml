@@ -1,0 +1,27 @@
+﻿<?xml version="1.0"?>
+<info>
+    <id>drawio</id>
+    <name>Draw.io</name>
+    <summary>Draw.io intergration app</summary>
+    <description><![CDATA[Integrates Draw.io with NextCloud]]></description>
+    <licence>AGPL</licence>
+    <author>Paweł Rojek</author>
+    <version>0.8.4</version>
+    <namespace>Drawio</namespace>
+    <types>
+        <filesystem/>
+    </types>
+    <category>files</category>
+    <category>integration</category>
+    <category>organization</category>
+    <category>tools</category>
+    <website>https://github.com/pawelrojek/nextcloud-drawio/</website>
+    <bugs>https://github.com/pawelrojek/nextcloud-drawio/issues</bugs>
+    <repository type="git">https://github.com/pawelrojek/nextcloud-drawio.git</repository>
+    <dependencies>
+        <nextcloud min-version="11" max-version="11"/>
+    </dependencies>
+    <settings>
+        <admin>OCA\Drawio\AdminSettings</admin>
+    </settings>
+</info>

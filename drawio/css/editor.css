@@ -1,0 +1,10 @@
+
+#app > iframe
+{
+    vertical-align: top;
+}
+
+#iframeEditor.error
+{
+    color: red;
+}
