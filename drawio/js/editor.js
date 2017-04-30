@@ -123,14 +123,14 @@
                    }
                    else
                    {
-                        console.log('Unsupported event: '+msg.event);
+                        console.log('DrawIO Integration: Unsupported event: '+msg.event);
                         console.dir(msg);
                    }
 
             }
             else
             {
-                console.log('Unknown origin:' +msg.event);
+                console.log('DrawIO Integration: Incorrect origin:' +msg.event);
             }
         };
 
