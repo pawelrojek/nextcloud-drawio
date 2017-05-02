@@ -17,7 +17,7 @@ This app enables users to create and edit diagrams in [Nextcloud](https://nextcl
 
 
 ## Download ##
-[Current version 0.8.5](https://github.com/pawelrojek/nextcloud-drawio/raw/master/drawio-v0.8.5.zip)
+[ZIP](https://github.com/pawelrojek/nextcloud-drawio/raw/master/drawio-v0.8.5.zip) [TAR.GZ](https://github.com/pawelrojek/nextcloud-drawio/raw/master/drawio-v0.8.5.tar.gz)
 
 
 
@@ -35,10 +35,12 @@ Go to Admin page and change the settings you want:
 Click "Save" when you're done.
 
 
+## ToDo ##
+ * Custom file formats (instead of .xml)
+
 
 ## Known issues ##
  * Override XML integration cannot be disabled (this setting does not work yet)
-
 
 
 ## License ##
