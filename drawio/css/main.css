@@ -3,3 +3,10 @@
 {
     background-image: url("../img/new-xml.svg");
 }
+
+.icon-drawio-xml
+{
+    background-image: url("../img/new-xml-big.svg") !important;
+}
+
+

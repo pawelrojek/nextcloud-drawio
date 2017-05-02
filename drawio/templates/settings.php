@@ -17,12 +17,12 @@
     </p>
 
     <p class="drawio-header">
-    <label for='lang'><?php p($l->t("Language:")) ?></label>
-    <input id="lang" value="<?php p($_["lang"]) ?>" placeholder="<?php p($l->t("<auto or en,fr,de,es,ru,pl,zh,jp...")) ?>>" type="text">
+    <label for='lang'><?php p($l->t("Language")) ?></label>
+    <input id="lang" value="<?php p($_["lang"]) ?>" placeholder="<<?php p($l->t("auto or en,fr,de,es,ru,pl,zh,jp...")) ?>>" type="text">
     </p>
 
     <p class="drawio-header">
-    <label for='overrideXml'><?php p($l->t("Override default XML handler?")) ?>
+    <label for='overrideXml'><?php p($l->t("Associate XML files with Draw.io?")) ?>
     <select id="overrideXml">
       <option value="yes"<?php if ($_["overrideXml"]=="yes") echo ' selected'; ?>><?php p($l->t("Yes")) ?></option>
       <option value="no"<?php if ($_["overrideXml"]=="no") echo ' selected'; ?>><?php p($l->t("No")) ?></option>

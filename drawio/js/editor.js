@@ -116,6 +116,12 @@
                    {
                         OCA.Drawio.SaveFile(msg.xml);
                    }
+                   else if (msg.event == 'export')
+                   {
+                        //[todo] in the future
+                        //Note: it won't fire automatically, host needs to request it manually by posting the following message:
+                        //      postMessage(JSON.stringify({action: 'export', format: 'xmlpng', spinKey: 'saving'}), '*');
+                   }
                    else if (msg.event == 'exit')
                    {
                         window.removeEventListener('message', receive);

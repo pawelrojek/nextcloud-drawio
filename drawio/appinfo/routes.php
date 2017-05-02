@@ -8,6 +8,6 @@ return [
        ["name" => "editor#create", "url" => "/ajax/new", "verb" => "POST"],
 
        ["name" => "settings#settings", "url" => "/ajax/settings", "verb" => "POST"],
-       ["name" => "settings#formats", "url" => "/ajax/settings", "verb" => "GET"],
+       ["name" => "settings#getsettings", "url" => "/ajax/settings", "verb" => "GET"],
     ]
 ];
