@@ -15,7 +15,7 @@ This app enables users to create and edit diagrams in [Nextcloud](https://nextcl
 
 
 ## Download ##
-[zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.6/drawio-v0.8.6.zip) [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.6/drawio-v0.8.6.tar.gz)
+[zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.6/drawio-v0.8.6.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.6/drawio-v0.8.6.tar.gz)
 
 
 ## Changelog ##
