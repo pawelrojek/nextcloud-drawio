@@ -15,12 +15,12 @@
     <script type="text/javascript" nonce="<?php p(base64_encode($_["requesttoken"])) ?>">
         $( document ).ready(function()
         {
-           OCA.Drawio.SetServerURL("<?php p($_['drawioUrl']); ?>");
-           OCA.Drawio.RegisterListener();
         <?php if (!empty($_['error'])) { ?>
-           OCA.Drawio.DisplayError("<?php p($_["error"]) ?>");
+            OCA.Drawio.DisplayError("<?php p($_['error']) ?>");
         <?php } else { ?>
-           OCA.Drawio.LoadFile("<?php p($_["fileId"]) ?>");
+            // load file
+            var filePath = "<?php p($_['filePath']); ?>";
+            var drawioUrl = "<?php p($_['drawioUrl']); ?>";
         <?php } ?>
         });
     </script>

@@ -155,12 +155,15 @@ class EditorController extends Controller
             return ["error" => $this->trans->t("Draw.io app not configured! Please contact admin.")];
         }
 
+        $uid = $this->userSession->getUser()->getUID();
+        $baseFolder = $this->root->getUserFolder($uid);
+
         $params = [
             "drawioUrl" => $drawioUrl,
             "theme" => $theme,
             "lang" => $lang,
             "overrideXml" => $overrideXml,
-            "fileId" => $fileId
+            "filePath" => $baseFolder->getRelativePath($file->getPath())
         ];
 
         $response = new TemplateResponse($this->appName, "editor", $params);
