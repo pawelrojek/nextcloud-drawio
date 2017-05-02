@@ -1,6 +1,7 @@
 # ![](screenshots/icon.png) Nextcloud Draw.io integration app
 
-This app enables users to create and edit diagrams in [Nextcloud](https://nextcloud.com) using [Draw.io](https://draw.io) on-line editor.
+This app allows users to create and edit diagrams in [Nextcloud](https://nextcloud.com) using [Draw.io](https://draw.io) on-line editor.
+App Store link: https://apps.nextcloud.com/apps/drawio
 
 ![](screenshots/drawio_add.png)
 
@@ -42,8 +43,8 @@ Click "Save" when you're done.
 
 
 ## ToDo ##
- * Custom file formats (instead of .xml)
- * Exporting to file directly on the Nextcloud server
+ * Additional custom file format (instead of .xml)
+ * Exporting directly to file on the Nextcloud server
 
 
 ## Known issues ##
@@ -52,7 +53,7 @@ Click "Save" when you're done.
 
 ## License ##
 - Released under the Affero General Public License version 3 or later.
-- [CC 3.0 BY] File icon made by [DinosoftLabs](http://www.flaticon.com/authors/dinosoftlabs) [Link](http://www.flaticon.com/free-icon/organization_348440)
+- [CC 3.0 BY] File icon made by [DinosoftLabs](http://www.flaticon.com/authors/dinosoftlabs) / [Link](http://www.flaticon.com/free-icon/organization_348440)
 
 
 
