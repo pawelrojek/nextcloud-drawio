@@ -93,9 +93,13 @@ class SettingsController extends Controller
      *
      * @NoAdminRequired
      */
-    public function formats()
+    public function getsettings()
     {
-        return $this->config->formats;
+         $data = array();
+         $data['formats'] = $this->config->formats;
+         $data['settings'] = array();
+         $data['settings']['overrideXml'] = $this->config->GetOverrideXml();
+         return $data;
     }
 
 }

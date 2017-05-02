@@ -6,7 +6,7 @@
     <description><![CDATA[Integrates Draw.io with NextCloud]]></description>
     <licence>AGPL</licence>
     <author>Paweł Rojek</author>
-    <version>0.8.5</version>
+    <version>0.8.6</version>
     <namespace>Drawio</namespace>
     <types>
         <filesystem/>
@@ -16,6 +16,7 @@
     <category>organization</category>
     <category>tools</category>
     <website>https://github.com/pawelrojek/nextcloud-drawio/</website>
+    <screenshot small-thumbnail="https://raw.githubusercontent.com/pawelrojek/nextcloud-drawio/master/screenshots/drawio_integration_sm.png">https://raw.githubusercontent.com/pawelrojek/nextcloud-drawio/master/screenshots/drawio_integration.png</screenshot>
     <bugs>https://github.com/pawelrojek/nextcloud-drawio/issues</bugs>
     <repository type="git">https://github.com/pawelrojek/nextcloud-drawio.git</repository>
     <dependencies>

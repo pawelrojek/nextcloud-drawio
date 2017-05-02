@@ -172,6 +172,9 @@ class EditorController extends Controller
         {
             $csp->addAllowedScriptDomain($drawioUrl);
             $csp->addAllowedFrameDomain($drawioUrl);
+            $csp->addAllowedFrameDomain("blob:");
+            $csp->addAllowedChildSrcDomain($drawioUrl);
+            $csp->addAllowedChildSrcDomain("blob:");
         }
         $response->setContentSecurityPolicy($csp);
 

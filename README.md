@@ -7,7 +7,6 @@ This app enables users to create and edit diagrams in [Nextcloud](https://nextcl
 ![](screenshots/drawio_integration.png)
 
 
-
 ## Info ##
 - Requires [Nextcloud](https://nextcloud.com) >11.0.0
 - Tested with Chrome 58 and Firefox 53
@@ -15,16 +14,23 @@ This app enables users to create and edit diagrams in [Nextcloud](https://nextcl
 - Inspired by the old Draw.io Integration and OnlyOffice
 
 
-
 ## Download ##
-[ZIP](https://github.com/pawelrojek/nextcloud-drawio/raw/master/drawio-v0.8.5.zip) [TAR.GZ](https://github.com/pawelrojek/nextcloud-drawio/raw/master/drawio-v0.8.5.tar.gz)
+[zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.6/drawio-v0.8.6.zip) [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.6/drawio-v0.8.6.tar.gz)
 
 
+## Changelog ##
+## v0.8.6
+- New XML icon added to the file list
+- OverrideXML setting changed to "Associate XML files with Draw.io"
+- Export fixed
+- (Minor) Screenshot added
+- (Minor) GitHub screenshot fixed
+[View complete changelog](https://github.com/pawelrojek/nextcloud-drawio/blob/master/drawio/CHANGELOG.md)
 
-# Installation
+
+## Installation ##
 1. Copy Nextcloud draw.io integration app ("drawio" directory) to your Nextcloud server into the /apps/ directory
 2. Go to Apps -> "+ Apps" > "Not Enabled" and _Enable_ the **Draw.io** application
-
 
 
 # Configuration
@@ -37,10 +43,11 @@ Click "Save" when you're done.
 
 ## ToDo ##
  * Custom file formats (instead of .xml)
+ * Exporting to file directly on the Nextcloud server
 
 
 ## Known issues ##
- * Override XML integration cannot be disabled (this setting does not work yet)
+ * none
 
 
 ## License ##
