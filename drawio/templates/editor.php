@@ -10,17 +10,20 @@
 
 <div id="app">
 
-    <iframe id="iframeEditor" src="<?php if (!empty($_["drawioUrl"])) { p($_["drawioUrl"]); p($frame_params); } ?>" width="100%" height="100%" align="top" frameborder="0" name="iframeEditor" onmousewheel="" allowfullscreen=""></iframe>
+    <iframe id="iframeEditor" width="100%" height="100%" align="top" frameborder="0" name="iframeEditor" onmousewheel="" allowfullscreen=""></iframe>
 
     <script type="text/javascript" nonce="<?php p(base64_encode($_["requesttoken"])) ?>">
         $( document ).ready(function()
         {
         <?php if (!empty($_['error'])) { ?>
-            OCA.Drawio.DisplayError("<?php p($_['error']) ?>");
+            OCA.DrawIO.DisplayError("<?php p($_['error']) ?>");
         <?php } else { ?>
-            // load file
+            var iframe = $("#iframeEditor")[0];
             var filePath = "<?php p($_['filePath']); ?>";
-            var drawioUrl = "<?php p($_['drawioUrl']); ?>";
+            var originUrl = "<?php p($_['drawioUrl']); ?>";
+            var drawIoUrl = "<?php p($_['drawioUrl']); print_unescaped($frame_params); ?>"
+            OCA.DrawIO.EditFile(iframe.contentWindow, filePath, originUrl);
+            iframe.setAttribute('src', drawIoUrl );
         <?php } ?>
         });
     </script>
