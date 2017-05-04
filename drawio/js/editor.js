@@ -43,7 +43,7 @@
             if (evt.data.length > 0 && evt.origin === origin) {
                 var payload = JSON.parse(evt.data);
                 if (payload.event === "init") {
-                    var loadMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Loading..."));
+                    var loadMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Loading, please wait."));
                     ncClient.getFileContents(filePath)
                     .then(function (status, contents) {
                         if (contents === " ") {
