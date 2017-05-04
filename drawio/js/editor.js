@@ -83,10 +83,11 @@
                         }
                     )
                     .then(function (status) {
-                        OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "Saved"));
+                        OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "File saved!"));
                     })
                     .fail(function (status) {
-                        // TODO: show error and handle on failed write
+                        // TODO: handle on failed write
+                        OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "File not saved!"));
                     })
                     .done(function () {
                         OC.Notification.hide(saveMsg);
