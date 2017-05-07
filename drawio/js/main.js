@@ -1,10 +1,13 @@
 /**
- * Copyright (c) 2017 Pawel Rojek <pawel@pawelrojek.com>
+ *
+ * @author Pawel Rojek <pawel at pawelrojek.com>
+ * @author Ian Reinhart Geiser <igeiser at devonit.com>
  *
  * This file is licensed under the Affero General Public License version 3 or later.
  *
  **/
-(function (OCA) {
+
+ (function (OCA) {
 
     OCA.DrawIO = _.extend({}, OCA.Drawio);
 
@@ -44,7 +47,7 @@
             .done(function (json) {
                 OCA.AppSettings = json.settings;
                 OCA.DrawIO.Mimes = json.formats;
-                
+
                 $.each(OCA.DrawIO.Mimes, function (ext, attr) {
                     fileList.fileActions.registerAction({
                         name: "drawioOpen",

@@ -1,6 +1,8 @@
 <?php
 /**
- * Copyright (c) 2017 Pawel Rojek <pawel@pawelrojek.com>
+ *
+ * @author Pawel Rojek <pawel at pawelrojek.com>
+ * @author Ian Reinhart Geiser <igeiser at devonit.com>
  *
  * This file is licensed under the Affero General Public License version 3 or later.
  *
@@ -108,7 +110,7 @@ class EditorController extends Controller
             $this->logger->error("Load: " . $fileId . " " . $error, array("app" => $this->appName));
             return ["error" => $error];
         }
-        
+
         $uid = $this->userSession->getUser()->getUID();
         $baseFolder = $this->root->getUserFolder($uid);
 

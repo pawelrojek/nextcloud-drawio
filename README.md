@@ -20,12 +20,18 @@ App Store link: https://apps.nextcloud.com/apps/drawio
 
 
 ## Changelog ##
+
+## v0.8.7
+- Edited files are now opened in the same window
+- Code changes
+
 ## v0.8.6
 - New XML icon added to the file list
 - OverrideXML setting changed to "Associate XML files with Draw.io"
 - Export fixed
 - (Minor) Screenshot added
 - (Minor) GitHub screenshot fixed
+
 [View complete changelog](https://github.com/pawelrojek/nextcloud-drawio/blob/master/drawio/CHANGELOG.md)
 
 
@@ -59,6 +65,3 @@ Click "Save" when you're done.
 
 ## Support ##
  * Any feedback is greatly appreciated!
- * It's all free, but please consider making a donation if you use it (and you can afford it). Thanks!
-
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/pawelrojek/4usd)

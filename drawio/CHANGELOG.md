@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.8.7
+- Edited files are now opened in the same window
+- Code changes
+
 ## 0.8.6
 - New XML icon added to the file list
 - OverrideXML setting changed to "Associate XML files with Draw.io"
