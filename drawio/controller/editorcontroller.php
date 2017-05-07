@@ -73,60 +73,6 @@ class EditorController extends Controller
         $this->config = $config;
     }
 
-
-     /**
-     * @NoAdminRequired
-     * @NoCSRFRequired
-     */
-     public function create($name, $dir)
-     {
-        $userId = $this->userSession->getUser()->getUID();
-        $userFolder = $this->root->getUserFolder($userId);
-        $folder = $userFolder->get($dir);
-
-        if ($folder === NULL)
-        {
-            $this->logger->info("Folder for file creation was not found: " . $dir, array("app" => $this->appName));
-            return ["error" => $this->trans->t("The required folder was not found")];
-        }
-        if (!$folder->isCreatable())
-        {
-            $this->logger->info("Folder for file creation without permission: " . $dir, array("app" => $this->appName));
-            return ["error" => $this->trans->t("You don't have enough permission to create file")];
-        }
-
-        $name = $userFolder->getNonExistingName($name);
-        $filePath = $dir . DIRECTORY_SEPARATOR . $name;
-        $ext = strtolower("." . pathinfo($filePath, PATHINFO_EXTENSION));
-        $templatePath = dirname(__DIR__) . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "new" . $ext;
-
-        $template = file_get_contents($templatePath);
-        if (!$template)
-        {
-            $this->logger->info("Template for file creation not found: " . $templatePath, array("app" => $this->appName));
-            return ["error" => $this->trans->t("Template not found")];
-        }
-
-        $view = Filesystem::getView();
-        if (!$view->file_put_contents($filePath, $template))
-        {
-            $this->logger->error("Can't create file: " . $filePath, array("app" => $this->appName));
-            return ["error" => $this->trans->t("Can't create file")];
-        }
-
-        $fileInfo = $view->getFileInfo($filePath);
-
-        if ($fileInfo === false)
-        {
-            $this->logger->info("File not found: " . $filePath, array("app" => $this->appName));
-            return ["error" => $this->trans->t("File not found")];
-        }
-
-        $result = Helper::formatFileInfo($fileInfo);
-        return $result;
-    }
-
-
      /**
      * This comment is very important, CSRF fails without it
      *
@@ -155,12 +101,23 @@ class EditorController extends Controller
             return ["error" => $this->trans->t("Draw.io app not configured! Please contact admin.")];
         }
 
+        list ($file, $error) = $this->getFile($fileId);
+
+        if (isset($error))
+        {
+            $this->logger->error("Load: " . $fileId . " " . $error, array("app" => $this->appName));
+            return ["error" => $error];
+        }
+        
+        $uid = $this->userSession->getUser()->getUID();
+        $baseFolder = $this->root->getUserFolder($uid);
+
         $params = [
             "drawioUrl" => $drawioUrl,
             "theme" => $theme,
             "lang" => $lang,
             "overrideXml" => $overrideXml,
-            "fileId" => $fileId
+            "filePath" => $baseFolder->getRelativePath($file->getPath())
         ];
 
         $response = new TemplateResponse($this->appName, "editor", $params);
@@ -179,102 +136,6 @@ class EditorController extends Controller
         $response->setContentSecurityPolicy($csp);
 
         return $response;
-    }
-
-
-    /**
-     * @NoAdminRequired
-     * @NoCSRFRequired
-    */
-    public function load($fileId)
-    {
-        list ($file, $error) = $this->getFile($fileId);
-
-        if (isset($error))
-        {
-            $this->logger->error("Load: " . $fileId . " " . $error, array("app" => $this->appName));
-            return ["error" => $error];
-        }
-
-        $fileName = $file->getName();
-        $ext = pathinfo($fileName, PATHINFO_EXTENSION);
-        $format = $this->config->formats[$ext];
-        if (!isset($format))
-        {
-            $this->logger->info( $this->trans->t("Format not supported"). " " . $fileName, array("app" => $this->appName));
-            return ["error" => $this->trans->t("Format not supported")];
-        }
-
-        $mtime = $file->getMtime();
-        $content = $file->getContent();
-
-        $params =
-        [
-            "title" => $fileName,
-            "fileType" => pathinfo($fileName, PATHINFO_EXTENSION),
-            "documentType" => $format["type"],
-            "content" => $content,
-            "mtime" => $mtime
-        ];
-
-        return $params;
-    }
-
-    /**
-     * @NoAdminRequired
-     * @NoCSRFRequired
-    */
-    public function save($fileId)
-    {
-        $content = $_POST['content'];
-        $mtime = isset($_POST['mtime']) ? $_POST['mtime'] : '';
-
-        list ($file, $error) = $this->getFile($fileId);
-
-        if (isset($error))
-        {
-            $this->logger->error("Save: " . $fileId . " - " . $error, array("app" => $this->appName));
-            return ["error" => $error];
-        }
-
-        $filePath = $file->getPath();
-
-        $server_mtime = $file->getMtime();
-        $server_content = $file->getContent();
-
-        if($server_mtime != $mtime)
-        {
-            $error = $this->trans->t("The file has changed since opening");
-            $this->logger->error("Save: " . $fileId . " - " . $error, array("app" => $this->appName));
-            return ["error" => $error];
-        }
-
-
-        if($file->isUpdateable()==false)
-        {
-            $error = $this->trans->t("User does not have permissions to write to the file:")." $filePath";
-            $this->logger->error("Save: " . $fileId . " - " . $error, array("app" => $this->appName));
-            return ["error" => $error];
-        }
-
-        //taken from the old plugin, don't know if still needed
-        $content = iconv(mb_detect_encoding($content), "UTF-8", $content);
-
-        $file->putContent($content);
-
-        $file->stat();
-
-        $newmtime = $file->getMtime();
-        $newsize = $file->getSize();
-
-        $params =
-        [
-            "status" => "ok",
-            "mtime" => $newmtime,
-            "size" => $newsize
-        ];
-
-        return $params;
     }
 
     /**

@@ -4,144 +4,104 @@
  * This file is licensed under the Affero General Public License version 3 or later.
  *
  **/
+(function (OCA) {
 
-(function ($, OCA)
-{
-
-    OCA.Drawio = _.extend({}, OCA.Drawio);
-
-    if (!OCA.Drawio.AppName)
-    {
-        OCA.Drawio = {
+    OCA.DrawIO = _.extend({}, OCA.DrawIO);
+    if (!OCA.DrawIO.AppName) {
+        OCA.DrawIO = {
             AppName: "drawio"
         };
     }
 
-    OCA.Drawio.DURL = "";
-    OCA.Drawio.LoadedXML = null;
-    OCA.Drawio.DrawioInit = false;
-    OCA.Drawio.FileId = null;
-    OCA.Drawio.ModTime = null;
-
-
-    OCA.Drawio.SetServerURL = function(url)
-    {
-        url = $.trim(url);
-        url = url.replace(/\/$/, '');
-        OCA.Drawio.DURL = url;
+    OCA.DrawIO.DisplayError = function (error) {
+        $("#app")
+        .text(error)
+        .addClass("error");
     };
 
-    OCA.Drawio.SaveFile = function(xml)
-    {
-        var saving = OC.Notification.show( t(OCA.Drawio.AppName, "Saving...") );
-        $.ajax({
-            method: "POST",
-            url: OC.generateUrl("apps/" + OCA.Drawio.AppName + "/ajax/save/" + OCA.Drawio.FileId),
-            data: { content: xml, id: OCA.Drawio.FileId, mtime: OCA.Drawio.ModTime },
-            success: function onSuccess(json)
-            {
-                OC.Notification.hide(saving);
-                if (json.status=="ok")
-                {
-                    OCA.Drawio.ModTime = json.mtime;
-                    OC.Notification.showTemporary( t(OCA.Drawio.AppName, "File saved!") );
-                }
-                else
-                {
-                    var err = json.error;
-                    alert( t(OCA.Drawio.AppName, err) );
-                }
-            }
+    OCA.DrawIO.Cleanup = function (receiver, filePath) {
+        window.removeEventListener("message", receiver);
+
+        var ncClient = OC.Files.getClient();
+        ncClient.getFileInfo(filePath)
+        .then(function (status, fileInfo) {
+            var url = OC.generateUrl("/apps/files/?dir={currentDirectory}&fileid={fileId}", {
+                currentDirectory: fileInfo.path,
+                fileId: fileInfo.id
+            });
+            window.location.href = url;
+        })
+        .fail(function () {
+            var url = OC.generateUrl("/apps/files");
+            window.location.href = url;
         });
     };
 
-
-    OCA.Drawio.DisplayError = function(error)
-    {
-        $("#app").text(error).addClass("error");
-    };
-
-
-    OCA.Drawio.LoadFile = function (fileId)
-    {
-        if (!fileId.length)
-        {
-            OCA.Drawio.DisplayError( t(OCA.Drawio.AppName, "Error: FileId is empty!") );
-            return;
+    OCA.DrawIO.EditFile = function (editWindow, filePath, origin) {
+        var ncClient = OC.Files.getClient();
+        var receiver = function (evt) {
+            if (evt.data.length > 0 && evt.origin === origin) {
+                var payload = JSON.parse(evt.data);
+                if (payload.event === "init") {
+                    var loadMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Loading, please wait."));
+                    ncClient.getFileContents(filePath)
+                    .then(function (status, contents) {
+                        if (contents === " ") {
+                            editWindow.postMessage(JSON.stringify({
+                                action: "template",
+                                name: filePath
+                            }), "*");
+                        } else if (contents.indexOf("mxGraphModel") !== -1) {
+                            // TODO: show error to user
+                            OCA.DrawIO.Cleanup(receiver, filePath);
+                        } else {
+                            editWindow.postMessage(JSON.stringify({
+                                action: "load",
+                                xml: contents
+                            }), "*");
+                        }
+                    })
+                    .fail(function (status) {
+                        console.log("Status Error: " + status);
+                        // TODO: show error on failed read
+                        OCA.DrawIO.Cleanup(receiver, filePath);
+                    })
+                    .done(function () {
+                        OC.Notification.hide(loadMsg);
+                    });
+                } else if (payload.event === "load") {
+                    // TODO: notify user of loaded
+                } else if (payload.event === "export") {
+                    // TODO: handle export event
+                } else if (payload.event === "save") {
+                    var saveMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Saving..."));
+                    ncClient.putFileContents(
+                        filePath,
+                        payload.xml, {
+                            contentType: "x-application/drawio",
+                            overwrite: false
+                        }
+                    )
+                    .then(function (status) {
+                        OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "File saved!"));
+                    })
+                    .fail(function (status) {
+                        // TODO: handle on failed write
+                        OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "File not saved!"));
+                    })
+                    .done(function () {
+                        OC.Notification.hide(saveMsg);
+                    });
+                } else if (payload.event === "exit") {
+                    OCA.DrawIO.Cleanup(receiver, filePath);
+                } else {
+                    console.log("DrawIO Integration: unknown event " + payload.event);
+                    console.dir(payload);
+                }
+            } else {
+                console.log("DrawIO Integration: bad origin " + evt.origin);
+            }
         }
-
-        $.ajax({
-            url: OC.generateUrl("apps/" + OCA.Drawio.AppName + "/ajax/load/" + fileId),
-            success: function onSuccess(file)
-            {
-                OCA.Drawio.FileId = fileId;
-                OCA.Drawio.LoadedXML = file.content;
-                OCA.Drawio.ModTime = file.mtime;
-                OCA.Drawio.SendXML(); //[race] either Draw.io inits first or the xml loads, doesn't matter
-            }
-        });
-    };
-
-
-    OCA.Drawio.SendXML = function()
-    {
-        if ( (!OCA.Drawio.DrawioInit) || (OCA.Drawio.LoadedXML==null) ) return; //[race]
-        var editWindow = document.getElementById('iframeEditor').contentWindow;
-        editWindow.postMessage( JSON.stringify({
-            action: 'load',
-            xml: OCA.Drawio.LoadedXML
-        }), "*");
-    };
-
-
-    OCA.Drawio.RegisterListener = function()
-    {
-        var receive = function(evt)
-        {
-            var editWindow = document.getElementById('iframeEditor').contentWindow;
-
-            if ( (evt.data.length > 0) && (evt.origin == OCA.Drawio.DURL) )
-            {
-                   var msg = JSON.parse(evt.data);
-                   if (msg.event == 'init')
-                   {
-                        OCA.Drawio.DrawioInit = true;
-                        OCA.Drawio.SendXML(); //[race] either Draw.io inits first or the xml loads, doesn't matter
-                   }
-                   else if (msg.event == 'load')
-                   {
-                        //XML Loaded OK
-                   }
-                   else if (msg.event == 'save')
-                   {
-                        OCA.Drawio.SaveFile(msg.xml);
-                   }
-                   else if (msg.event == 'export')
-                   {
-                        //[todo] in the future
-                        //Note: it won't fire automatically, host needs to request it manually by posting the following message:
-                        //      postMessage(JSON.stringify({action: 'export', format: 'xmlpng', spinKey: 'saving'}), '*');
-                   }
-                   else if (msg.event == 'exit')
-                   {
-                        window.removeEventListener('message', receive);
-                        window.close();
-                   }
-                   else
-                   {
-                        console.log('DrawIO Integration: Unsupported event: '+msg.event);
-                        console.dir(msg);
-                   }
-
-            }
-            else
-            {
-                console.log('DrawIO Integration: Incorrect origin:' +msg.event);
-            }
-        };
-
-        window.addEventListener('message', receive);
-    };
-
-
-})(jQuery, OCA);
+        window.addEventListener("message", receiver);
+    }
+})(OCA);
