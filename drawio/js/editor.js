@@ -43,7 +43,7 @@
     OCA.DrawIO.EditFile = function (editWindow, filePath, origin) {
         var ncClient = OC.Files.getClient();
         var receiver = function (evt) {
-            if (evt.data.length > 0 && evt.origin === origin) {
+            if (evt.data.length > 0 && origin.includes(evt.origin)) {
                 var payload = JSON.parse(evt.data);
                 if (payload.event === "init") {
                     var loadMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Loading, please wait."));
