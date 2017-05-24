@@ -20,7 +20,7 @@
     <bugs>https://github.com/pawelrojek/nextcloud-drawio/issues</bugs>
     <repository type="git">https://github.com/pawelrojek/nextcloud-drawio.git</repository>
     <dependencies>
-        <nextcloud min-version="11" max-version="11"/>
+        <nextcloud min-version="11" max-version="12"/>
     </dependencies>
     <settings>
         <admin>OCA\Drawio\AdminSettings</admin>
