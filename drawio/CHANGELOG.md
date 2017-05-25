@@ -1,5 +1,10 @@
 # Change Log
 
+
+## v0.8.8
+- NC12 compatibility (issue #10)
+- "Origin" integration issue (issue #9)
+
 ## 0.8.7
 - Edited files are now opened in the same window
 - Code changes

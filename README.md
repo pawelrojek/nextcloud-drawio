@@ -16,10 +16,14 @@ App Store link: https://apps.nextcloud.com/apps/drawio
 
 
 ## Download ##
-[zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.6/drawio-v0.8.6.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.6/drawio-v0.8.6.tar.gz)
+[zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.8/drawio-v0.8.8.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.8/drawio-v0.8.8.tar.gz)
 
 
 ## Changelog ##
+
+## v0.8.8
+- NC12 compatibility (issue #10)
+- "Origin" integration issue (issue #9)
 
 ## v0.8.7
 - Edited files are now opened in the same window
