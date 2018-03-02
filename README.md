@@ -16,10 +16,15 @@ App Store link: https://apps.nextcloud.com/apps/drawio
 
 
 ## Download ##
-[zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.8/drawio-v0.8.8.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.8/drawio-v0.8.8.tar.gz)
+[zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.9/drawio-v0.8.9.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.9/drawio-v0.8.9.tar.gz)
 
 
 ## Changelog ##
+
+## v0.8.9
+- NC13 compatibility (issue #25)
+- IE support (PR #27)
+- Brazilian Portuguese translation (PR #26)
 
 ## v0.8.8
 - NC12 compatibility (issue #10)
@@ -29,14 +34,7 @@ App Store link: https://apps.nextcloud.com/apps/drawio
 - Edited files are now opened in the same window
 - Code changes
 
-## v0.8.6
-- New XML icon added to the file list
-- OverrideXML setting changed to "Associate XML files with Draw.io"
-- Export fixed
-- (Minor) Screenshot added
-- (Minor) GitHub screenshot fixed
-
-[View complete changelog](https://github.com/pawelrojek/nextcloud-drawio/blob/master/drawio/CHANGELOG.md)
+[Complete changelog](https://github.com/pawelrojek/nextcloud-drawio/blob/master/drawio/CHANGELOG.md)
 
 
 ## Installation ##
@@ -52,20 +50,26 @@ Go to Admin page and change the settings you want:
 Click "Save" when you're done.
 
 
-## ToDo ##
- * Additional custom file format (instead of .xml)
- * Exporting directly to file on the Nextcloud server
-
-
-## Known issues ##
- * none
-
-
 ## License ##
 - Released under the Affero General Public License version 3 or later.
 - [CC 3.0 BY] File icon made by [DinosoftLabs](http://www.flaticon.com/authors/dinosoftlabs) / [Link](http://www.flaticon.com/free-icon/organization_348440)
 
 
+## Contributors ##
+- [tavinus](https://github.com/tavinus)
+- [LEDfan](https://github.com/LEDfan)
+- [mario](https://github.com/mario)
+- [ColdSphinX](https://github.com/ColdSphinX)
+- [acidhunter](https://github.com/acidhunter)
+- [geiseri](https://github.com/geiseri)
+
+[View all](https://github.com/pawelrojek/nextcloud-drawio/graphs/contributors)
+
+
 
 ## Support ##
- * Any feedback is greatly appreciated!
+ * Any feedback and code is greatly appreciated!
+
+ * It's all free, but please consider making a donation if you use it (and you can afford it) - it takes a lot of time to maintain/test/review/release. Thanks!
+
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/pawelrojek/4usd)
