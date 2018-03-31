@@ -103,6 +103,15 @@ class EditorController extends Controller
             return ["error" => $this->trans->t("Draw.io app not configured! Please contact admin.")];
         }
 
+        $drawioUrlArray = explode("?",$drawioUrl);
+
+        if (count($drawioUrlArray) > 1){
+            $drawioUrl = $drawioUrlArray[0];
+            $drawioUrlArgs = $drawioUrlArray[1];
+        } else {
+            $drawioUrlArgs = "";
+        }
+
         list ($file, $error) = $this->getFile($fileId);
 
         if (isset($error))
@@ -116,6 +125,7 @@ class EditorController extends Controller
 
         $params = [
             "drawioUrl" => $drawioUrl,
+            "drawioUrlArgs" => $drawioUrlArgs,
             "theme" => $theme,
             "lang" => $lang,
             "overrideXml" => $overrideXml,
