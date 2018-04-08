@@ -23,6 +23,6 @@
         <nextcloud min-version="11" max-version="13"/>
     </dependencies>
     <settings>
-        <admin>OCA\Drawio\AdminSettings</admin>
+        <admin>OCA\Drawio\Settings\AdminSettings</admin>
     </settings>
 </info>
