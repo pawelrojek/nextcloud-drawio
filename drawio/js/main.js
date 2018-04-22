@@ -182,7 +182,6 @@ $(document)
             }
         })
         .on('fileActionsReady', function (e) {
-            PluginDrawIO_ChangeIconsNative();
             if (OCA.AppSettings == null) return;
             if (OCA.AppSettings.overrideXml == "yes") {
                 PluginDrawIO_ChangeIcons();
