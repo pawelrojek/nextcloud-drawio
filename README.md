@@ -14,6 +14,24 @@ App Store link: https://apps.nextcloud.com/apps/drawio
 - Multi language support (l10n)
 - Inspired by the old Draw.io Integration and OnlyOffice
 
+## Mimetype detection ##
+
+Unfortunately, apps can't declare new mimetypes on the fly. To make
+Draw.io work properly, you need to add a new mimetypes in the
+`mimetypemapping.json` file (at Nextcloud level).
+
+To proceed, just copy `/resources/config/mimetypemapping.dist.json` to
+`/config/mimetypemapping.json` (in the `config/` folder at Nextcloud’s
+root directory; the file should be stored next to the `config.php`
+file). Afterwards add the two following line just after the “_comment”
+lines.
+
+    "drawio": ["application/x-drawio"],
+
+If all other mimetypes are not working properly, just run the
+following command:
+
+    sudo -u www-data php occ files:scan --all
 
 ## Download ##
 [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.9/drawio-v0.8.9.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.9/drawio-v0.8.9.tar.gz)

@@ -119,7 +119,8 @@ class AppConfig {
      * @var array
      */
     public $formats = [
-            "xml" => [ "mime" => "application/xml", "type" => "text" ]
+            "xml" => [ "mime" => "application/xml", "type" => "text" ],
+            "drawio" => [ "mime" => "application/x-drawio", "type" => "text" ]
         ];
 
 }
