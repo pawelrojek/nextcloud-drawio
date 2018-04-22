@@ -26,8 +26,10 @@
     <select id="overrideXml">
       <option value="yes"<?php if ($_["overrideXml"]=="yes") echo ' selected'; ?>><?php p($l->t("Yes")) ?></option>
       <option value="no"<?php if ($_["overrideXml"]=="no") echo ' selected'; ?>><?php p($l->t("No")) ?></option>
-    </select>
+    </select><br />
     </p>
+
+	<p><?php p($l->t("Please note: when you disable the XML association, you need to manually register the MIME type application/x-drawio for the extension \".drawio\".")) ?></p>
 
     <br />
     <a id="drawioSave" class="button"><?php p($l->t("Save")) ?></a>
