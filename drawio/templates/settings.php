@@ -29,6 +29,8 @@
     </select>
     </p>
 
+	<p><?php p($l->t("Please note: when you disable the XML association, you need to manually register the MIME type application/x-drawio for the extension \".drawio\".")) ?></p>
+
     <br />
     <a id="drawioSave" class="button"><?php p($l->t("Save")) ?></a>
 </div>
