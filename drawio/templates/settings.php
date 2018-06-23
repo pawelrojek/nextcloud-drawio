@@ -39,7 +39,7 @@
     </select>
     </p>
 
-    <p><?php p($l->t("When the \"offline mode\" is active, this disables all remote operations and features to protect the users privacy.")) ?></p>
+    <p><?php p($l->t("When the \"offline mode\" is active, this disables all remote operations and features to protect the users privacy. Draw.io will then also only be in English, even if you set a different language manually.")) ?></p>
 
     <br />
     <a id="drawioSave" class="button"><?php p($l->t("Save")) ?></a>
