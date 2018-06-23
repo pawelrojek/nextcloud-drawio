@@ -3,6 +3,10 @@
     script("drawio", "editor");
 
     $frame_params = "?embed=1";
+	if ($_["stealthMode"] == "yes")
+	{
+		$frame_params .= "&stealth=1";
+	}
     if (!empty($_["theme"])) $frame_params .= "&ui=".$_["theme"];
     if (!empty($_["lang"])) $frame_params .= "&lang=".$_["lang"];
     if (!empty($_["drawioUrlArgs"])) $frame_params .= "&".$_["drawioUrlArgs"];

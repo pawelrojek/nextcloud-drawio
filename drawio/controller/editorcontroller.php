@@ -3,6 +3,7 @@
  *
  * @author Pawel Rojek <pawel at pawelrojek.com>
  * @author Ian Reinhart Geiser <igeiser at devonit.com>
+ * @author Arno Welzel <privat at arnowelzel.de>
  *
  * This file is licensed under the Affero General Public License version 3 or later.
  *
@@ -89,6 +90,7 @@ class EditorController extends Controller
         $drawioUrl = $this->config->GetDrawioUrl();
         $theme = $this->config->GetTheme();
         $overrideXml = $this->config->GetOverrideXml();
+		$stealthMode = $this->config->GetStealthMode();
         $lang = $this->config->GetLang();
         $lang = trim(strtolower($lang));
 
@@ -129,6 +131,7 @@ class EditorController extends Controller
             "theme" => $theme,
             "lang" => $lang,
             "overrideXml" => $overrideXml,
+			"stealthMode" => $stealthMode,
             "filePath" => $baseFolder->getRelativePath($file->getPath())
         ];
 

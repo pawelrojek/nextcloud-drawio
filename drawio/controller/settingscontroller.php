@@ -4,6 +4,7 @@
  *
  * @author Pawel Rojek <pawel at pawelrojek.com>
  * @author Ian Reinhart Geiser <igeiser at devonit.com>
+ * @author Arno Welzel <privat at arnowelzel.de>
  *
  * This file is licensed under the Affero General Public License version 3 or later.
  *
@@ -60,6 +61,7 @@ class SettingsController extends Controller
         $data = [
             "drawioUrl" => $this->config->GetDrawioUrl(),
             "overrideXml" => $this->config->GetOverrideXml(),
+            "stealthMode" => $this->config->GetStealthMode(),
             "theme" => $this->config->GetTheme(),
             "lang" => $this->config->GetLang()
         ];
@@ -72,17 +74,20 @@ class SettingsController extends Controller
     {
         $drawio = trim($_POST['drawioUrl']);
         $overridexml = trim($_POST['overrideXml']);
+		$stealthmode = trim($_POST['stealthMode']);
         $theme = trim($_POST['theme']);
         $lang = trim($_POST['lang']);
 
         $this->config->SetDrawioUrl($drawio);
         $this->config->SetOverrideXml($overridexml);
+		$this->config->SetStealthMode($stealthMode);
         $this->config->SetTheme($theme);
         $this->config->SetLang($lang);
 
         return [
             "drawioUrl" => $this->config->GetDrawioUrl(),
             "overrideXml" => $this->config->GetOverrideXml(),
+			"stealthMode" => $this->config->GetStealthMode(),
             "theme" => $this->config->GetTheme(),
             "lang" => $this->config->GetLang()
             ];
@@ -102,6 +107,7 @@ class SettingsController extends Controller
          $data['formats'] = $this->config->formats;
          $data['settings'] = array();
          $data['settings']['overrideXml'] = $this->config->GetOverrideXml();
+		 $data['settings']['stealthMode'] = $this->config->GetStealthMode();
          return $data;
     }
 

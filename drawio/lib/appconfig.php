@@ -19,6 +19,7 @@ class AppConfig {
 
     private $predefDrawioUrl = "https://www.draw.io";
     private $predefOverrideXML = "yes";
+	private $predefStealthMode = "yes";
     private $predefTheme = "kennedy"; //kennedy, atlas
     private $predefLang = "auto";
 
@@ -28,13 +29,12 @@ class AppConfig {
 
     private $logger;
 
-
     // The config keys
     private $_drawioUrl = "DrawioUrl";
     private $_overridexml = "DrawioXml";
+	private $_stealthmode = "DrawioStealth";
     private $_theme = "DrawioTheme";
     private $_lang = "DrawioLang";
-
 
     public function __construct($AppName)
     {
@@ -43,9 +43,6 @@ class AppConfig {
         $this->config = \OC::$server->getConfig();
         $this->logger = \OC::$server->getLogger();
     }
-
-
-
 
     public function SetDrawioUrl($drawio)
     {
@@ -62,9 +59,6 @@ class AppConfig {
         return $val;
     }
 
-
-
-
     public function SetOverrideXML($overridexml)
     {
         $overridexml = (string)$overridexml;
@@ -79,7 +73,19 @@ class AppConfig {
         return $val;
     }
 
+    public function SetStealthMode($stealthmode)
+    {
+        $stealthmode = (string)$stealthmode;
+        $this->logger->info("SetStealthMode: " . $stealthmode, array("app" => $this->appName));
+        $this->config->setAppValue($this->appName, $this->_stealthmode, $stealthmode);
+    }
 
+    public function GetStealthMode()
+    {
+        $val = $this->config->getAppValue($this->appName, $this->_stealthmode);
+        if (empty($val)) $val = $this->predefStealthMode;
+        return $val;
+    }
 
     public function SetTheme($theme)
     {
@@ -94,8 +100,6 @@ class AppConfig {
         return $val;
     }
 
-
-
     public function SetLang($lang)
     {
         $this->logger->info("SetLang: " . $lang, array("app" => $this->appName));
@@ -108,10 +112,6 @@ class AppConfig {
         if (empty($val)) $val = $this->predefLang;
         return $val;
     }
-
-
-
-
 
     /**
      * Additional data about formats

@@ -31,6 +31,16 @@
 
 	<p><?php p($l->t("Please note: when you disable the XML association, you need to manually register the MIME type application/x-drawio for the extension \".drawio\".")) ?></p>
 
+    <p class="drawio-header">
+    <label for='stealthMode'><?php p($l->t("Activate \"stealth mode\" in Draw.io?")) ?>
+    <select id="stealthMode">
+      <option value="yes"<?php if ($_["stealthMode"]=="yes") echo ' selected'; ?>><?php p($l->t("Yes")) ?></option>
+      <option value="no"<?php if ($_["stealthMode"]=="no") echo ' selected'; ?>><?php p($l->t("No")) ?></option>
+    </select>
+    </p>
+
+	<p><?php p($l->t("When the \"stealth mode\" is active, all features which external web services (such as PDF export) will be disabled to protect the users privacy.")) ?></p>
+
     <br />
     <a id="drawioSave" class="button"><?php p($l->t("Save")) ?></a>
 </div>
