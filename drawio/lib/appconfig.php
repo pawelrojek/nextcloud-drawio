@@ -19,7 +19,7 @@ class AppConfig {
 
     private $predefDrawioUrl = "https://www.draw.io";
     private $predefOverrideXML = "yes";
-	private $predefStealthMode = "yes";
+    private $predefOfflineMode = "no";
     private $predefTheme = "kennedy"; //kennedy, atlas
     private $predefLang = "auto";
 
@@ -32,7 +32,7 @@ class AppConfig {
     // The config keys
     private $_drawioUrl = "DrawioUrl";
     private $_overridexml = "DrawioXml";
-	private $_stealthmode = "DrawioStealth";
+    private $_offlinemode = "DrawioOffline";
     private $_theme = "DrawioTheme";
     private $_lang = "DrawioLang";
 
@@ -73,17 +73,17 @@ class AppConfig {
         return $val;
     }
 
-    public function SetStealthMode($stealthmode)
+    public function SetOfflineMode($offlinemode)
     {
-        $stealthmode = (string)$stealthmode;
-        $this->logger->info("SetStealthMode: " . $stealthmode, array("app" => $this->appName));
-        $this->config->setAppValue($this->appName, $this->_stealthmode, $stealthmode);
+        $offlinemode = (string)$offlinemode;
+        $this->logger->info("SetOfflineMode: " . $offlinemode, array("app" => $this->appName));
+        $this->config->setAppValue($this->appName, $this->_offlinemode, $offlinemode);
     }
 
-    public function GetStealthMode()
+    public function GetOfflineMode()
     {
-        $val = $this->config->getAppValue($this->appName, $this->_stealthmode);
-        if (empty($val)) $val = $this->predefStealthMode;
+        $val = $this->config->getAppValue($this->appName, $this->_offlinemode);
+        if (empty($val)) $val = $this->predefOfflineMode;
         return $val;
     }
 

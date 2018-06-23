@@ -90,7 +90,7 @@ class EditorController extends Controller
         $drawioUrl = $this->config->GetDrawioUrl();
         $theme = $this->config->GetTheme();
         $overrideXml = $this->config->GetOverrideXml();
-		$stealthMode = $this->config->GetStealthMode();
+		$offlineMode = $this->config->GetOfflineMode();
         $lang = $this->config->GetLang();
         $lang = trim(strtolower($lang));
 
@@ -131,7 +131,7 @@ class EditorController extends Controller
             "theme" => $theme,
             "lang" => $lang,
             "overrideXml" => $overrideXml,
-			"stealthMode" => $stealthMode,
+			"offlineMode" => $offlineMode,
             "filePath" => $baseFolder->getRelativePath($file->getPath())
         ];
 

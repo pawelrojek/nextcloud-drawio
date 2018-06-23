@@ -61,7 +61,7 @@ class SettingsController extends Controller
         $data = [
             "drawioUrl" => $this->config->GetDrawioUrl(),
             "overrideXml" => $this->config->GetOverrideXml(),
-            "stealthMode" => $this->config->GetStealthMode(),
+            "offlineMode" => $this->config->GetOfflineMode(),
             "theme" => $this->config->GetTheme(),
             "lang" => $this->config->GetLang()
         ];
@@ -74,20 +74,20 @@ class SettingsController extends Controller
     {
         $drawio = trim($_POST['drawioUrl']);
         $overridexml = trim($_POST['overrideXml']);
-		$stealthmode = trim($_POST['stealthMode']);
+        $offlinemode = trim($_POST['offlineMode']);
         $theme = trim($_POST['theme']);
         $lang = trim($_POST['lang']);
 
         $this->config->SetDrawioUrl($drawio);
         $this->config->SetOverrideXml($overridexml);
-		$this->config->SetStealthMode($stealthMode);
+        $this->config->SetOfflineMode($offlinemode);
         $this->config->SetTheme($theme);
         $this->config->SetLang($lang);
 
         return [
             "drawioUrl" => $this->config->GetDrawioUrl(),
             "overrideXml" => $this->config->GetOverrideXml(),
-			"stealthMode" => $this->config->GetStealthMode(),
+            "offlineMode" => $this->config->GetOfflineMode(),
             "theme" => $this->config->GetTheme(),
             "lang" => $this->config->GetLang()
             ];
@@ -107,7 +107,7 @@ class SettingsController extends Controller
          $data['formats'] = $this->config->formats;
          $data['settings'] = array();
          $data['settings']['overrideXml'] = $this->config->GetOverrideXml();
-		 $data['settings']['stealthMode'] = $this->config->GetStealthMode();
+         $data['settings']['offlineMode'] = $this->config->GetOfflineMode();
          return $data;
     }
 
