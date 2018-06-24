@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
   "Yes" => "Yes",
   "No" => "No",
   "Associate XML files with Draw.io?" => "Associate XML files with Draw.io?",
+  "Please note: when you disable the XML association, you need to manually register the MIME type application/x-drawio for the extension \".drawio\"." => "Please note: when you disable the XML association, you need to manually register the MIME type application/x-drawio for the extension \".drawio\".",
   "Kennedy" => "Kennedy",
   "Atlas" => "Atlas",
   "Theme:" => "Theme",
@@ -28,6 +29,8 @@ $TRANSLATIONS = array(
   "The file has changed since opening" => "The file has changed since opening",
   "User does not have permissions to write to the file:" => "User does not have permissions to write to the file:",
   "FileId is empty" => "FileId is empty",
-  "You do not have enough permissions to view the file" => "You do not have enough permissions to view the file"
+  "You do not have enough permissions to view the file" => "You do not have enough permissions to view the file",
+  "Activate offline mode in Draw.io?" => "Activate offline mode in Draw.io?",
+  "When the \"offline mode\" is active, this disables all remote operations and features to protect the users privacy. Draw.io will then also only be in English, even if you set a different language manually." => "When the \"offline mode\" is active, this disables all remote operations and features to protect the users privacy. Draw.io will then also only be in English, even if you set a different language manually."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
