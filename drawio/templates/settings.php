@@ -29,7 +29,17 @@
     </select>
     </p>
 
-	<p><?php p($l->t("Please note: when you disable the XML association, you need to manually register the MIME type application/x-drawio for the extension \".drawio\".")) ?></p>
+    <p><?php p($l->t("Please note: when you disable the XML association, you need to manually register the MIME type application/x-drawio for the extension \".drawio\".")) ?></p>
+
+    <p class="drawio-header">
+    <label for='offlineMode'><?php p($l->t("Activate offline mode in Draw.io?")) ?>
+    <select id="offlineMode">
+      <option value="yes"<?php if ($_["offlineMode"]=="yes") echo ' selected'; ?>><?php p($l->t("Yes")) ?></option>
+      <option value="no"<?php if ($_["offlineMode"]=="no") echo ' selected'; ?>><?php p($l->t("No")) ?></option>
+    </select>
+    </p>
+
+    <p><?php p($l->t("When the \"offline mode\" is active, this disables all remote operations and features to protect the users privacy. Draw.io will then also only be in English, even if you set a different language manually.")) ?></p>
 
     <br />
     <a id="drawioSave" class="button"><?php p($l->t("Save")) ?></a>

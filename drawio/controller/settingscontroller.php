@@ -4,6 +4,7 @@
  *
  * @author Pawel Rojek <pawel at pawelrojek.com>
  * @author Ian Reinhart Geiser <igeiser at devonit.com>
+ * @author Arno Welzel <privat at arnowelzel.de>
  *
  * This file is licensed under the Affero General Public License version 3 or later.
  *
@@ -60,6 +61,7 @@ class SettingsController extends Controller
         $data = [
             "drawioUrl" => $this->config->GetDrawioUrl(),
             "overrideXml" => $this->config->GetOverrideXml(),
+            "offlineMode" => $this->config->GetOfflineMode(),
             "theme" => $this->config->GetTheme(),
             "lang" => $this->config->GetLang()
         ];
@@ -72,17 +74,20 @@ class SettingsController extends Controller
     {
         $drawio = trim($_POST['drawioUrl']);
         $overridexml = trim($_POST['overrideXml']);
+        $offlinemode = trim($_POST['offlineMode']);
         $theme = trim($_POST['theme']);
         $lang = trim($_POST['lang']);
 
         $this->config->SetDrawioUrl($drawio);
         $this->config->SetOverrideXml($overridexml);
+        $this->config->SetOfflineMode($offlinemode);
         $this->config->SetTheme($theme);
         $this->config->SetLang($lang);
 
         return [
             "drawioUrl" => $this->config->GetDrawioUrl(),
             "overrideXml" => $this->config->GetOverrideXml(),
+            "offlineMode" => $this->config->GetOfflineMode(),
             "theme" => $this->config->GetTheme(),
             "lang" => $this->config->GetLang()
             ];
@@ -102,6 +107,7 @@ class SettingsController extends Controller
          $data['formats'] = $this->config->formats;
          $data['settings'] = array();
          $data['settings']['overrideXml'] = $this->config->GetOverrideXml();
+         $data['settings']['offlineMode'] = $this->config->GetOfflineMode();
          return $data;
     }
 
