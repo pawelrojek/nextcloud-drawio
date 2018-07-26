@@ -39,6 +39,13 @@ following command:
 
 ## Changelog ##
 
+## v0.9.0
+- Added German translation (PR #38)
+- Added "offline mode" (PR #43)
+- Added .drawio file type in addtion to .xml (PR #41)
+- Querystring in custom drawioUrl (#PR 37)
+- Minor other fixes (PR #39)
+
 ## v0.8.9
 - NC13 compatibility (issue #25)
 - IE support (PR #27)
@@ -74,6 +81,9 @@ Click "Save" when you're done.
 
 
 ## Contributors ##
+- [arnowelzel](https://github.com/arnowelzel)
+- [xlyz](https://github.com/xlyz)
+- [cuthulino](https://github.com/cuthulino)
 - [tavinus](https://github.com/tavinus)
 - [LEDfan](https://github.com/LEDfan)
 - [mario](https://github.com/mario)
@@ -87,7 +97,3 @@ Click "Save" when you're done.
 
 ## Support ##
  * Any feedback and code is greatly appreciated!
-
- * It's all free, but please consider making a donation if you use it (and you can afford it) - it takes a lot of time to maintain/test/review/release. Thanks!
-
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/pawelrojek/4usd)

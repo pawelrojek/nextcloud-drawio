@@ -1,5 +1,12 @@
 # Change Log
 
+## v0.9.0
+- Added German translation (PR #38)
+- Added "offline mode" (PR #43)
+- Added .drawio file type in addtion to .xml (PR #41)
+- Querystring in custom drawioUrl (#PR 37)
+- Minor other fixes (PR #39)
+
 ## v0.8.9
 - NC13 compatibility (issue #25)
 - IE support (PR #27)
