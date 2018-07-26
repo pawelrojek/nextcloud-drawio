@@ -34,7 +34,8 @@ following command:
     sudo -u www-data php occ files:scan --all
 
 ## Download ##
-[zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.9/drawio-v0.8.9.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.9/drawio-v0.8.9.tar.gz)
+[zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.9/drawio-v0.9.0.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.9.0/drawio-v0.9.0.tar.gz)
+
 
 
 ## Changelog ##
@@ -43,7 +44,7 @@ following command:
 - Added German translation (PR #38)
 - Added "offline mode" (PR #43)
 - Added .drawio file type in addtion to .xml (PR #41)
-- Querystring in custom drawioUrl (#PR 37)
+- Querystring in custom drawioUrl (PR #37)
 - Minor other fixes (PR #39)
 
 ## v0.8.9
