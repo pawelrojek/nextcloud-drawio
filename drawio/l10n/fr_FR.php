@@ -31,6 +31,6 @@ $TRANSLATIONS = array(
   "FileId is empty" => "FileId est vide",
   "You do not have enough permissions to view the file" => "Vous n'avez pas la permission de voir le fichier",
   "Activate offline mode in Draw.io?" => "Activer le mode hors-ligne dans Draw.io ?",
-  "When the \"offline mode\" is active, this disables all remote operations and features to protect the users privacy. Draw.io will then also only be in English, even if you set a different language manually." => "Quand le \"mode hors-ligne\" est actif, les opérations distantes et les fonctionnalités pour la protection des données sont désactivés. Draw.io sera exclusivement en anglais, à moins de définir une autre langue manuellement."
+  "When the \"offline mode\" is active, this disables all remote operations and features to protect the users privacy. Draw.io will then also only be in English, even if you set a different language manually." => "Quand le \"mode hors-ligne\" est actif, les opérations distantes et les fonctionnalités pour la protection des données sont désactivés. Draw.io sera exclusivement en anglais, même si vous définissez une autre langue manuellement."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
