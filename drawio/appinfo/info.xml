@@ -20,6 +20,7 @@
     <bugs>https://github.com/pawelrojek/nextcloud-drawio/issues</bugs>
     <repository type="git">https://github.com/pawelrojek/nextcloud-drawio.git</repository>
     <dependencies>
+        <owncloud min-version="10.0" max-version="10.1" />
         <nextcloud min-version="11" max-version="13"/>
     </dependencies>
     <settings>
