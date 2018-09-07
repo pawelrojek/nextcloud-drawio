@@ -13,7 +13,7 @@
     $frame_params .= "&spin=1&proto=json";
 ?>
 
-<div id="app">
+<div id="app-content">
 
     <iframe id="iframeEditor" width="100%" height="100%" align="top" frameborder="0" name="iframeEditor" onmousewheel="" allowfullscreen=""></iframe>
 
