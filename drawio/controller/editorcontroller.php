@@ -128,11 +128,11 @@ class EditorController extends Controller
         $params = [
             "drawioUrl" => $drawioUrl,
             "drawioUrlArgs" => $drawioUrlArgs,
-            "theme" => $theme,
-            "lang" => $lang,
-            "overrideXml" => $overrideXml,
-			"offlineMode" => $offlineMode,
-            "filePath" => $baseFolder->getRelativePath($file->getPath())
+            "drawioTheme" => $theme,
+            "drawioLang" => $lang,
+            "drawioOverrideXml" => $overrideXml,
+			"drawioOfflineMode" => $offlineMode,
+            "drawioFilePath" => $baseFolder->getRelativePath($file->getPath())
         ];
 
         $response = new TemplateResponse($this->appName, "editor", $params);

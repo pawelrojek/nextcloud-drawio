@@ -3,12 +3,12 @@
     script("drawio", "editor");
 
     $frame_params = "?embed=1";
-    if ($_["offlineMode"] == "yes")
+    if ($_["drawioOfflineMode"] == "yes")
     {
         $frame_params .= "&offline=1&stealth=1";
     }
-    if (!empty($_["theme"])) $frame_params .= "&ui=".$_["theme"];
-    if (!empty($_["lang"])) $frame_params .= "&lang=".$_["lang"];
+    if (!empty($_["drawioTheme"])) $frame_params .= "&ui=".$_["drawioTheme"];
+    if (!empty($_["drawioLang"])) $frame_params .= "&lang=".$_["drawioLang"];
     if (!empty($_["drawioUrlArgs"])) $frame_params .= "&".$_["drawioUrlArgs"];
     $frame_params .= "&spin=1&proto=json";
 ?>
@@ -23,7 +23,7 @@
                 OCA.DrawIO.DisplayError("<?php p($_['error']) ?>");
             <?php } else { ?>
                 var iframe = $("#iframeEditor")[0];
-                var filePath = "<?php echo urldecode($_['filePath']); ?>";
+                var filePath = "<?php echo urldecode($_['drawioFilePath']); ?>";
                 var originUrl = "<?php p($_['drawioUrl']); ?>";
                 var drawIoUrl = "<?php p($_['drawioUrl']); print_unescaped($frame_params); ?>"
                 OCA.DrawIO.EditFile(iframe.contentWindow, filePath, originUrl);
