@@ -28,7 +28,7 @@
   "The file has changed since opening" : "The file has changed since opening",
   "User does not have permissions to write to the file:" : "User does not have permissions to write to the file:",
   "FileId is empty" : "FileId is empty",
-  "You do not have enough permissions to view the file" : "You do not have enough permissions to view the file"
+  "You do not have enough permissions to view the file" : "You do not have enough permissions to view the file",
   "Activate offline mode in Draw.io?" : "Activate offline mode in Draw.io?",
   "When the \"offline mode\" is active, this disables all remote operations and features to protect the users privacy. Draw.io will then also only be in English, even if you set a different language manually." : "When the \"offline mode\" is active, this disables all remote operations and features to protect the users privacy. Draw.io will then also only be in English, even if you set a different language manually."
 },"pluralForm" :"nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
