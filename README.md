@@ -13,9 +13,12 @@ Once installed, you will see an option to create a Draw.io diagram from the 'cre
 
 ## Info ##
 - Requires [Nextcloud](https://nextcloud.com) >11.0.0
-- Tested with Chrome 58 and Firefox 53
 - Multi language support (l10n)
 - Inspired by the old Draw.io Integration and OnlyOffice
+- Tested with Chrome 58-69 and Firefox 53-62
+- Tested with PHP 5.6/7.1/7.2
+- Draw.io v0.9.1 tested with NextCloud 11.0.3 / 12.0.2 / 13.0.6 / 14.0.1
+
 
 ## Mimetype detection ##
 
@@ -37,11 +40,18 @@ following command:
     sudo -u www-data php occ files:scan --all
 
 ## Download ##
-[zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.8.9/drawio-v0.9.0.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.9.0/drawio-v0.9.0.tar.gz)
+Current release: [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.9.1/drawio-v0.9.1.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.9.1/drawio-v0.9.1.tar.gz)
 
 
 
 ## Changelog ##
+
+## v0.9.1
+- NC14 compatibility (PR #53)
+- Fixed missing comma in en_GB language file (PR #55)
+- Added OwnCloud 10 support (PR #51)
+- Added French translation (PR #49)
+- Settings moved to "Additional" section (PR #46)
 
 ## v0.9.0
 - Added German translation (PR #38)
@@ -71,7 +81,11 @@ following command:
 2. Go to Apps -> "+ Apps" > "Not Enabled" and _Enable_ the **Draw.io** application
 
 
-# Configuration
+## Known Issues ##
+If you're experiencing problems while updating your Nextcloud intance, try to disable/delete Draw.io integration app (/apps/drawio/) and then install/copy it again after the NC update is completed.
+
+
+## Configuration ##
 Go to Admin page and change the settings you want:
 
 ![](screenshots/drawio_admin.png)
@@ -85,7 +99,9 @@ Click "Save" when you're done.
 
 
 ## Contributors ##
+- [geiseri](https://github.com/geiseri)
 - [arnowelzel](https://github.com/arnowelzel)
+- [schizophrene](https://github.com/schizophrene)
 - [xlyz](https://github.com/xlyz)
 - [cuthulino](https://github.com/cuthulino)
 - [tavinus](https://github.com/tavinus)
@@ -93,7 +109,7 @@ Click "Save" when you're done.
 - [mario](https://github.com/mario)
 - [ColdSphinX](https://github.com/ColdSphinX)
 - [acidhunter](https://github.com/acidhunter)
-- [geiseri](https://github.com/geiseri)
+- [janLo](https://github.com/janLo)
 
 [View all](https://github.com/pawelrojek/nextcloud-drawio/graphs/contributors)
 
@@ -101,3 +117,6 @@ Click "Save" when you're done.
 
 ## Support ##
  * Any feedback and code is greatly appreciated!
+ * It's all free, but please consider making a donation if you use it (and you can afford it) - it takes a lot of time to maintain/test/review/release. Thanks!
+
+ [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/pawelrojek/4usd)

@@ -1,5 +1,12 @@
 # Change Log
 
+## v0.9.1
+- NC14 compatibility (PR #53)
+- Fixed missing comma in en_GB language file (PR #55)
+- Added OwnCloud 10 support (PR #51)
+- Added French translation (PR #49)
+- Settings moved to "Additional" section (PR #46)
+
 ## v0.9.0
 - Added German translation (PR #38)
 - Added "offline mode" (PR #43)

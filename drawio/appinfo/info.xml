@@ -6,7 +6,7 @@
     <description><![CDATA[Integrates Draw.io with Nextcloud]]></description>
     <licence>AGPL</licence>
     <author>Paweł Rojek</author>
-    <version>0.9.0</version>
+    <version>0.9.1</version>
     <namespace>Drawio</namespace>
     <types>
         <filesystem/>
