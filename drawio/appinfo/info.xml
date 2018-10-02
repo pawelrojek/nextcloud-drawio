@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <info>
     <id>drawio</id>
     <name>Draw.io</name>
@@ -21,6 +21,7 @@
     <repository type="git">https://github.com/pawelrojek/nextcloud-drawio.git</repository>
     <dependencies>
         <nextcloud min-version="11" max-version="14"/>
+        <owncloud min-version="10.0" max-version="10.1" />
     </dependencies>
     <settings>
         <admin>OCA\Drawio\Settings\AdminSettings</admin>
