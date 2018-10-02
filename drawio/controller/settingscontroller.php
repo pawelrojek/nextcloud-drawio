@@ -60,10 +60,10 @@ class SettingsController extends Controller
     public function index() {
         $data = [
             "drawioUrl" => $this->config->GetDrawioUrl(),
-            "overrideXml" => $this->config->GetOverrideXml(),
-            "offlineMode" => $this->config->GetOfflineMode(),
-            "theme" => $this->config->GetTheme(),
-            "lang" => $this->config->GetLang()
+            "drawioOverrideXml" => $this->config->GetOverrideXml(),
+            "drawioOfflineMode" => $this->config->GetOfflineMode(),
+            "drawioTheme" => $this->config->GetTheme(),
+            "drawioLang" => $this->config->GetLang()
         ];
         return new TemplateResponse($this->appName, "settings", $data, "blank");
     }
