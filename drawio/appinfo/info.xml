@@ -24,6 +24,6 @@
         <owncloud min-version="10.0" max-version="10.1" />
     </dependencies>
     <settings>
-        <admin>OCA\Drawio\Settings\AdminSettings</admin>
+        <admin>OCA\Drawio\AdminSettings</admin>
     </settings>
 </info>
