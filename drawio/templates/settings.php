@@ -2,7 +2,7 @@
     style("drawio", "settings");
     script("drawio", "settings");
 ?>
-<div class="section section-drawio">
+<div id="drawio" class="section section-drawio">
     <h2>Draw.io</h2>
 
     <p class="drawio-header"><?php p($l->t("Draw.io URL")) ?></p>
