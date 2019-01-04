@@ -20,7 +20,7 @@ class AppConfig {
     private $predefDrawioUrl = "https://www.draw.io";
     private $predefOverrideXML = "yes";
     private $predefOfflineMode = "no";
-    private $predefTheme = "kennedy"; //kennedy, atlas
+    private $predefTheme = "kennedy"; //kennedy, minimal, atlas, dark
     private $predefLang = "auto";
 
     private $appName;
