@@ -1,5 +1,10 @@
 # Change Log
 
+## v0.9.2
+- NC15 compatibility (PR #66)
+- Duplicated settings fixed (PR #65)
+- Added new themes - Minimal, Dark (PR #70)
+
 ## v0.9.1
 - NC14 compatibility (PR #53)
 - Fixed missing comma in en_GB language file (PR #55)
