@@ -15,9 +15,9 @@ Once installed, you will see an option to create a Draw.io diagram from the 'cre
 - Requires [Nextcloud](https://nextcloud.com) >11.0.0
 - Multi language support (l10n)
 - Inspired by the old Draw.io Integration and OnlyOffice
-- Tested with Chrome 58-71 and Firefox 53-64
+- Tested with Chrome 58-73 and Firefox 53-64
 - Tested with PHP 5.6/7.1/7.2
-- Draw.io v0.9.2 tested with NextCloud 11.0.3 / 12.0.2 / 13.0.6 / 14.0.4 / 15.0.0
+- Draw.io v0.9.3 tested with NextCloud 11.0.3 / 12.0.2 / 13.0.6 / 14.0.4 / 15.0.0 / 16.0.0
 
 
 ## Mimetype detection ##
@@ -45,6 +45,10 @@ Current release: [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/d
 
 
 ## Changelog ##
+
+## v0.9.3
+- NC16 compatibility
+- Minor changes
 
 ## v0.9.2
 - NC15 compatibility (PR #66)

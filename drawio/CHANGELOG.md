@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.9.3
+- NC16 compatibility
+- Minor changes
+
 ## v0.9.2
 - NC15 compatibility (PR #66)
 - Duplicated settings fixed (PR #65)
