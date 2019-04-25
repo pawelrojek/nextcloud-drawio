@@ -13,7 +13,6 @@
     </types>
     <category>files</category>
     <category>integration</category>
-    <category>organization</category>
     <category>tools</category>
     <website>https://github.com/pawelrojek/nextcloud-drawio/</website>
     <screenshot small-thumbnail="https://raw.githubusercontent.com/pawelrojek/nextcloud-drawio/master/screenshots/drawio_integration_sm.png">https://raw.githubusercontent.com/pawelrojek/nextcloud-drawio/master/screenshots/drawio_integration.png</screenshot>
