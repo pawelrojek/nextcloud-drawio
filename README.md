@@ -40,7 +40,7 @@ following command:
     sudo -u www-data php occ files:scan --all
 
 ## Download ##
-Current release: [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.9.3/drawio-v0.9.3.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v0.9.3/drawio-v0.9.3.tar.gz)
+Current release: [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/0.9.3/drawio-v0.9.3.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/0.9.3/drawio-v0.9.3.tar.gz)
 
 
 
