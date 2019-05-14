@@ -88,7 +88,7 @@
             if(OCA.AppSettings.overrideXml == "yes") {
                 menu.addMenuEntry({
                     id: "drawIoDiagram",
-                    displayName: t(OCA.DrawIO.AppName, "Diagram"),
+                    displayName: t(OCA.DrawIO.AppName, "New Diagram"),
                                   templateName: t(OCA.DrawIO.AppName, "New Diagram.xml"),
                                   iconClass: "icon-drawio-new-xml", //fileType: "x-application/drawio",
                                   fileType: "xml",
