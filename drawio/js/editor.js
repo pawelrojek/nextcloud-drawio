@@ -66,6 +66,7 @@
                         if (contents === " ") {
                             editWindow.postMessage(JSON.stringify({
                                 action: "template",
+                                callback: true,
                                 name: filePath
                             }), "*");
                         } else if (contents.indexOf("mxGraphModel") !== -1) {
@@ -74,6 +75,7 @@
                         } else {
                             editWindow.postMessage(JSON.stringify({
                                 action: "load",
+                                autosave: 1,
                                 xml: contents
                             }), "*");
                         }
@@ -86,11 +88,17 @@
                     .done(function () {
                         OC.Notification.hide(loadMsg);
                     });
+                } else if (payload.event === "template") {
+                    editWindow.postMessage(JSON.stringify({
+                        action: "load",
+                        autosave: 1,
+                        xml: payload.xml
+                    }), "*");
                 } else if (payload.event === "load") {
                     // TODO: notify user of loaded
                 } else if (payload.event === "export") {
                     // TODO: handle export event
-                } else if (payload.event === "save") {
+                } else if (payload.event === "save" || payload.event === "autosave") {
                     var saveMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Saving..."));
                     ncClient.putFileContents(
                         filePath,
