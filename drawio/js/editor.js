@@ -54,8 +54,9 @@
         });
     };
 
-    OCA.DrawIO.EditFile = function (editWindow, filePath, origin) {
+    OCA.DrawIO.EditFile = function (editWindow, filePath, origin,  autosave) {
         var ncClient = OC.Files.getClient();
+        var autosaveEnabled = autosave === "yes";
         var receiver = function (evt) {
             if (evt.data.length > 0 && origin.includes(evt.origin)) {
                 var payload = JSON.parse(evt.data);
@@ -66,6 +67,7 @@
                         if (contents === " ") {
                             editWindow.postMessage(JSON.stringify({
                                 action: "template",
+                                callback: autosaveEnabled,
                                 name: filePath
                             }), "*");
                         } else if (contents.indexOf("mxGraphModel") !== -1) {
@@ -74,6 +76,7 @@
                         } else {
                             editWindow.postMessage(JSON.stringify({
                                 action: "load",
+                                autosave: Number(autosaveEnabled),
                                 xml: contents
                             }), "*");
                         }
@@ -86,10 +89,39 @@
                     .done(function () {
                         OC.Notification.hide(loadMsg);
                     });
+                } else if (payload.event === "template") {
+                    editWindow.postMessage(JSON.stringify({
+                        action: "load",
+                        autosave: 1,
+                        xml: payload.xml
+                    }), "*");
                 } else if (payload.event === "load") {
                     // TODO: notify user of loaded
                 } else if (payload.event === "export") {
                     // TODO: handle export event
+                } else if (payload.event === "autosave") {
+                    var time = new Date();
+                    ncClient.putFileContents(
+                        filePath,
+                        payload.xml, {
+                            contentType: "x-application/drawio",
+                            overwrite: false
+                        }
+                    )
+                    .then(function (status) {
+                        editWindow.postMessage(JSON.stringify({
+                            action: 'status',
+                            message: "Autosave successful at " + time.toLocaleTimeString(),
+                            modified: false
+                        }), '*');
+                    })
+                    .fail(function (status) {
+                        editWindow.postMessage(JSON.stringify({
+                            action: 'status',
+                            message: "Autosave failed at " + time.toLocaleTimeString(),
+                            modified: false
+                        }), '*');
+                    });
                 } else if (payload.event === "save") {
                     var saveMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Saving..."));
                     ncClient.putFileContents(

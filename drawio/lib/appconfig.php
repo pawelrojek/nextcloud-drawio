@@ -22,6 +22,7 @@ class AppConfig {
     private $predefOfflineMode = "no";
     private $predefTheme = "kennedy"; //kennedy, minimal, atlas, dark
     private $predefLang = "auto";
+    private $predefAutosave = "yes";
 
     private $appName;
 
@@ -35,6 +36,7 @@ class AppConfig {
     private $_offlinemode = "DrawioOffline";
     private $_theme = "DrawioTheme";
     private $_lang = "DrawioLang";
+    private $_autosave = "DrawioAutosave";
 
     public function __construct($AppName)
     {
@@ -110,6 +112,19 @@ class AppConfig {
     {
         $val = $this->config->getAppValue($this->appName, $this->_lang);
         if (empty($val)) $val = $this->predefLang;
+        return $val;
+    }
+
+    public function SetAutosave($autosave)
+    {
+        $this->logger->info("SetAutosave: " . $autosave, array("app" => $this->appName));
+        $this->config->setAppValue($this->appName, $this->_autosave, $autosave);
+    }
+
+    public function GetAutosave()
+    {
+        $val = $this->config->getAppValue($this->appName, $this->_autosave);
+        if (empty($val)) $val = $this->predefAutosave;
         return $val;
     }
 

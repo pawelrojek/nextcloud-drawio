@@ -31,6 +31,7 @@ OC.L10N.register(
   "The file has changed since opening" : "Файл был изменен с момента открытия",
   "User does not have permissions to write to the file:" : "У пользователя недостаточно прав для записи в данный файл:",
   "FileId is empty" : "FileId пуст",
-  "You do not have enough permissions to view the file" : "У Вас недостаточно прав на просмотр данного файла"
+  "You do not have enough permissions to view the file" : "У Вас недостаточно прав на просмотр данного файла",
+  "Activate autosave?" : "Включить автосохранение?"
 },
 "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

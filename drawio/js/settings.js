@@ -25,6 +25,7 @@
             var f_offlineMode = $("#offlineMode option:selected").val();
             var f_theme = $("#theme option:selected").val();
             var f_lang = $("#lang").val().trim();
+            var f_autosave = $("#drawioAutosave option:selected").val();
 
             var saving = OC.Notification.show( t(OCA.Drawio.AppName, "Saving...") );
 
@@ -33,7 +34,8 @@
                     overrideXml: f_overrideXml,
                     offlineMode: f_offlineMode,
                     theme: f_theme,
-                    lang: f_lang
+                    lang: f_lang,
+                    autosave: f_autosave
             };
 
 
@@ -52,6 +54,7 @@
                         $("#offlineMode").val(response.offlineMode);
                         $("#theme").val(response.theme);
                         $("#lang").val(response.lang);
+                        $("#drawioAutosave").val(response.drawioAutosave);
 
                         var message =
                             response.error
