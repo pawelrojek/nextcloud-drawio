@@ -1,5 +1,12 @@
 # Change Log
 
+## v0.9.4
+- NC17 compatibility
+- Chinese translation
+- Italian translation
+- Russian translation
+- Minor changes
+
 ## v0.9.3
 - NC16 compatibility
 - Minor changes
