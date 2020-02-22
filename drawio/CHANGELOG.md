@@ -1,5 +1,8 @@
 # Change Log
 
+## v0.9.5
+- NC18 compatibility
+
 ## v0.9.4
 - NC17 compatibility
 - Chinese translation

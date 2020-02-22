@@ -46,6 +46,9 @@ Current release: [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/d
 
 ## Changelog ##
 
+## v0.9.5
+- NC18 compatibility
+
 ## v0.9.4
 - NC17 compatibility
 - Chinese translation
