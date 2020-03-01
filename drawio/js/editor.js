@@ -56,36 +56,78 @@
 
     OCA.DrawIO.EditFile = function (editWindow, filePath, origin) {
         var ncClient = OC.Files.getClient();
+        var fileId = $("#iframeEditor").data("id");
+        //filePath = $("#iframeEditor").data("path");
+        var shareToken = $("#iframeEditor").data("sharetoken");
+        if (!fileId && !shareToken) {
+            displayError(t(OCA.DrawIO.AppName, "FileId is empty"));
+            return;
+        }
+	if(shareToken) {
+            var fileUrl = OC.generateUrl("apps/" + OCA.DrawIO.AppName + "/ajax/shared/{fileId}", { fileId: fileId || 0 });
+	    var params = [];
+	    if (filePath) {
+	        params.push("filePath=" + encodeURIComponent(filePath));
+	    }
+	    if (shareToken) {
+	        params.push("shareToken=" + encodeURIComponent(shareToken));
+	    }
+	    if (params.length) {
+	        fileUrl += "?" + params.join("&");
+    	    }
+	}
+        var loadMsg = null;
         var receiver = function (evt) {
             if (evt.data.length > 0 && origin.includes(evt.origin)) {
                 var payload = JSON.parse(evt.data);
                 if (payload.event === "init") {
-                    var loadMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Loading, please wait."));
-                    ncClient.getFileContents(filePath)
-                    .then(function (status, contents) {
-                        if (contents === " ") {
-                            editWindow.postMessage(JSON.stringify({
-                                action: "template",
-                                name: filePath
-                            }), "*");
-                        } else if (contents.indexOf("mxGraphModel") !== -1) {
-                            // TODO: show error to user
+		    loadMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Loading, please wait."));
+		    if(!fileId) {
+		        $.ajax({
+        		    url: fileUrl,
+		            success: function onSuccess(data) {
+                                    editWindow.postMessage(JSON.stringify({
+		                            action: "load",
+	                                    xml: data
+    		                    }), "*");
+                		    OC.Notification.hide(loadMsg);
+			    },
+			    fail: function (status) {
+                                console.log("Status Error: " + status);
+	                        // TODO: show error on failed read
+    	                        OCA.DrawIO.Cleanup(receiver, filePath);
+			    },
+			    done: function() {
+                                OC.Notification.hide(loadMsg);
+			    }
+			});
+		    } else {
+                	ncClient.getFileContents(filePath)
+                	.then(function (status, contents) {
+                    	    if (contents === " ") {
+                        	editWindow.postMessage(JSON.stringify({
+                            	    action: "template",
+                            	    name: filePath
+                        	}), "*");
+                            } else if (contents.indexOf("mxGraphModel") !== -1) {
+	                        // TODO: show error to user
+    	                        OCA.DrawIO.Cleanup(receiver, filePath);
+        	            } else {
+                                editWindow.postMessage(JSON.stringify({
+	                            action: "load",
+	                                xml: contents
+    	                        }), "*");
+                            }
+	                })
+                        .fail(function (status) {
+                            console.log("Status Error: " + status);
+                            // TODO: show error on failed read
                             OCA.DrawIO.Cleanup(receiver, filePath);
-                        } else {
-                            editWindow.postMessage(JSON.stringify({
-                                action: "load",
-                                xml: contents
-                            }), "*");
-                        }
-                    })
-                    .fail(function (status) {
-                        console.log("Status Error: " + status);
-                        // TODO: show error on failed read
-                        OCA.DrawIO.Cleanup(receiver, filePath);
-                    })
-                    .done(function () {
-                        OC.Notification.hide(loadMsg);
-                    });
+                        })
+                        .done(function () {
+                            OC.Notification.hide(loadMsg);
+                        });
+		    }
                 } else if (payload.event === "load") {
                     // TODO: notify user of loaded
                 } else if (payload.event === "export") {

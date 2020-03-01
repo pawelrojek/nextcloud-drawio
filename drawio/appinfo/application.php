@@ -15,6 +15,7 @@ use OCP\AppFramework\App;
 use OCP\Util;
 
 use OCA\Drawio\AppConfig;
+use OCA\Drawio\Controller\DisplayController;
 use OCA\Drawio\Controller\EditorController;
 use OCA\Drawio\Controller\SettingsController;
 
@@ -43,7 +44,16 @@ class Application extends App {
                 }
             }
         }
+        // Default script and style if configured
+        $eventDispatcher = \OC::$server->getEventDispatcher();
 
+        $eventDispatcher->addListener("OCA\Files_Sharing::loadAdditionalScripts",
+            function() {
+                if (!empty($this->appConfig->GetDrawioUrl()) && array_key_exists("REQUEST_URI", \OC::$server->getRequest()->server) ) {
+                    Util::addScript($this->appConfig->GetAppName(), "main");
+                    Util::addStyle($this->appConfig->GetAppName(), "main");
+                }
+            });
 
         $container = $this->getContainer();
 
@@ -90,10 +100,10 @@ class Application extends App {
                 $c->query("ServerContainer")->getURLGenerator(),
                 $c->query("L10N"),
                 $c->query("Logger"),
-                $this->appConfig
+                $this->appConfig,
+                $c->query("IManager"),
+                $c->query("Session")
             );
         });
-
-
     }
 }

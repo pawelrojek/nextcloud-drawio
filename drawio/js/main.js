@@ -118,10 +118,62 @@
             }
         }
     };
-})(OCA);
 
-OC.Plugins.register("OCA.Files.FileList", OCA.DrawIO.FileList);
-OC.Plugins.register("OCA.Files.NewFileMenu", OCA.DrawIO.NewFileMenu);
+    OCA.DrawIO.GetSettings = function (callbackSettings) {
+        if (OCA.DrawIO.Mimes) {
+            callbackSettings();
+        } else {
+            $.get(OC.generateUrl("apps/" + OCA.DrawIO.AppName + "/ajax/settings"),
+                function onSuccess(json) {
+            	    OCA.AppSettings = json.settings;
+            	    OCA.DrawIO.Mimes = json.formats;
+
+                    callbackSettings();
+                }
+            );
+        }
+    };
+
+    var getFileExtension = function (fileName) {
+        var extension = fileName.substr(fileName.lastIndexOf(".") + 1).toLowerCase();
+        return extension;
+    }
+
+    var initPage = function () {
+        if ($("#isPublic").val() === "1" && !$("#filestable").length) {
+            var fileName = $("#filename").val();
+            var mimeType = $("#mimetype").val();
+            var extension = getFileExtension(fileName);
+
+            var initSharedButton = function() {
+                var formats = OCA.DrawIO.Mimes;
+
+                var config = formats[extension];
+                if (!config) {
+                    return;
+                }
+
+                var button = document.createElement("a");
+                button.href = OC.generateUrl("apps/" + OCA.DrawIO.AppName + "/s/" + encodeURIComponent($("#sharingToken").val()));
+                button.className = "button";
+                button.innerText = t(OCA.DrawIO.AppName, "Open in Draw.io")
+
+                //if (!OCA.DrawIO.setting.sameTab) {
+                //    button.target = "_blank";
+                //}
+
+                $("#preview").append(button);
+            };
+
+            OCA.DrawIO.GetSettings(initSharedButton);
+        } else {
+	    OC.Plugins.register("OCA.Files.FileList", OCA.DrawIO.FileList);
+	    OC.Plugins.register("OCA.Files.NewFileMenu", OCA.DrawIO.NewFileMenu);
+        }
+    };
+
+    $(document).ready(initPage)
+})(OCA);
 
 /*
  * A little bit of a hack - changing file icon...
