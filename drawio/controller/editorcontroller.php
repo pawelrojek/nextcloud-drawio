@@ -163,7 +163,8 @@ class EditorController extends Controller
             return [null, $this->trans->t("FileId is empty")];
         }
 
-        $files = $this->root->getById($fileId);
+        //$files = $this->root->getById($fileId);
+        $files = \OC::$server->getUserFolder()->getById($fileId);
         if (empty($files))
         {
             return [null, $this->trans->t("File not found")];
