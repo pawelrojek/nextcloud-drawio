@@ -112,6 +112,8 @@ Go to Admin page and change the settings you want:
 
 Click "Save" when you're done.
 
+If you would like to self-host Draw.io, you might want to consider https://github.com/jgraph/docker-drawio from the creators of Draw.io (now [diagrams.net](https://www.diagrams.net/)).
+
 
 ## License ##
 - Released under the Affero General Public License version 3 or later.
