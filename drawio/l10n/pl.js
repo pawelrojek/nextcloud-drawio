@@ -9,6 +9,7 @@ OC.L10N.register(
   "Loading, please wait." : "Wczytuję, proszę czekać.",
   "File created" : "Plik został utworzony",
   "Diagram" : "Schemat",
+  "New Diagram" : "Nowy schemat",
   "Yes" : "Tak",
   "No" : "Nie",
   "Associate XML files with Draw.io?" : "Przejąć obsługę formatu XML?",
