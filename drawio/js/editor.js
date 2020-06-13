@@ -70,7 +70,7 @@
                                 callback: autosaveEnabled,
                                 name: filePath
                             }), "*");
-                        } else if (contents.indexOf("mxGraphModel") !== -1) {
+                        } else if (contents.indexOf("mxfile") == -1 || contents.indexOf("diagram") == -1) {
                             // TODO: show error to user
                             OCA.DrawIO.Cleanup(receiver, filePath);
                         } else {
