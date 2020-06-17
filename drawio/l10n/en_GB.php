@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
   "Loading, please wait." => "Loading, please wait.",
   "File created" => "File created",
   "Diagram" => "Diagram",
+  "New Diagram" => "New Diagram",
   "Yes" => "Yes",
   "No" => "No",
   "Associate XML files with Draw.io?" => "Associate XML files with Draw.io?",
@@ -33,6 +34,7 @@ $TRANSLATIONS = array(
   "FileId is empty" => "FileId is empty",
   "You do not have enough permissions to view the file" => "You do not have enough permissions to view the file",
   "Activate offline mode in Draw.io?" => "Activate offline mode in Draw.io?",
-  "When the \"offline mode\" is active, this disables all remote operations and features to protect the users privacy. Draw.io will then also only be in English, even if you set a different language manually." => "When the \"offline mode\" is active, this disables all remote operations and features to protect the users privacy. Draw.io will then also only be in English, even if you set a different language manually."
+  "When the \"offline mode\" is active, this disables all remote operations and features to protect the users privacy. Draw.io will then also only be in English, even if you set a different language manually." => "When the \"offline mode\" is active, this disables all remote operations and features to protect the users privacy. Draw.io will then also only be in English, even if you set a different language manually.",
+  "Activate autosave?" => "Activate autosave?"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
