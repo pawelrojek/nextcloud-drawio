@@ -48,6 +48,7 @@ Current release: [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/d
 ## Changelog ##
 
 ## 0.9.6
+- Filename encoding problem (#108)
 - NC19 compatibility
 - Autosave (PR #90)
 - Fixed content detection (PR #115)

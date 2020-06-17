@@ -1,6 +1,7 @@
 # Change Log
 
 ## 0.9.6
+- Filename encoding problem (#108)
 - NC19 compatibility
 - Autosave (PR #90)
 - Fixed content detection (PR #115)
