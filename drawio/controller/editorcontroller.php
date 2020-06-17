@@ -132,7 +132,7 @@ class EditorController extends Controller
             "drawioLang" => $lang,
             "drawioOverrideXml" => $overrideXml,
 			"drawioOfflineMode" => $offlineMode,
-            "drawioFilePath" => $baseFolder->getRelativePath($file->getPath()),
+            "drawioFilePath" => rawurlencode($baseFolder->getRelativePath($file->getPath())),
             "drawioAutosave" =>$this->config->GetAutosave()
         ];
 
