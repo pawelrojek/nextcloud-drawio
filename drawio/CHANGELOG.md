@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.9.6
+- NC19 compatibility
+- Autosave (PR #90)
+- Fixed content detection (PR #115)
+- Fixed some translations (PR #112)
+
 ## v0.9.5
 - NC18 compatibility
 

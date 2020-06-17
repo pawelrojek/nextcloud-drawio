@@ -47,6 +47,12 @@ Current release: [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/d
 
 ## Changelog ##
 
+## 0.9.6
+- NC19 compatibility
+- Autosave (PR #90)
+- Fixed content detection (PR #115)
+- Fixed some translations (PR #112)
+
 ## v0.9.5
 - NC18 compatibility
 
@@ -132,6 +138,7 @@ If you would like to self-host Draw.io, you might want to consider https://githu
 - [ColdSphinX](https://github.com/ColdSphinX)
 - [acidhunter](https://github.com/acidhunter)
 - [janLo](https://github.com/janLo)
+- [Irillit](https://github.com/Irillit/)
 
 [View all](https://github.com/pawelrojek/nextcloud-drawio/graphs/contributors)
 

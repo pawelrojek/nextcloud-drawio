@@ -65,15 +65,16 @@
                     ncClient.getFileContents(filePath)
                     .then(function (status, contents) {
                         if (contents === " ") {
+                            OCA.DrawIO.NewFileMode = true; //[workaround] "loading" file without content, to display "template" later in "load" callback event without another filename prompt
                             editWindow.postMessage(JSON.stringify({
-                                action: "template",
-                                callback: autosaveEnabled,
-                                name: filePath
+                                action: "load",
+                                autosave: Number(autosaveEnabled)
                             }), "*");
                         } else if (contents.indexOf("mxfile") == -1 || contents.indexOf("diagram") == -1) {
                             // TODO: show error to user
                             OCA.DrawIO.Cleanup(receiver, filePath);
                         } else {
+                            OCA.DrawIO.NewFileMode = false;
                             editWindow.postMessage(JSON.stringify({
                                 action: "load",
                                 autosave: Number(autosaveEnabled),
@@ -90,13 +91,13 @@
                         OC.Notification.hide(loadMsg);
                     });
                 } else if (payload.event === "template") {
-                    editWindow.postMessage(JSON.stringify({
-                        action: "load",
-                        autosave: 1,
-                        xml: payload.xml
-                    }), "*");
+                  //template selected
                 } else if (payload.event === "load") {
-                    // TODO: notify user of loaded
+                   if (OCA.DrawIO.NewFileMode) {
+                       editWindow.postMessage(JSON.stringify({
+                             action: "template"
+                      }), "*");
+                   }
                 } else if (payload.event === "export") {
                     // TODO: handle export event
                 } else if (payload.event === "autosave") {
