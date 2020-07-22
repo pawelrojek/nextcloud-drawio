@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.9.7
+- Changed the default Draw.io URL to embed.diagrams.net (#119) (#118)
+
 ## 0.9.6
 - Filename encoding problem (#108)
 - NC19 compatibility

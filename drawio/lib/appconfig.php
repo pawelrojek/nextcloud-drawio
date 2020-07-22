@@ -58,6 +58,8 @@ class AppConfig {
     {
         $val = $this->config->getAppValue($this->appName, $this->_drawioUrl);
         if (empty($val)) $val = $this->predefDrawioUrl;
+        //default URL changed from draw.io to embed.diagrams.net #118
+        if (in_array(strtolower($val), array("https://draw.io", "https://www.draw.io", "http://draw.io", "http://www.draw.io") )) $val = $this->predefDrawioUrl;
         return $val;
     }
 
