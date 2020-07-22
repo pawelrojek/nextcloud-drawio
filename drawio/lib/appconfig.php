@@ -17,7 +17,7 @@ use OCP\ILogger;
 
 class AppConfig {
 
-    private $predefDrawioUrl = "https://www.draw.io";
+    private $predefDrawioUrl = "https://embed.diagrams.net";
     private $predefOverrideXML = "yes";
     private $predefOfflineMode = "no";
     private $predefTheme = "kennedy"; //kennedy, minimal, atlas, dark
