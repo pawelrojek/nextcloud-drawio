@@ -5,7 +5,7 @@
     <name>Draw.io</name>
     <summary>Draw.io integration app</summary>
     <description>Integrates Draw.io with Nextcloud</description>
-    <version>0.9.7</version>
+    <version>0.9.8</version>
     <licence>agpl</licence>
     <author>Paweł Rojek</author>
     <namespace>Drawio</namespace>
@@ -20,7 +20,7 @@
     <repository type="git">https://github.com/pawelrojek/nextcloud-drawio.git</repository>
     <screenshot small-thumbnail="https://raw.githubusercontent.com/pawelrojek/nextcloud-drawio/master/screenshots/drawio_integration_sm.png">https://raw.githubusercontent.com/pawelrojek/nextcloud-drawio/master/screenshots/drawio_integration.png</screenshot>
     <dependencies>
-        <nextcloud min-version="11" max-version="19"/>
+        <nextcloud min-version="11" max-version="20"/>
     </dependencies>
     <settings>
         <admin>OCA\Drawio\AdminSettings</admin>
