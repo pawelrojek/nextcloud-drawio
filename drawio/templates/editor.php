@@ -3,7 +3,7 @@
     script("drawio", "editor");
 
     $frame_params = "?embed=1";
-    if ($_["drawioOfflineMode"] == "yes")
+    if ($_["drawioOfflineMode"] === "yes")
     {
         $frame_params .= "&offline=1&stealth=1";
     }

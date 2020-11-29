@@ -2,8 +2,6 @@
 
 namespace OCA\Drawio;
 
-use OCP\User;
-
 use OCA\Drawio\AppInfo\Application;
 
 

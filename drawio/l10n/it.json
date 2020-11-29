@@ -10,7 +10,7 @@
   "Yes" : "Si",
   "No" : "No",
   "Associate XML files with Draw.io?" : "Associa i file XML a Draw.io?",
-  "Please note: when you disable the XML association, you need to manually register the MIME type application/x-drawio for the extension \".drawio\"." : "Nota: quando si disabilita l'associazione XML, è necessario registrare manualmente il tipo MIME application / x-drawio per l'estensione \".Drawio\".”,
+  "Please note: when you disable the XML association, you need to manually register the MIME type application/x-drawio for the extension \".drawio\"." : "Nota: quando si disabilita l'associazione XML, è necessario registrare manualmente il tipo MIME application / x-drawio per l'estensione \".Drawio\".",
   "Kennedy" : "Kennedy",
   "Minimal" : "Minimale",
   "Atlas" : "Atlas",
