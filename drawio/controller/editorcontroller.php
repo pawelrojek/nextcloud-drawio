@@ -11,7 +11,6 @@
 
 namespace OCA\Drawio\Controller;
 
-use OCP\App;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Controller;
@@ -94,7 +93,7 @@ class EditorController extends Controller
         $lang = $this->config->GetLang();
         $lang = trim(strtolower($lang));
 
-        if ($lang=="auto")
+        if ("auto" === $lang)
         {
             $lang = \OC::$server->getL10NFactory("")->get("")->getLanguageCode();
         }
