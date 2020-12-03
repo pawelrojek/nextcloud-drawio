@@ -15,9 +15,10 @@ Once installed, you will see an option to create a Draw.io diagram from the 'cre
 - Requires [Nextcloud](https://nextcloud.com) >11.0.0
 - Multi language support (l10n)
 - Inspired by the old Draw.io Integration and OnlyOffice
-- Tested with Chrome 58-83 and Firefox 53-77
+- Tested with Chrome 58-86 and Firefox 53-77
 - Tested with PHP 5.6/7.1/7.3
-- Draw.io Integration v0.9.6 tested with NextCloud 11.0.3 / 12.0.2 / 13.0.6 / 14.0.4 / 15.0.0 / 16.0.0 / 17.0.0 / 18.0.0 / 19.0.0
+- Draw.io Integration v0.9.8 tested with NextCloud 11.0.3 / 12.0.2 / 13.0.6 / 14.0.4 / 15.0.0 / 16.0.0 / 17.0.0 / 18.0.0 / 19.0.0 / 20.0.0*
+  * see Known Issues
 
 
 ## Mimetype detection ##
@@ -47,6 +48,10 @@ Current release: [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/d
 
 ## Changelog ##
 
+## 0.9.8
+- NC20 compatibility (#127)
+- Code compliance (#129)
+
 ## 0.9.7
 - Changed the default Draw.io URL to embed.diagrams.net (#119) (#118)
 
@@ -57,9 +62,6 @@ Current release: [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/d
 - Fixed content detection (PR #115)
 - Fixed some translations (PR #112)
 
-## v0.9.5
-- NC18 compatibility
-
 [Complete changelog](https://github.com/pawelrojek/nextcloud-drawio/blob/master/drawio/CHANGELOG.md)
 
 
@@ -69,7 +71,8 @@ Current release: [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/d
 
 
 ## Known Issues ##
-If you're experiencing problems while updating your Nextcloud intance, try to disable/delete Draw.io integration app (/apps/drawio/) and then install/copy it again after the NC update is completed.
+- If you're experiencing problems while updating your Nextcloud intance, try to disable/delete Draw.io integration app (/apps/drawio/) and then install/copy it again after the NC update is completed.
+- Files won't open in Draw.io while using Dashboard / Recommended Files (NC20)
 
 
 ## Configuration ##

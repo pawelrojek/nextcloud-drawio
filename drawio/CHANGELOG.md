@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.9.8
+- NC20 compatibility (#127)
+- Code compliance fixed (#129)
+
 ## 0.9.7
 - Changed the default Draw.io URL to embed.diagrams.net (#119) (#118)
 
