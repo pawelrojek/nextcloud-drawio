@@ -3,7 +3,7 @@
     script("drawio", "editor");
 
     $frame_params = "?embed=1";
-    if ($_["drawioOfflineMode"] == "yes")
+    if ($_["drawioOfflineMode"] === "yes")
     {
         $frame_params .= "&offline=1&stealth=1";
     }
@@ -23,11 +23,12 @@
                 OCA.DrawIO.DisplayError("<?php p($_['error']) ?>");
             <?php } else { ?>
                 var iframe = $("#iframeEditor")[0];
-                var filePath = "<?php echo urldecode($_['drawioFilePath']); ?>";
+                var filePath = <?php echo json_encode(urldecode($_['drawioFilePath'])); ?>;
                 var originUrl = "<?php p($_['drawioUrl']); ?>";
-                var drawIoUrl = "<?php p($_['drawioUrl']); print_unescaped($frame_params); ?>";
-                OCA.DrawIO.EditFile(iframe.contentWindow, filePath, originUrl);
-                iframe.setAttribute('src', drawIoUrl );
+                var drawIoUrl = "<?php p($_['drawioUrl']); print_unescaped($frame_params); ?>"
+                var autosave = "<?php p($_['drawioAutosave']); ?>";
+                OCA.DrawIO.EditFile(iframe.contentWindow, filePath, originUrl, autosave);
+                iframe.setAttribute('src', drawIoUrl);
             <?php } ?>
         });
     </script>

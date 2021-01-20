@@ -15,9 +15,10 @@ Once installed, you will see an option to create a Draw.io diagram from the 'cre
 - Requires [Nextcloud](https://nextcloud.com) >11.0.0
 - Multi language support (l10n)
 - Inspired by the old Draw.io Integration and OnlyOffice
-- Tested with Chrome 58-80 and Firefox 53-73
+- Tested with Chrome 58-86 and Firefox 53-77
 - Tested with PHP 5.6/7.1/7.3
-- Draw.io v0.9.5 tested with NextCloud 11.0.3 / 12.0.2 / 13.0.6 / 14.0.4 / 15.0.0 / 16.0.0 / 17.0.0 / 18.0.0
+- Draw.io Integration v0.9.8 tested with NextCloud 11.0.3 / 12.0.2 / 13.0.6 / 14.0.4 / 15.0.0 / 16.0.0 / 17.0.0 / 18.0.0 / 19.0.0 / 20.0.0*
+  * see Known Issues
 
 
 ## Mimetype detection ##
@@ -40,58 +41,26 @@ following command:
     sudo -u www-data php occ files:scan --all
 
 ## Download ##
-Current release: [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v.0.9.5/drawio-v0.9.5.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v.0.9.5/drawio-v0.9.5.tar.gz)
+Current release: [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v.0.9.8/drawio-v0.9.8.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v.0.9.8/drawio-v0.9.8.tar.gz)
 
 
 
 
 ## Changelog ##
 
-## v0.9.5
-- NC18 compatibility
+## 0.9.8
+- NC20 compatibility (#127)
+- Code compliance (#129)
 
-## v0.9.4
-- NC17 compatibility
-- Chinese translation
-- Italian translation
-- Russian translation
-- Minor changes
+## 0.9.7
+- Changed the default Draw.io URL to embed.diagrams.net (#119) (#118)
 
-## v0.9.3
-- NC16 compatibility
-- Minor changes
-
-## v0.9.2
-- NC15 compatibility (PR #66)
-- Duplicated settings fixed (PR #65)
-- Added new themes - Minimal, Dark (PR #70)
-
-## v0.9.1
-- NC14 compatibility (PR #53)
-- Fixed missing comma in en_GB language file (PR #55)
-- Added OwnCloud 10 support (PR #51)
-- Added French translation (PR #49)
-- Settings moved to "Additional" section (PR #46)
-
-## v0.9.0
-- Added German translation (PR #38)
-- Added "offline mode" (PR #43)
-- Added .drawio file type in addtion to .xml (PR #41)
-- Querystring in custom drawioUrl (PR #37)
-- Minor other fixes (PR #39)
-
-## v0.8.9
-- NC13 compatibility (issue #25)
-- IE support (PR #27)
-- Brazilian Portuguese translation (PR #26)
-
-## v0.8.8
-- NC12 compatibility (issue #10)
-- "Origin" integration issue (issue #9)
-
-## v0.8.7
-- Edited files are now opened in the same window
-- Code changes
+## 0.9.6
+- Filename encoding problem (#108)
+- NC19 compatibility
+- Autosave (PR #90)
+- Fixed content detection (PR #115)
+- Fixed some translations (PR #112)
 
 [Complete changelog](https://github.com/pawelrojek/nextcloud-drawio/blob/master/drawio/CHANGELOG.md)
 
@@ -102,7 +71,8 @@ Current release: [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/d
 
 
 ## Known Issues ##
-If you're experiencing problems while updating your Nextcloud intance, try to disable/delete Draw.io integration app (/apps/drawio/) and then install/copy it again after the NC update is completed.
+- If you're experiencing problems while updating your Nextcloud intance, try to disable/delete Draw.io integration app (/apps/drawio/) and then install/copy it again after the NC update is completed.
+- Files won't open in Draw.io while using Dashboard / Recommended Files (NC20)
 
 
 ## Configuration ##
@@ -111,6 +81,8 @@ Go to Admin page and change the settings you want:
 ![](screenshots/drawio_admin.png)
 
 Click "Save" when you're done.
+
+If you would like to self-host Draw.io, you might want to consider https://github.com/jgraph/docker-drawio from the creators of Draw.io (now [diagrams.net](https://www.diagrams.net/)).
 
 
 ## License ##
@@ -130,6 +102,7 @@ Click "Save" when you're done.
 - [ColdSphinX](https://github.com/ColdSphinX)
 - [acidhunter](https://github.com/acidhunter)
 - [janLo](https://github.com/janLo)
+- [Irillit](https://github.com/Irillit/)
 
 [View all](https://github.com/pawelrojek/nextcloud-drawio/graphs/contributors)
 

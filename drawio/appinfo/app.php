@@ -11,6 +11,4 @@
 
 namespace OCA\Drawio\AppInfo;
 
-use OCP\App;
-
 $app = new Application();

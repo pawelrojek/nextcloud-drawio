@@ -54,34 +54,33 @@
         });
     };
 
-    OCA.DrawIO.EditFile = function (editWindow, filePath, origin) {
+    OCA.DrawIO.EditFile = function (editWindow, filePath, origin,  autosave) {
         var ncClient = OC.Files.getClient();
+        var autosaveEnabled = autosave === "yes";
         var fileId = $("#iframeEditor").data("id");
-        //filePath = $("#iframeEditor").data("path");
         var shareToken = $("#iframeEditor").data("sharetoken");
         if (!fileId && !shareToken) {
             displayError(t(OCA.DrawIO.AppName, "FileId is empty"));
             return;
         }
-	if(shareToken) {
+        if(shareToken) {
             var fileUrl = OC.generateUrl("apps/" + OCA.DrawIO.AppName + "/ajax/shared/{fileId}", { fileId: fileId || 0 });
-	    var params = [];
-	    if (filePath) {
-	        params.push("filePath=" + encodeURIComponent(filePath));
-	    }
-	    if (shareToken) {
-	        params.push("shareToken=" + encodeURIComponent(shareToken));
-	    }
-	    if (params.length) {
-	        fileUrl += "?" + params.join("&");
-    	    }
-	}
-        var loadMsg = null;
+            var params = [];
+            if (filePath) {
+                params.push("filePath=" + encodeURIComponent(filePath));
+            }
+            if (shareToken) {
+                params.push("shareToken=" + encodeURIComponent(shareToken));
+            }
+            if (params.length) {
+                fileUrl += "?" + params.join("&");
+            }
+        }
         var receiver = function (evt) {
             if (evt.data.length > 0 && origin.includes(evt.origin)) {
                 var payload = JSON.parse(evt.data);
                 if (payload.event === "init") {
-		    loadMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Loading, please wait."));
+                    var loadMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Loading, please wait."));
 		    if(!fileId) {
 		        $.ajax({
         		    url: fileUrl,
@@ -93,6 +92,16 @@
                 		    OC.Notification.hide(loadMsg);
 			    },
 			    fail: function (status) {
+
+
+
+
+
+
+
+
+
+
                                 console.log("Status Error: " + status);
 	                        // TODO: show error on failed read
     	                        OCA.DrawIO.Cleanup(receiver, filePath);
@@ -102,36 +111,68 @@
 			    }
 			});
 		    } else {
-                	ncClient.getFileContents(filePath)
-                	.then(function (status, contents) {
-                    	    if (contents === " ") {
-                        	editWindow.postMessage(JSON.stringify({
-                            	    action: "template",
-                            	    name: filePath
-                        	}), "*");
-                            } else if (contents.indexOf("mxGraphModel") !== -1) {
-	                        // TODO: show error to user
-    	                        OCA.DrawIO.Cleanup(receiver, filePath);
-        	            } else {
-                                editWindow.postMessage(JSON.stringify({
-	                            action: "load",
-	                                xml: contents
-    	                        }), "*");
-                            }
-	                })
-                        .fail(function (status) {
-                            console.log("Status Error: " + status);
-                            // TODO: show error on failed read
+                    ncClient.getFileContents(filePath)
+                    .then(function (status, contents) {
+                        if (contents === " ") {
+                            OCA.DrawIO.NewFileMode = true; //[workaround] "loading" file without content, to display "template" later in "load" callback event without another filename prompt
+                            editWindow.postMessage(JSON.stringify({
+                                action: "load",
+                                autosave: Number(autosaveEnabled)
+                            }), "*");
+                        } else if (contents.indexOf("mxfile") == -1 || contents.indexOf("diagram") == -1) {
+                            // TODO: show error to user
                             OCA.DrawIO.Cleanup(receiver, filePath);
-                        })
-                        .done(function () {
-                            OC.Notification.hide(loadMsg);
-                        });
-		    }
+                        } else {
+                            OCA.DrawIO.NewFileMode = false;
+                            editWindow.postMessage(JSON.stringify({
+                                action: "load",
+                                autosave: Number(autosaveEnabled),
+                                xml: contents
+                            }), "*");
+                        }
+                    })
+                    .fail(function (status) {
+                        console.log("Status Error: " + status);
+                        // TODO: show error on failed read
+                        OCA.DrawIO.Cleanup(receiver, filePath);
+                    })
+                    .done(function () {
+                        OC.Notification.hide(loadMsg);
+                    });
+        }
+                } else if (payload.event === "template") {
+                  //template selected
                 } else if (payload.event === "load") {
-                    // TODO: notify user of loaded
+                   if (OCA.DrawIO.NewFileMode) {
+                       editWindow.postMessage(JSON.stringify({
+                             action: "template"
+                      }), "*");
+                   }
                 } else if (payload.event === "export") {
                     // TODO: handle export event
+                } else if (payload.event === "autosave") {
+                    var time = new Date();
+                    ncClient.putFileContents(
+                        filePath,
+                        payload.xml, {
+                            contentType: "x-application/drawio",
+                            overwrite: false
+                        }
+                    )
+                    .then(function (status) {
+                        editWindow.postMessage(JSON.stringify({
+                            action: 'status',
+                            message: "Autosave successful at " + time.toLocaleTimeString(),
+                            modified: false
+                        }), '*');
+                    })
+                    .fail(function (status) {
+                        editWindow.postMessage(JSON.stringify({
+                            action: 'status',
+                            message: "Autosave failed at " + time.toLocaleTimeString(),
+                            modified: false
+                        }), '*');
+                    });
                 } else if (payload.event === "save") {
                     var saveMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Saving..."));
                     ncClient.putFileContents(

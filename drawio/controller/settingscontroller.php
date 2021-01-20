@@ -63,7 +63,8 @@ class SettingsController extends Controller
             "drawioOverrideXml" => $this->config->GetOverrideXml(),
             "drawioOfflineMode" => $this->config->GetOfflineMode(),
             "drawioTheme" => $this->config->GetTheme(),
-            "drawioLang" => $this->config->GetLang()
+            "drawioLang" => $this->config->GetLang(),
+            "drawioAutosave" => $this->config->GetAutosave()
         ];
         return new TemplateResponse($this->appName, "settings", $data, "blank");
     }
@@ -77,19 +78,22 @@ class SettingsController extends Controller
         $offlinemode = trim($_POST['offlineMode']);
         $theme = trim($_POST['theme']);
         $lang = trim($_POST['lang']);
+        $autosave = trim($_POST['autosave']);
 
         $this->config->SetDrawioUrl($drawio);
         $this->config->SetOverrideXml($overridexml);
         $this->config->SetOfflineMode($offlinemode);
         $this->config->SetTheme($theme);
         $this->config->SetLang($lang);
+        $this->config->SetAutosave($autosave);
 
         return [
             "drawioUrl" => $this->config->GetDrawioUrl(),
             "overrideXml" => $this->config->GetOverrideXml(),
             "offlineMode" => $this->config->GetOfflineMode(),
             "theme" => $this->config->GetTheme(),
-            "lang" => $this->config->GetLang()
+            "lang" => $this->config->GetLang(),
+            "drawioAutosave" =>$this->config->GetAutosave()
             ];
     }
 

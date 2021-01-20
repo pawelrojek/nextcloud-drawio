@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
   "Loading, please wait." => "Загрузка. Пожалуйста, подождите.",
   "File created" => "Файл создан",
   "Diagram" => "Диаграмма",
+  "New Diagram" => "Новая диаграмма",
   "Yes" => "Да",
   "No" => "Нет",
   "Associate XML files with Draw.io?" => "Ассоциировать XML-формат с Draw.io?",
@@ -30,6 +31,7 @@ $TRANSLATIONS = array(
   "The file has changed since opening" => "Файл был изменен с момента открытия",
   "User does not have permissions to write to the file:" => "У пользователя недостаточно прав для записи в данный файл:",
   "FileId is empty" => "FileId пуст",
-  "You do not have enough permissions to view the file" => "У Вас недостаточно прав на просмотр данного файла"
+  "You do not have enough permissions to view the file" => "У Вас недостаточно прав на просмотр данного файла",
+  "Activate autosave?" => "Включить автосохранение?"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1 ? 0 => n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 => 2);";

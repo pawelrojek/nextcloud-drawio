@@ -11,7 +11,6 @@
 
 namespace OCA\Drawio\Controller;
 
-use OCP\App;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\JSONResponse;
@@ -126,7 +125,7 @@ class EditorController extends Controller
         $lang = $this->config->GetLang();
         $lang = trim(strtolower($lang));
 
-        if ($lang=="auto")
+        if ("auto" === $lang)
         {
             $lang = \OC::$server->getL10NFactory("")->get("")->getLanguageCode();
         }
@@ -171,8 +170,9 @@ class EditorController extends Controller
             "drawioTheme" => $theme,
             "drawioLang" => $lang,
             "drawioOverrideXml" => $overrideXml,
-	    "drawioOfflineMode" => $offlineMode,
-            "drawioFilePath" => $relativePath,
+      	    "drawioOfflineMode" => $offlineMode,
+            "drawioFilePath" => rawurlencode($baseFolder->getRelativePath($file->getPath())),
+            "drawioAutosave" =>$this->config->GetAutosave(),
             "fileId" => $fileId,
             "filePath" => $filePath,
             "shareToken" => $shareToken
