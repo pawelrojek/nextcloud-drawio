@@ -57,11 +57,60 @@
     OCA.DrawIO.EditFile = function (editWindow, filePath, origin,  autosave) {
         var ncClient = OC.Files.getClient();
         var autosaveEnabled = autosave === "yes";
+        var fileId = $("#iframeEditor").data("id");
+        var shareToken = $("#iframeEditor").data("sharetoken");
+        if (!fileId && !shareToken) {
+            displayError(t(OCA.DrawIO.AppName, "FileId is empty"));
+            return;
+        }
+        if(shareToken) {
+            var fileUrl = OC.generateUrl("apps/" + OCA.DrawIO.AppName + "/ajax/shared/{fileId}", { fileId: fileId || 0 });
+            var params = [];
+            if (filePath) {
+                params.push("filePath=" + encodeURIComponent(filePath));
+            }
+            if (shareToken) {
+                params.push("shareToken=" + encodeURIComponent(shareToken));
+            }
+            if (params.length) {
+                fileUrl += "?" + params.join("&");
+            }
+        }
         var receiver = function (evt) {
             if (evt.data.length > 0 && origin.includes(evt.origin)) {
                 var payload = JSON.parse(evt.data);
                 if (payload.event === "init") {
                     var loadMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Loading, please wait."));
+		    if(!fileId) {
+		        $.ajax({
+        		    url: fileUrl,
+		            success: function onSuccess(data) {
+                                    editWindow.postMessage(JSON.stringify({
+		                            action: "load",
+	                                    xml: data
+    		                    }), "*");
+                		    OC.Notification.hide(loadMsg);
+			    },
+			    fail: function (status) {
+
+
+
+
+
+
+
+
+
+
+                                console.log("Status Error: " + status);
+	                        // TODO: show error on failed read
+    	                        OCA.DrawIO.Cleanup(receiver, filePath);
+			    },
+			    done: function() {
+                                OC.Notification.hide(loadMsg);
+			    }
+			});
+		    } else {
                     ncClient.getFileContents(filePath)
                     .then(function (status, contents) {
                         if (contents === " ") {
@@ -90,6 +139,7 @@
                     .done(function () {
                         OC.Notification.hide(loadMsg);
                     });
+        }
                 } else if (payload.event === "template") {
                   //template selected
                 } else if (payload.event === "load") {

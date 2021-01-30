@@ -130,7 +130,12 @@ class AppConfig {
         return $val;
     }
 
-    /**
+    public function GetAppName()
+    {
+        return $this->appName;
+    }
+
+     /**
      * Additional data about formats
      *
      * @var array

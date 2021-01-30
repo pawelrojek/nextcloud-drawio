@@ -15,7 +15,7 @@
 
 <div id="app-content">
 
-    <iframe id="iframeEditor" width="100%" height="100%" align="top" frameborder="0" name="iframeEditor" onmousewheel="" allowfullscreen=""></iframe>
+    <iframe id="iframeEditor" data-id="<?php p($_["fileId"]) ?>" data-path="<?php p($_["filePath"]) ?>" data-sharetoken="<?php p($_["shareToken"]) ?>" width="100%" height="100%" align="top" frameborder="0" name="iframeEditor" onmousewheel="" allowfullscreen=""></iframe>
 
     <script type="text/javascript" nonce="<?php p(base64_encode($_["requesttoken"])) ?>" defer>
         window.addEventListener('DOMContentLoaded', function() {
@@ -27,7 +27,6 @@
                 var originUrl = "<?php p($_['drawioUrl']); ?>";
                 var drawIoUrl = "<?php p($_['drawioUrl']); print_unescaped($frame_params); ?>"
                 var autosave = "<?php p($_['drawioAutosave']); ?>";
-
                 OCA.DrawIO.EditFile(iframe.contentWindow, filePath, originUrl, autosave);
                 iframe.setAttribute('src', drawIoUrl);
             <?php } ?>
