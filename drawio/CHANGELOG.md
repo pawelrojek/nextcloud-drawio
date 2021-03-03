@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.9.9
+- NC21 compatibility
+- public link support (#20)
+
 ## 0.9.8
 - NC20 compatibility (#127)
 - Code compliance fixed (#129)

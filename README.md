@@ -17,7 +17,7 @@ Once installed, you will see an option to create a Draw.io diagram from the 'cre
 - Inspired by the old Draw.io Integration and OnlyOffice
 - Tested with Chrome 58-86 and Firefox 53-77
 - Tested with PHP 5.6/7.1/7.3
-- Draw.io Integration v0.9.8 tested with NextCloud 11.0.3 / 12.0.2 / 13.0.6 / 14.0.4 / 15.0.0 / 16.0.0 / 17.0.0 / 18.0.0 / 19.0.0 / 20.0.0*
+- Draw.io Integration v0.9.9 tested with NextCloud 11.0.3 / 12.0.2 / 13.0.6 / 14.0.4 / 15.0.0 / 16.0.0 / 17.0.0 / 18.0.0 / 19.0.0 / 20.0.0* / 21.0.0*
   * see Known Issues
 
 
@@ -41,26 +41,16 @@ following command:
     sudo -u www-data php occ files:scan --all
 
 ## Download ##
-Current release: [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v.0.9.8/drawio-v0.9.8.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v.0.9.8/drawio-v0.9.8.tar.gz)
+Current release: [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v.0.9.9/drawio-v0.9.9.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v.0.9.9/drawio-v0.9.9.tar.gz)
 
 
 
 
 ## Changelog ##
 
-## 0.9.8
-- NC20 compatibility (#127)
-- Code compliance (#129)
-
-## 0.9.7
-- Changed the default Draw.io URL to embed.diagrams.net (#119) (#118)
-
-## 0.9.6
-- Filename encoding problem (#108)
-- NC19 compatibility
-- Autosave (PR #90)
-- Fixed content detection (PR #115)
-- Fixed some translations (PR #112)
+## 0.9.9
+- NC21 compatibility
+- public link support (#20)
 
 [Complete changelog](https://github.com/pawelrojek/nextcloud-drawio/blob/master/drawio/CHANGELOG.md)
 
@@ -103,6 +93,7 @@ If you would like to self-host Draw.io, you might want to consider https://githu
 - [acidhunter](https://github.com/acidhunter)
 - [janLo](https://github.com/janLo)
 - [Irillit](https://github.com/Irillit/)
+- [Luckyvb](https://github.com/Luckyvb)
 
 [View all](https://github.com/pawelrojek/nextcloud-drawio/graphs/contributors)
 
