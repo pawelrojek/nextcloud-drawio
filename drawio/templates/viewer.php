@@ -1,6 +1,7 @@
 <?php
     style("drawio", "editor");
-    script("drawio", "editor");
+    //script("drawio", "editor");
+    script("drawio", "viewer");
 
     $frame_params = "?embed=1";
     if ($_["drawioOfflineMode"] == "yes")
@@ -18,13 +19,12 @@
     <script type="text/javascript" nonce="<?php p(base64_encode($_["requesttoken"])) ?>" defer>
         window.addEventListener('DOMContentLoaded', function() {
                 var iframe = document.getElementById("iframeEditor");//$("#iframeEditor")[0];
-                //var filePath = "<?php echo urldecode($_['drawioFilePath']); ?>";
-                filePath = "<?php echo urldecode('https://c.tsit.by/s/WtAgQjojGmqDXeR/download'); ?>";
+                var filePath = "<?php echo urldecode($_['drawioFilePath']); ?>";
                 var originUrl = "<?php p($_['drawioUrl']); ?>";
                 var drawIoUrl = "<?php p($_['drawioUrl']); print_unescaped($frame_params); ?>"
                 //OCA.DrawIO.EditFile(iframe.contentWindow, filePath, originUrl);
                 //iframe.setAttribute('src', drawIoUrl );
                 //iframe.setAttribute('src', drawIoUrl );
-		//window.location = drawIoUrl;
+		        //window.location = drawIoUrl;
         });
     </script>

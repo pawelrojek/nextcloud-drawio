@@ -105,6 +105,7 @@ class SettingsController extends Controller
      *
      * @NoAdminRequired
      * @PublicPage
+     * @NoCSRFRequired
      */
     public function getsettings()
     {

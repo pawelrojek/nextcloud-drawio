@@ -22,7 +22,7 @@
             <?php if (!empty($_['error'])) { ?>
                 OCA.DrawIO.DisplayError("<?php p($_['error']) ?>");
             <?php } else { ?>
-                var iframe = $("#iframeEditor")[0];
+                var iframe = document.getElementById("iframeEditor");
                 var filePath = <?php echo json_encode(urldecode($_['drawioFilePath'])); ?>;
                 var originUrl = "<?php p($_['drawioUrl']); ?>";
                 var drawIoUrl = "<?php p($_['drawioUrl']); print_unescaped($frame_params); ?>"

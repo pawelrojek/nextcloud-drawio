@@ -20,22 +20,51 @@
         };
     }
 
-    OCA.DrawIO.EditFileNewWindow = function (filePath) {
 
-        var ncClient = OC.Files.getClient();
-        ncClient.getFileInfo(filePath)
-        .then(function (status, fileInfo) {
-            var url = OC.generateUrl("/apps/" + OCA.DrawIO.AppName + "/{fileId}", {
-                fileId: fileInfo.id
-            });
-            // TODO: since we cannot edit more than one diagram per window maybe we need to just set the URL
-            window.location.href = url
-        })
-        .fail(function (status) {
-            console.log("Error: " + status);
-            // TODO: show notification to user
+    OCA.DrawIO.OpenEditor = function (fileId, filePath) {
+        var url = OC.generateUrl("/apps/" + OCA.DrawIO.AppName + "/{fileId}", {
+            fileId: fileId
         });
-    }
+        window.location.href = url;
+    };
+
+
+    OCA.DrawIO.GetSettings = function (callbackSettings) {
+        if (OCA.DrawIO.Mimes) {
+            callbackSettings();
+        } else {
+
+           var url = OC.generateUrl("apps/" + OCA.DrawIO.AppName + "/ajax/settings");
+
+           fetch( url, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+                credentials: 'same-origin'
+            })
+            .then(
+
+              function(response) {
+              if (response.status !== 200) {
+                 console.log('Fetch error. Status Code: ' + response.status);
+                 return;
+              }
+
+              response.json().then(function(data) {
+                 OCA.AppSettings = data.settings;
+                 OCA.DrawIO.Mimes = data.formats;
+                 callbackSettings();
+              });
+            }
+          )
+          .catch(function(err) {
+            console.log('Fetch Error: ', err);
+          });
+
+        }
+    };
 
     OCA.DrawIO.FileList = {
         attach: function (fileList) {
@@ -43,25 +72,25 @@
                 return;
             }
 
-            $.get(OC.generateUrl("apps/" + OCA.DrawIO.AppName + "/ajax/settings"))
-            .done(function (json) {
-                OCA.AppSettings = json.settings;
-                OCA.DrawIO.Mimes = json.formats;
+            var registerfunc = function () {
 
-                $.each(OCA.DrawIO.Mimes, function (ext, attr) {
+                if (typeof(OCA.DrawIO.Mimes) != "object") return;
+
+                for (const ext in OCA.DrawIO.Mimes) {
+                    attr = OCA.DrawIO.Mimes[ext];
                     fileList.fileActions.registerAction({
                         name: "drawioOpen",
                         displayName: t(OCA.DrawIO.AppName, "Open in Draw.io"),
-                                                        mime: attr.mime,
-                                                        permissions: OC.PERMISSION_READ | OC.PERMISSION_UPDATE,
-                                                        icon: function () {
-                                                            return OC.imagePath(OCA.DrawIO.AppName, "btn-edit");
-                                                        },
-                                                        iconClass: "icon-drawio-xml",
-                                                        actionHandler: function (fileName, context) {
-                                                            var dir = fileList.getCurrentDirectory();
-                                                            OCA.DrawIO.EditFileNewWindow(OC.joinPaths(dir, fileName));
-                                                        }
+                                       mime: attr.mime,
+                                       permissions: OC.PERMISSION_READ | OC.PERMISSION_UPDATE,
+                                       icon: function () {
+                                            return OC.imagePath(OCA.DrawIO.AppName, "btn-edit");
+                                       },
+                                       iconClass: "icon-drawio-xml",
+                                       actionHandler: function (fileName, context) {
+                                           var fileInfoModel = context.fileInfoModel || context.fileList.getModelForFile(fileName);
+                                           OCA.DrawIO.OpenEditor(fileInfoModel.id, OC.joinPaths(context.dir, fileName));
+                                       }
                     });
 
                     if ((fileList.fileActions.getDefaultFileAction(attr.mime, "file", OC.PERMISSION_READ) == false) || (OCA.AppSettings.overrideXml == "yes")) {
@@ -69,12 +98,50 @@
                     } else if(attr.mime == "application/x-drawio") {
                         fileList.fileActions.setDefault(attr.mime, "drawioOpen");
                     }
-                });
-            })
-            .fail(function () {
-                //TODO: notify user of error
-            });
+                }
+            };
+
+            OCA.DrawIO.GetSettings(registerfunc);
         }
+    };
+
+    OCA.DrawIO.CreateNewFile = function (name, fileList) {
+        var dir = fileList.getCurrentDirectory();
+
+        var postData = {
+            name: name,
+            dir: dir
+        };
+
+
+        var url = OC.generateUrl("apps/" + OCA.DrawIO.AppName + "/ajax/new");
+
+        fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+                credentials: 'same-origin',
+                body: postData
+            })
+            .then(
+
+              function(response) {
+              if (response.status !== 200) {
+                 console.log('Fetch error. Status Code: ' + response.status);
+                 return;
+              }
+
+              response.json().then(function(data) {
+                 fileList.add(data, { animate: true });
+                 OCA.DrawIO.OpenEditor( data.id, OC.joinPaths(dir, data.name) );
+              });
+            }
+          )
+          .catch(function(err) {
+            console.log('Fetch Error: ', err);
+          });
     };
 
     OCA.DrawIO.NewFileMenu = {
@@ -85,54 +152,37 @@
                 return;
             }
 
-            if(OCA.AppSettings.overrideXml == "yes") {
-                menu.addMenuEntry({
-                    id: "drawIoDiagram",
-                    displayName: t(OCA.DrawIO.AppName, "New Diagram"),
-                                  templateName: t(OCA.DrawIO.AppName, "New Diagram.xml"),
-                                  iconClass: "icon-drawio-new-xml", //fileType: "x-application/drawio",
-                                  fileType: "xml",
-                                  actionHandler: function (fileName) {
-                                      var dir = fileList.getCurrentDirectory();
-                                      fileList.createFile(fileName)
-                                      .then(function () {
-                                          OCA.DrawIO.EditFileNewWindow(OC.joinPaths(dir, fileName));
-                                      });
-                                  }
-                });
-            } else {
-                menu.addMenuEntry({
-                    id: "drawIoDiagram",
-                    displayName: t(OCA.DrawIO.AppName, "Diagram"),
-                                  templateName: t(OCA.DrawIO.AppName, "New Diagram.drawio"),
-                                  iconClass: "icon-drawio-new-xml", //fileType: "x-application/drawio",
-                                  fileType: "drawio",
-                                  actionHandler: function (fileName) {
-                                      var dir = fileList.getCurrentDirectory();
-                                      fileList.createFile(fileName)
-                                      .then(function () {
-                                          OCA.DrawIO.EditFileNewWindow(OC.joinPaths(dir, fileName));
-                                      });
-                                  }
-                });
-            }
-        }
-    };
+            var newfilefunc = function () {
 
-    OCA.DrawIO.GetSettings = function (callbackSettings) {
-        if (OCA.DrawIO.Mimes) {
-            callbackSettings();
-        } else {
-            $.get(OC.generateUrl("apps/" + OCA.DrawIO.AppName + "/ajax/settings"),
-                function onSuccess(json) {
-            	    OCA.AppSettings = json.settings;
-            	    OCA.DrawIO.Mimes = json.formats;
-
-                    callbackSettings();
+                if(OCA.AppSettings.overrideXml == "yes") {
+                    menu.addMenuEntry({
+                        id: "drawIoDiagram",
+                        displayName: t(OCA.DrawIO.AppName, "New Diagram"),
+                                      templateName: t(OCA.DrawIO.AppName, "New Diagram.xml"),
+                                      iconClass: "icon-drawio-new-xml", //fileType: "x-application/drawio",
+                                      fileType: "xml",
+                                      actionHandler: function (fileName) {
+                                          OCA.DrawIO.CreateNewFile(fileName, fileList);
+                                      }
+                    });
+                } else {
+                    menu.addMenuEntry({
+                        id: "drawIoDiagram",
+                        displayName: t(OCA.DrawIO.AppName, "Diagram"),
+                                      templateName: t(OCA.DrawIO.AppName, "New Diagram.drawio"),
+                                      iconClass: "icon-drawio-new-xml", //fileType: "x-application/drawio",
+                                      fileType: "drawio",
+                                      actionHandler: function (fileName) {
+                                          OCA.DrawIO.CreateNewFile(fileName, fileList);
+                                      }
+                    });
                 }
-            );
+           };
+
+           OCA.DrawIO.GetSettings(newfilefunc);
         }
     };
+
 
     var getFileExtension = function (fileName) {
         var extension = fileName.substr(fileName.lastIndexOf(".") + 1).toLowerCase();
@@ -140,6 +190,8 @@
     }
 
     var initPage = function () {
+
+
         if ($("#isPublic").val() === "1" && !$("#filestable").length) {
             var fileName = $("#filename").val();
             var mimeType = $("#mimetype").val();
@@ -167,12 +219,14 @@
 
             OCA.DrawIO.GetSettings(initSharedButton);
         } else {
-	    OC.Plugins.register("OCA.Files.FileList", OCA.DrawIO.FileList);
-	    OC.Plugins.register("OCA.Files.NewFileMenu", OCA.DrawIO.NewFileMenu);
+    	    OC.Plugins.register("OCA.Files.FileList", OCA.DrawIO.FileList);
+    	    OC.Plugins.register("OCA.Files.NewFileMenu", OCA.DrawIO.NewFileMenu);
         }
+
     };
 
-    $(document).ready(initPage)
+    initPage();
+
 })(OCA);
 
 /*
@@ -182,51 +236,31 @@ $(document)
 .ready(function () {
 
     PluginDrawIO_ChangeIcons = function () {
-        $("#filestable")
-        .find("tr[data-type=file]")
-        .each(function () {
-            if ((($(this)
-                .attr("data-mime") == "application/xml") ||
-                ($(this)
-                .attr("data-mime") == "application/x-drawio")) && ($(this)
-                .find("div.thumbnail")
-                .length > 0)) {
-                if ($(this)
-                    .find("div.thumbnail")
-                    .hasClass("icon-drawio-xml") == false) {
-                    $(this)
-                    .find("div.thumbnail")
-                    .addClass("icon icon-drawio-xml");
+        $("#filestable").find("tr[data-type=file]").each(function () {
+            if ((($(this).attr("data-mime") == "application/xml") || ($(this).attr("data-mime") == "application/x-drawio")) && ($(this).find("div.thumbnail").length > 0)) {
+                if ($(this).find("div.thumbnail").hasClass("icon-drawio-xml") == false) {
+                        $(this).find("div.thumbnail").addClass("icon icon-drawio-xml");
                     }
                 }
         });
     };
 
     PluginDrawIO_ChangeIconsNative = function () {
-        $("#filestable")
-        .find("tr[data-type=file]")
-        .each(function () {
-            if (($(this)
-                .attr("data-mime") == "application/x-drawio") && ($(this)
-                .find("div.thumbnail")
-                .length > 0)) {
-                if ($(this)
-                    .find("div.thumbnail")
-                    .hasClass("icon-drawio-xml") == false) {
-                    $(this)
-                    .find("div.thumbnail")
-                    .addClass("icon icon-drawio-xml");
+        $("#filestable").find("tr[data-type=file]").each(function () {
+            if (($(this).attr("data-mime") == "application/x-drawio") && ($(this).find("div.thumbnail").length > 0)) {
+                if ($(this).find("div.thumbnail").hasClass("icon-drawio-xml") == false) {
+                        $(this).find("div.thumbnail").addClass("icon icon-drawio-xml");
                     }
                 }
         });
     };
 
-    if ($('#filesApp')
-        .val()) {
+    if ($('#filesApp').val()) {
         $('#app-content-files')
         .add('#app-content-extstoragemounts')
         .on('changeDirectory', function (e) {
             if (OCA.AppSettings == null) return;
+
             if (OCA.AppSettings.overrideXml == "yes") {
                 PluginDrawIO_ChangeIcons();
             } else {
@@ -234,7 +268,9 @@ $(document)
             }
         })
         .on('fileActionsReady', function (e) {
+
             if (OCA.AppSettings == null) return;
+
             if (OCA.AppSettings.overrideXml == "yes") {
                 PluginDrawIO_ChangeIcons();
             } else {

@@ -80,9 +80,9 @@ class EditorController extends Controller
                                 IL10N $trans,
                                 ILogger $logger,
                                 AppConfig $config,
-				IManager $shareManager,
-				ISession $session
-                                )
+                                IManager $shareManager,
+                                ISession $session
+                               )
     {
         parent::__construct($AppName, $request);
 
@@ -95,6 +95,57 @@ class EditorController extends Controller
         $this->shareManager = $shareManager;
         $this->session = $session;
     }
+
+
+
+     /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     */
+    public function create($name, $dir, $shareToken = NULL)
+    {
+       //[todo] shareToken support for new files
+       //if (empty($shareToken)) {
+       $userId = $this->userSession->getUser()->getUID();
+       $userFolder = $this->root->getUserFolder($userId);
+       //} else { .. }
+
+
+       $folder = $userFolder->get($dir);
+
+       if ($folder === NULL)
+       {
+           $this->logger->info("Folder for file creation was not found: " . $dir, array("app" => $this->appName));
+           return ["error" => $this->trans->t("The required folder was not found")];
+       }
+       if (!$folder->isCreatable())
+       {
+           $this->logger->info("Folder for file creation without permission: " . $dir, array("app" => $this->appName));
+           return ["error" => $this->trans->t("You don't have enough permission to create file")];
+       }
+
+
+       $name = $userFolder->getNonExistingName($name);
+
+       $template = " "; //"space" - empty file
+
+       try {
+           if (\version_compare(\implode(".", \OCP\Util::getVersion()), "19", "<")) {
+               $file = $folder->newFile($name);
+               $file->putContent($template);
+           } else {
+                $file = $folder->newFile($name, $template);
+           }
+       } catch (NotPermittedException $e) {
+           $this->logger->logException($e, ["message" => "Can't create file: $name", "app" => $this->appName]);
+           return ["error" => $this->trans->t("Can't create file")];
+       }
+
+       $fileInfo = $file->getFileInfo();
+
+       $result = Helper::formatFileInfo($fileInfo);
+       return $result;
+   }
 
      /**
      * This comment is very important, CSRF fails without it
@@ -115,13 +166,10 @@ class EditorController extends Controller
             return new RedirectResponse($redirectUrl);
         }
 
-        //if (empty($shareToken) && !$this->config->isUserAllowedToUse()) {
-        //    return $this->renderError($this->trans->t("Not permitted"));
-        //}
         $drawioUrl = $this->config->GetDrawioUrl();
         $theme = $this->config->GetTheme();
         $overrideXml = $this->config->GetOverrideXml();
-	$offlineMode = $this->config->GetOfflineMode();
+	    $offlineMode = $this->config->GetOfflineMode();
         $lang = $this->config->GetLang();
         $lang = trim(strtolower($lang));
 
@@ -145,24 +193,24 @@ class EditorController extends Controller
             $drawioUrlArgs = "";
         }
 
-	if( $fileId ) {
-    	    list ($file, $error) = $this->getFile($fileId);
+        if( $fileId ) {
+            list ($file, $error) = $this->getFile($fileId);
 
-    	    if (isset($error))
-    	    {
-        	$this->logger->error("Load: " . $fileId . " " . $error, array("app" => $this->appName));
-        	return ["error" => $error];
-    	    }
+            if (isset($error))
+            {
+            $this->logger->error("Load: " . $fileId . " " . $error, array("app" => $this->appName));
+            return ["error" => $error];
+            }
 
-    	    $uid = $this->userSession->getUser()->getUID();
-    	    $baseFolder = $this->root->getUserFolder($uid);
-	    $relativePath = $baseFolder->getRelativePath($file->getPath());
-	}
-	else {
-    	    list ($file, $error) = $this->getFileByToken($fileId, $shareToken);
-	    $relativePath = $file->getPath();
-	    //$relativePath = "/s/$shareToken/download";//$file->getPath();
-	}
+            $uid = $this->userSession->getUser()->getUID();
+            $baseFolder = $this->root->getUserFolder($uid);
+            $relativePath = $baseFolder->getRelativePath($file->getPath());
+        }
+        else {
+            list ($file, $error) = $this->getFileByToken($fileId, $shareToken);
+            $relativePath = $file->getPath();
+            //$relativePath = "/s/$shareToken/download";//$file->getPath();
+        }
 
         $params = [
             "drawioUrl" => $drawioUrl,
@@ -246,7 +294,8 @@ class EditorController extends Controller
         $fileName = $file->getName();
         $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
         $format = $this->config->formats[$ext];
-	//TODO: add for xml override
+
+        //TODO: add for xml override
         if (!isset($format)) {
             $this->logger->info("Format is not supported for editing: $fileName", array("app" => $this->appName));
             return ["error" => $this->trans->t("Format is not supported")];
@@ -254,19 +303,19 @@ class EditorController extends Controller
 
         $fileUrl = "";//$this->getUrl($file, $shareToken);
 
-	$params = [
-	    "url" => $fileUrl,
-	    "file" => ""
-	];
+        $params = [
+            "url" => $fileUrl,
+            "file" => ""
+        ];
 
-	try {
-            return new DataDownloadResponse($file->getContent(), $file->getName(), $file->getMimeType());
-        } catch (NotPermittedException  $e) {
-            $this->logger->error("Download Not permitted: $fileId " . $e->getMessage(), array("app" => $this->appName));
-            //$params["error"] = new JSONResponse(["message" => $this->trans->t("Not permitted")], Http::STATUS_FORBIDDEN);
-            return new JSONResponse(["message" => $this->trans->t("Not permitted")], Http::STATUS_FORBIDDEN);
-        }
-        return new JSONResponse(["message" => $this->trans->t("Download failed")], Http::STATUS_INTERNAL_SERVER_ERROR);
+        try {
+                return new DataDownloadResponse($file->getContent(), $file->getName(), $file->getMimeType());
+            } catch (NotPermittedException  $e) {
+                $this->logger->error("Download Not permitted: $fileId " . $e->getMessage(), array("app" => $this->appName));
+                //$params["error"] = new JSONResponse(["message" => $this->trans->t("Not permitted")], Http::STATUS_FORBIDDEN);
+                return new JSONResponse(["message" => $this->trans->t("Not permitted")], Http::STATUS_FORBIDDEN);
+            }
+            return new JSONResponse(["message" => $this->trans->t("Download failed")], Http::STATUS_INTERNAL_SERVER_ERROR);
 
 	//return $params;
     }
