@@ -1,11 +1,14 @@
 # Change Log
 
 ## 1.0.0
--
+- Auto MIME type registration for .drawio #122
+- Public Link support fixed #133
+- Client-side/JS bug fixes #138
+- XML override deprecated (please rename your files to *.drawio)
 
 ## 0.9.9
 - NC21 compatibility
-- public link support (#20)
+- Public link support (#20)
 
 ## 0.9.8
 - NC20 compatibility (#127)

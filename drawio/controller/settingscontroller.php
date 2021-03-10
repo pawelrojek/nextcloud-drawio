@@ -19,6 +19,7 @@ use OCP\ILogger;
 use OCP\IRequest;
 
 use OCA\Drawio\AppConfig;
+use OCA\Drawio\Migration;
 
 
 
@@ -60,7 +61,6 @@ class SettingsController extends Controller
     public function index() {
         $data = [
             "drawioUrl" => $this->config->GetDrawioUrl(),
-            "drawioOverrideXml" => $this->config->GetOverrideXml(),
             "drawioOfflineMode" => $this->config->GetOfflineMode(),
             "drawioTheme" => $this->config->GetTheme(),
             "drawioLang" => $this->config->GetLang(),
@@ -71,25 +71,34 @@ class SettingsController extends Controller
 
 
 
-    public function settings($drawio, $overridexml, $theme)
+    public function settings()
     {
         $drawio = trim($_POST['drawioUrl']);
-        $overridexml = trim($_POST['overrideXml']);
         $offlinemode = trim($_POST['offlineMode']);
         $theme = trim($_POST['theme']);
         $lang = trim($_POST['lang']);
         $autosave = trim($_POST['autosave']);
 
         $this->config->SetDrawioUrl($drawio);
-        $this->config->SetOverrideXml($overridexml);
         $this->config->SetOfflineMode($offlinemode);
         $this->config->SetTheme($theme);
         $this->config->SetLang($lang);
         $this->config->SetAutosave($autosave);
 
+        if (version_compare(implode(".", \OCP\Util::getVersion()), "13", ">=")) {
+            $checkmime = new \OCA\Drawio\Migration\CheckMimeType();
+            $registered = $checkmime->run();
+
+            if ($registered == false) {
+            $mimeTypeLoader = \OC::$server->getMimeTypeLoader();
+            $mime = new \OCA\Drawio\Migration\RegisterMimeType($mimeTypeLoader);
+            $output = new \OC\Migration\SimpleOutput($this->logger, $this->appName);
+            $mime->run($output);
+            }
+        }
+
         return [
             "drawioUrl" => $this->config->GetDrawioUrl(),
-            "overrideXml" => $this->config->GetOverrideXml(),
             "offlineMode" => $this->config->GetOfflineMode(),
             "theme" => $this->config->GetTheme(),
             "lang" => $this->config->GetLang(),
@@ -112,7 +121,6 @@ class SettingsController extends Controller
          $data = array();
          $data['formats'] = $this->config->formats;
          $data['settings'] = array();
-         $data['settings']['overrideXml'] = $this->config->GetOverrideXml();
          $data['settings']['offlineMode'] = $this->config->GetOfflineMode();
          return $data;
     }

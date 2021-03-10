@@ -125,17 +125,16 @@ class EditorController extends Controller
            return ["error" => $this->trans->t("You don't have enough permission to create file")];
        }
 
-
        $name = $userFolder->getNonExistingName($name);
 
-       $template = " "; //"space" - empty file
+       $template = " "; //"space" - empty file for drawio
 
        try {
            if (\version_compare(\implode(".", \OCP\Util::getVersion()), "19", "<")) {
                $file = $folder->newFile($name);
                $file->putContent($template);
            } else {
-                $file = $folder->newFile($name, $template);
+               $file = $folder->newFile($name, $template);
            }
        } catch (NotPermittedException $e) {
            $this->logger->logException($e, ["message" => "Can't create file: $name", "app" => $this->appName]);
@@ -169,7 +168,6 @@ class EditorController extends Controller
 
         $drawioUrl = $this->config->GetDrawioUrl();
         $theme = $this->config->GetTheme();
-        $overrideXml = $this->config->GetOverrideXml();
 	    $offlineMode = $this->config->GetOfflineMode();
         $lang = $this->config->GetLang();
         $lang = trim(strtolower($lang));
@@ -220,7 +218,6 @@ class EditorController extends Controller
             "drawioUrlArgs" => $drawioUrlArgs,
             "drawioTheme" => $theme,
             "drawioLang" => $lang,
-            "drawioOverrideXml" => $overrideXml,
       	    "drawioOfflineMode" => $offlineMode,
             "drawioFilePath" => rawurlencode($relativePath),
             "drawioAutosave" =>$this->config->GetAutosave(),
@@ -311,7 +308,6 @@ class EditorController extends Controller
         $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
         $format = $this->config->formats[$ext];
 
-        //TODO: add for xml override
         if (!isset($format)) {
             $this->logger->info("Format is not supported for editing: $fileName", array("app" => $this->appName));
             return ["error" => $this->trans->t("Format is not supported")];

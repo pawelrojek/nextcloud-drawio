@@ -21,7 +21,6 @@
         $("#drawioSave").click(function ()
         {
             var f_drawioUrl = $("#drawioUrl").val().trim();
-            var f_overrideXml = $("#overrideXml option:selected").val();
             var f_offlineMode = $("#offlineMode option:selected").val();
             var f_theme = $("#theme option:selected").val();
             var f_lang = $("#lang").val().trim();
@@ -31,7 +30,6 @@
 
             var settings = {
                     drawioUrl: f_drawioUrl,
-                    overrideXml: f_overrideXml,
                     offlineMode: f_offlineMode,
                     theme: f_theme,
                     lang: f_lang,
@@ -50,7 +48,6 @@
                     if (response && response.drawioUrl != null)
                     {
                         $("#drawioUrl").val(response.drawioUrl);
-                        $("#overrideXml").val(response.overrideXml);
                         $("#offlineMode").val(response.offlineMode);
                         $("#theme").val(response.theme);
                         $("#lang").val(response.lang);

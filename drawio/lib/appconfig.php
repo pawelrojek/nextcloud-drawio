@@ -18,7 +18,6 @@ use OCP\ILogger;
 class AppConfig {
 
     private $predefDrawioUrl = "https://embed.diagrams.net";
-    private $predefOverrideXML = "yes";
     private $predefOfflineMode = "no";
     private $predefTheme = "kennedy"; //kennedy, minimal, atlas, dark
     private $predefLang = "auto";
@@ -32,7 +31,6 @@ class AppConfig {
 
     // The config keys
     private $_drawioUrl = "DrawioUrl";
-    private $_overridexml = "DrawioXml";
     private $_offlinemode = "DrawioOffline";
     private $_theme = "DrawioTheme";
     private $_lang = "DrawioLang";
@@ -63,19 +61,6 @@ class AppConfig {
         return $val;
     }
 
-    public function SetOverrideXML($overridexml)
-    {
-        $overridexml = (string)$overridexml;
-        $this->logger->info("SetOverrideXML: " . $overridexml, array("app" => $this->appName));
-        $this->config->setAppValue($this->appName, $this->_overridexml, $overridexml);
-    }
-
-    public function GetOverrideXML()
-    {
-        $val = $this->config->getAppValue($this->appName, $this->_overridexml);
-        if (empty($val)) $val = $this->predefOverrideXML;
-        return $val;
-    }
 
     public function SetOfflineMode($offlinemode)
     {
@@ -141,7 +126,6 @@ class AppConfig {
      * @var array
      */
     public $formats = [
-            "xml" => [ "mime" => "application/xml", "type" => "text" ],
             "drawio" => [ "mime" => "application/x-drawio", "type" => "text" ]
         ];
 

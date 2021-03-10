@@ -15,24 +15,23 @@ Once installed, you will see an option to create a Draw.io diagram from the 'cre
 - Requires [Nextcloud](https://nextcloud.com) >11.0.0
 - Multi language support (l10n)
 - Inspired by the old Draw.io Integration and OnlyOffice
-- Tested with Chrome 58-86 and Firefox 53-77
-- Tested with PHP 5.6/7.1/7.3
-- Draw.io Integration v0.9.9 tested with NextCloud 11.0.3 / 12.0.2 / 13.0.6 / 14.0.4 / 15.0.0 / 16.0.0 / 17.0.0 / 18.0.0 / 19.0.0 / 20.0.0* / 21.0.0*
-  * see Known Issues
-
+- Tested with Chrome 58-89 and Firefox 53-86
+- Tested with PHP 5.6/7.1/7.3/8.0
+- Draw.io Integration v1.0.0 tested with NextCloud 11.0.3 / 12.0.2 / 13.0.6 / 14.0.4 / 15.0.0 / 16.0.0 / 17.0.0 / 18.0.0 / 19.0.0 / 20.0.0 / 21.0.0
+  
 
 ## Mimetype detection ##
 
-Unfortunately, apps can't declare new mimetypes on the fly. To make
-Draw.io work properly, you need to add a new mimetypes in the
-`mimetypemapping.json` file (at Nextcloud level).
+To make Draw.io work properly, you need to add a new mimetypes in the `mimetypemapping.json` file (at Nextcloud level).
 
-To proceed, just copy `/resources/config/mimetypemapping.dist.json` to
-`/config/mimetypemapping.json` (in the `config/` folder at Nextcloud’s
-root directory; the file should be stored next to the `config.php`
-file). Afterwards add the two following line just after the “_comment”
-lines.
+Go to `Admin settings > Additional settings` ( `/index.php/settings/admin/additional` ) and click the `Save` button to register MIME types.
 
+Or you can do it manually:
+- Download [mimetypemapping.json](https://github.com/pawelrojek/nextcloud-drawio/mimetypemapping.json) and save it in `config` folder
+or 
+- Copy `/resources/config/mimetypemapping.dist.json` to `/config/mimetypemapping.json` 
+(in the `config/` folder at Nextcloud’s root directory; the file should be stored next to the `config.php` file). 
+Afterwards add the two following line just after the “_comment” lines.
     "drawio": ["application/x-drawio"],
 
 If all other mimetypes are not working properly, just run the
@@ -41,28 +40,29 @@ following command:
     sudo -u www-data php occ files:scan --all
 
 ## Download ##
-Current release: [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v.0.9.9/drawio-v0.9.9.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v.0.9.9/drawio-v0.9.9.tar.gz)
-
+Current release: [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v.1.0.0/drawio-v1.0.0.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v.1.0.0/drawio-v1.0.0.tar.gz)
 
 
 
 ## Changelog ##
 
-## 0.9.9
-- NC21 compatibility
-- public link support (#20)
+## 1.0.0
+- Auto MIME type registration for .drawio #122
+- Public Link support fixed #133
+- Client-side/JS bug fixes #138
+- XML override deprecated (please rename your files to *.drawio)
 
 [Complete changelog](https://github.com/pawelrojek/nextcloud-drawio/blob/master/drawio/CHANGELOG.md)
 
 
 ## Installation ##
 1. Copy Nextcloud draw.io integration app ("drawio" directory) to your Nextcloud server into the /apps/ directory
-2. Go to Apps -> "+ Apps" > "Not Enabled" and _Enable_ the **Draw.io** application
+2. Go to "Apps" > "+ Apps" > "Not Enabled" and _Enable_ the **Draw.io** application
+3. Go to "Admin settings > Additional settings" ( /index.php/settings/admin/additional ) and click the "Save" button to register MIME types.
 
 
 ## Known Issues ##
 - If you're experiencing problems while updating your Nextcloud intance, try to disable/delete Draw.io integration app (/apps/drawio/) and then install/copy it again after the NC update is completed.
-- Files won't open in Draw.io while using Dashboard / Recommended Files (NC20)
 
 
 ## Configuration ##

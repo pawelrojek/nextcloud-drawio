@@ -121,7 +121,6 @@ class ViewerController extends Controller
 
         $drawioUrl = $this->config->GetDrawioUrl();
         $theme = $this->config->GetTheme();
-        $overrideXml = $this->config->GetOverrideXml();
 	    $offlineMode = $this->config->GetOfflineMode();
         $lang = $this->config->GetLang();
         $lang = trim(strtolower($lang));
@@ -177,7 +176,6 @@ class ViewerController extends Controller
             "drawioUrlArgs" => $drawioUrlArgs,
             "drawioTheme" => $theme,
             "drawioLang" => $lang,
-            "drawioOverrideXml" => $overrideXml,
       	    "drawioOfflineMode" => $offlineMode,
             "drawioFilePath" => rawurlencode($relativePath),
             "drawioAutosave" => $this->config->GetAutosave(),
@@ -270,7 +268,6 @@ class ViewerController extends Controller
         $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
         $format = $this->config->formats[$ext];
 
-        //TODO: add for xml override
         if (!isset($format)) {
             $this->logger->info("Format is not supported for editing: $fileName", array("app" => $this->appName));
             return ["error" => $this->trans->t("Format is not supported")];

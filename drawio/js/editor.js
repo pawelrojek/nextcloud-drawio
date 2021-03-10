@@ -146,7 +146,7 @@
                     ncClient.putFileContents(
                         filePath,
                         payload.xml, {
-                            contentType: "x-application/drawio",
+                            contentType: "application/x-drawio",
                             overwrite: false
                         }
                     )
@@ -169,7 +169,7 @@
                     ncClient.putFileContents(
                         filePath,
                         payload.xml, {
-                            contentType: "x-application/drawio",
+                            contentType: "application/x-drawio",
                             overwrite: false
                         }
                     )

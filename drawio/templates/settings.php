@@ -25,13 +25,9 @@
 
     <p class="drawio-header">
     <label for='overrideXml'><?php p($l->t("Associate XML files with Draw.io?")) ?>
-    <select id="overrideXml">
-      <option value="yes"<?php if ($_["drawioOverrideXml"] === "yes") echo ' selected'; ?>><?php p($l->t("Yes")) ?></option>
-      <option value="no"<?php if ($_["drawioOverrideXml"] === "no") echo ' selected'; ?>><?php p($l->t("No")) ?></option>
-    </select>
     </p>
-
-    <p><?php p($l->t("Please note: when you disable the XML association, you need to manually register the MIME type application/x-drawio for the extension \".drawio\".")) ?></p>
+    <p style='color: red'><?php p($l->t("This has been deprecated. Please use \".drawio\" file extension (rename your files if needed).")) ?></p>
+    <p style='color: red'><?php p($l->t("Required MIME types should be registered automatically. If not please click the \"Save\" button below.")) ?></p>
 
     <p class="drawio-header">
     <label for='offlineMode'><?php p($l->t("Activate offline mode in Draw.io?")) ?>

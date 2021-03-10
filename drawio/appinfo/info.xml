@@ -5,7 +5,7 @@
     <name>Draw.io</name>
     <summary>Draw.io integration app</summary>
     <description>Integrates Draw.io with Nextcloud</description>
-    <version>0.9.9</version>
+    <version>1.0.0</version>
     <licence>agpl</licence>
     <author>Paweł Rojek</author>
     <namespace>Drawio</namespace>
@@ -25,4 +25,15 @@
     <settings>
         <admin>OCA\Drawio\AdminSettings</admin>
     </settings>
+    <repair-steps>
+        <install>
+            <step>OCA\Drawio\Migration\RegisterMimeType</step>
+        </install>
+        <post-migrate>
+            <step>OCA\Drawio\Migration\RegisterMimeType</step>
+        </post-migrate>
+        <uninstall>
+            <step>OCA\Drawio\Migration\UnregisterMimeType</step>
+        </uninstall>
+    </repair-steps>       
 </info>
