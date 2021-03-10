@@ -40,7 +40,7 @@ use OCA\Viewer\Event\LoadViewer;
 use OCA\Drawio\AppConfig;
 
 
-class EditorController extends Controller
+class ViewerController extends Controller
 {
 
     private $userSession;
@@ -99,54 +99,6 @@ class EditorController extends Controller
 
 
 
-     /**
-     * @NoAdminRequired
-     * @NoCSRFRequired
-     */
-    public function create($name, $dir, $shareToken = NULL)
-    {
-       //[todo] shareToken support for new files
-       //if (empty($shareToken)) {
-       $userId = $this->userSession->getUser()->getUID();
-       $userFolder = $this->root->getUserFolder($userId);
-       //} else { .. }
-
-
-       $folder = $userFolder->get($dir);
-
-       if ($folder === NULL)
-       {
-           $this->logger->info("Folder for file creation was not found: " . $dir, array("app" => $this->appName));
-           return ["error" => $this->trans->t("The required folder was not found")];
-       }
-       if (!$folder->isCreatable())
-       {
-           $this->logger->info("Folder for file creation without permission: " . $dir, array("app" => $this->appName));
-           return ["error" => $this->trans->t("You don't have enough permission to create file")];
-       }
-
-
-       $name = $userFolder->getNonExistingName($name);
-
-       $template = " "; //"space" - empty file
-
-       try {
-           if (\version_compare(\implode(".", \OCP\Util::getVersion()), "19", "<")) {
-               $file = $folder->newFile($name);
-               $file->putContent($template);
-           } else {
-                $file = $folder->newFile($name, $template);
-           }
-       } catch (NotPermittedException $e) {
-           $this->logger->logException($e, ["message" => "Can't create file: $name", "app" => $this->appName]);
-           return ["error" => $this->trans->t("Can't create file")];
-       }
-
-       $fileInfo = $file->getFileInfo();
-
-       $result = Helper::formatFileInfo($fileInfo);
-       return $result;
-   }
 
      /**
      * This comment is very important, CSRF fails without it
@@ -201,8 +153,8 @@ class EditorController extends Controller
 
             if (isset($error))
             {
-            $this->logger->error("Load: " . $fileId . " " . $error, array("app" => $this->appName));
-            return ["error" => $error];
+              $this->logger->error("Load: " . $fileId . " " . $error, array("app" => $this->appName));
+              return ["error" => $error];
             }
 
             $uid = $this->userSession->getUser()->getUID();
@@ -210,7 +162,12 @@ class EditorController extends Controller
             $relativePath = $baseFolder->getRelativePath($file->getPath());
         }
         else {
-            list ($file, $error) = $this->getFileByToken($fileId, $shareToken);
+            list ($file, $error, $share) = $this->getFileByToken($fileId, $shareToken);
+            if (isset($error))
+            {
+              $this->logger->error("Load with token: " . $shareToken . " " . $error, array("app" => $this->appName));
+              return ["error" => $error];
+            }
             $relativePath = $file->getPath();
             //$relativePath = "/s/$shareToken/download";//$file->getPath();
         }
@@ -223,26 +180,29 @@ class EditorController extends Controller
             "drawioOverrideXml" => $overrideXml,
       	    "drawioOfflineMode" => $offlineMode,
             "drawioFilePath" => rawurlencode($relativePath),
-            "drawioAutosave" =>$this->config->GetAutosave(),
+            "drawioAutosave" => $this->config->GetAutosave(),
             "fileId" => $fileId,
             "filePath" => $filePath,
-            "shareToken" => $shareToken
+            "shareToken" => $shareToken,
+            "drawioReadOnly" => true
         ];
 
-        //viewer code
-        if (class_exists(LoadViewer::class)) {
-            $eventDispatcher->addListener(LoadViewer::class,
-                function () {
-                        Util::addScript("drawio", "viewer");
-                        $csp = new ContentSecurityPolicy();
-                        $csp->addAllowedFrameDomain("'self'");
-                        $cspManager = $this->getContainer()->getServer()->getContentSecurityPolicyManager();
-                        $cspManager->addDefaultPolicy($csp);
-                });
-        }
-        //viewer code
 
-        $response = new TemplateResponse($this->appName, "editor", $params);
+        if (isset($share)) {
+
+            $share_type = $share->getShareType();
+
+            if (($share->getPermissions() & Constants::PERMISSION_UPDATE) !== 0) {
+                $params ['drawioReadOnly'] = false;
+            }
+
+            if ($share_type === \OCP\Share::SHARE_TYPE_LINK) { // public links / anonymous editing should not be possible (?)
+                $params ['drawioReadOnly'] = true;
+            }
+
+        }
+
+        $response = new TemplateResponse($this->appName, "viewer", $params);
 
         $csp = new ContentSecurityPolicy();
         $csp->allowInlineScript(true);
@@ -299,8 +259,7 @@ class EditorController extends Controller
             $userId = $user->getUID();
         }
 
-        list ($file, $error) = $this->getFileByToken($fileId, $shareToken);;
-        //list ($file, $error, $share) = !empty($shareToken) : $this->getFileByToken($fileId, $shareToken) ? $this->getFile($userId, $fileId, $filePath);
+        list ($file, $error, $share) = $this->getFileByToken($fileId, $shareToken);
 
         if (isset($error)) {
             $this->logger->error("Config: $fileId $error", array("app" => $this->appName));

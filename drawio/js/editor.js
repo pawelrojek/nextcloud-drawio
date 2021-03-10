@@ -93,15 +93,6 @@
 			    },
 			    fail: function (status) {
 
-
-
-
-
-
-
-
-
-
                                 console.log("Status Error: " + status);
 	                        // TODO: show error on failed read
     	                        OCA.DrawIO.Cleanup(receiver, filePath);

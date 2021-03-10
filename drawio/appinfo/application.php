@@ -17,6 +17,7 @@ use OCP\Util;
 use OCA\Drawio\AppConfig;
 use OCA\Drawio\Controller\DisplayController;
 use OCA\Drawio\Controller\EditorController;
+use OCA\Drawio\Controller\ViewerController;
 use OCA\Drawio\Controller\SettingsController;
 
 class Application extends App {
@@ -105,5 +106,21 @@ class Application extends App {
                 $c->query("Session")
             );
         });
+        
+        $container->registerService("ViewerController", function($c)
+        {
+            return new ViewerController(
+                $c->query("AppName"),
+                $c->query("Request"),
+                $c->query("RootStorage"),
+                $c->query("UserSession"),
+                $c->query("ServerContainer")->getURLGenerator(),
+                $c->query("L10N"),
+                $c->query("Logger"),
+                $this->appConfig,
+                $c->query("IManager"),
+                $c->query("Session")
+            );
+        });        
     }
 }

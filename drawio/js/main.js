@@ -16,7 +16,8 @@
 
     if (!OCA.DrawIO.AppName) {
         OCA.DrawIO = {
-            AppName: "drawio"
+            AppName: "drawio",
+            frameSelector: null
         };
     }
 
@@ -184,10 +185,48 @@
     };
 
 
+
+    OCA.DrawIO.SidebarPreview = {
+
+          attach: function (manager) {
+            manager.addPreviewHandler('application/x-drawio', this.handlePreview.bind(this));
+            if (OCA.AppSettings.overrideXml == "yes") {
+               manager.addPreviewHandler('application/xml', this.handlePreview.bind(this)); //[todo] conditions
+            }
+          },
+
+          handlePreview: function (model, $thumbnailDiv, $thumbnailContainer, fallback) {
+            var previewWidth = Math.floor($thumbnailContainer.parent().width() + 50);  // 50px for negative margins
+            var previewHeight = Math.floor(previewWidth / (16 / 9));
+
+            //var downloadUrl = Files.getDownloadUrl(model.get('name'), model.get('path'));
+
+            //var viewer = OC.generateUrl('/apps/drawio/?minmode=true&file={file}', {file: downloadUrl});
+            //var $iframe = $('<iframe id="iframeDrawIO-sidebar" style="width:100%;height:' + previewHeight + 'px;display:block;" src="' + viewer + '" sandbox="allow-scripts allow-same-origin allow-popups allow-modals" />');
+            //$thumbnailDiv.append($iframe);
+
+            //$iframe.on('load', function() {
+            //  $thumbnailDiv.removeClass('icon-loading icon-32');
+            //  $thumbnailContainer.addClass('large');
+            //  $thumbnailDiv.children('.stretcher').remove();
+            //  $thumbnailContainer.css("max-height", previewHeight);
+            //});
+          },
+
+          getFileContent: function (path) {
+            return $.get(OC.linkToRemoteBase('files' + path));
+          }
+
+    };
+
+
+
     var getFileExtension = function (fileName) {
         var extension = fileName.substr(fileName.lastIndexOf(".") + 1).toLowerCase();
         return extension;
-    }
+    };
+
+
 
     var initPage = function () {
 
@@ -221,6 +260,7 @@
         } else {
     	    OC.Plugins.register("OCA.Files.FileList", OCA.DrawIO.FileList);
     	    OC.Plugins.register("OCA.Files.NewFileMenu", OCA.DrawIO.NewFileMenu);
+          OC.Plugins.register('OCA.Files.SidebarPreviewManager', OCA.DrawIO.SidebarPreview);
         }
 
     };
