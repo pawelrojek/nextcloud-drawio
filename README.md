@@ -27,7 +27,7 @@ To make Draw.io work properly, you need to add a new mimetypes in the `mimetypem
 Go to `Admin settings > Additional settings` ( `/index.php/settings/admin/additional` ) and click the `Save` button to register MIME types.
 
 Or you can do it manually:
-- Download [mimetypemapping.json](https://github.com/pawelrojek/nextcloud-drawio/blob/master/mimetypemapping.json) and save it in `config` folder
+- Download [mimetypemapping.json](https://github.com/pawelrojek/nextcloud-drawio/raw/master/mimetypemapping.json) and save it in `config` folder
 or 
 - Copy `/resources/config/mimetypemapping.dist.json` to `/config/mimetypemapping.json` 
 (in the `config/` folder at Nextcloud’s root directory; the file should be stored next to the `config.php` file). 
