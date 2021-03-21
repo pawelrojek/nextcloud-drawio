@@ -181,7 +181,7 @@ class ViewerController extends Controller
             "drawioTheme" => $theme,
             "drawioLang" => $lang,
       	    "drawioOfflineMode" => $offlineMode,
-            "drawioFilePath" => rawurlencode($relativePath),
+            //"drawioFilePath" => rawurlencode($relativePath), // info not needed for public view
             "drawioAutosave" => $this->config->GetAutosave(),
             "fileId" => $fileId,
             "filePath" => $filePath,
