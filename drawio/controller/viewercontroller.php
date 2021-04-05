@@ -12,6 +12,7 @@
 namespace OCA\Drawio\Controller;
 
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
@@ -49,6 +50,7 @@ class ViewerController extends Controller
     private $trans;
     private $logger;
     private $config;
+    private $userId;
     /**
      * Session
      *
@@ -82,7 +84,8 @@ class ViewerController extends Controller
                                 ILogger $logger,
                                 AppConfig $config,
                                 IManager $shareManager,
-                                ISession $session
+                                ISession $session,
+                                $UserId
                                )
     {
         parent::__construct($AppName, $request);
@@ -95,6 +98,7 @@ class ViewerController extends Controller
         $this->config = $config;
         $this->shareManager = $shareManager;
         $this->session = $session;
+        $this->userId = $UserId;
     }
 
 
@@ -177,7 +181,7 @@ class ViewerController extends Controller
             "drawioTheme" => $theme,
             "drawioLang" => $lang,
       	    "drawioOfflineMode" => $offlineMode,
-            "drawioFilePath" => rawurlencode($relativePath),
+            //"drawioFilePath" => rawurlencode($relativePath), // info not needed for public view
             "drawioAutosave" => $this->config->GetAutosave(),
             "fileId" => $fileId,
             "filePath" => $filePath,
@@ -200,7 +204,11 @@ class ViewerController extends Controller
 
         }
 
-        $response = new TemplateResponse($this->appName, "viewer", $params);
+        if ($this->userId) {            
+            $response = new TemplateResponse($this->appName, "viewer", $params);
+        } else {
+            $response = new PublicTemplateResponse($this->appName, "viewer", $params);
+        }
 
         $csp = new ContentSecurityPolicy();
         $csp->allowInlineScript(true);
