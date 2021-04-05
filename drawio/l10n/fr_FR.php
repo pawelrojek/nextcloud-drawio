@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
   "Loading, please wait." => "Chargement, patientez s'il vous plait",
   "File created" => "Fichier créé",
   "Diagram" => "Diagramme",
+  "New Diagram" => "Nouveau diagramme",
   "Yes" => "Oui",
   "No" => "Non",
   "Associate XML files with Draw.io?" => "Associer les fichiers XML avec Draw.io ?",
