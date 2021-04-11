@@ -20,7 +20,11 @@ use OCA\Drawio\Controller\EditorController;
 use OCA\Drawio\Controller\ViewerController;
 use OCA\Drawio\Controller\SettingsController;
 
-class Application extends App {
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
+
+class Application extends App implements IBootstrap {
 
     public $appConfig;
 
@@ -31,7 +35,6 @@ class Application extends App {
         parent::__construct($appName, $urlParams);
 
         $this->appConfig = new AppConfig($appName);
-
 
         // Default script and style if configured
         if (!empty($this->appConfig->GetDrawioUrl()) && array_key_exists("REQUEST_URI", \OC::$server->getRequest()->server))
@@ -55,6 +58,10 @@ class Application extends App {
                     Util::addStyle($this->appConfig->GetAppName(), "main");
                 }
             });
+
+    }
+
+    public function register(IRegistrationContext $context): void {
 
         $container = $this->getContainer();
 
@@ -121,6 +128,10 @@ class Application extends App {
                 $c->query("IManager"),
                 $c->query("Session")
             );
-        });        
+        });   
+
     }
+
+    public function boot(IBootContext $context): void {
+	}
 }
