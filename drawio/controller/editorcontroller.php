@@ -158,7 +158,7 @@ class EditorController extends Controller
      * @NoCSRFRequired
      */
     public function index($fileId, $shareToken = NULL, $filePath = NULL) {
-        $this->logger->warning("Open: $fileId $shareToken $filePath", array("app" => $this->appName));
+        //$this->logger->warning("Open: $fileId $shareToken $filePath", array("app" => $this->appName));
         if (empty($shareToken) && !$this->userSession->isLoggedIn()) {
             $redirectUrl = $this->urlGenerator->linkToRoute("core.login.showLoginForm", [
                 "redirect_url" => $this->request->getRequestUri()

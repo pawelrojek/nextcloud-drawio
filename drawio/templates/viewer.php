@@ -31,6 +31,7 @@
 
     $finalAutosave = $_['drawioAutosave'];
     if ($_['drawioReadOnly']) $finalAutosave = false;
+
 ?>
 
 <div id="app-content">
@@ -42,7 +43,7 @@
                 OCA.DrawIO.DisplayError("<?php p($_['error']) ?>");
             <?php } else { ?>
                 var iframe = document.getElementById("iframeEditor");
-                var filePath = <?php echo json_encode(urldecode($_['drawioFilePath'])); ?>;
+                var filePath = "";
                 var originUrl = "<?php p($_['drawioUrl']); ?>";
                 var drawIoUrl = "<?php p($_['drawioUrl']); print_unescaped($frame_params); ?>"
                 var originUrl = "<?php p($_['drawioUrl']); ?>";

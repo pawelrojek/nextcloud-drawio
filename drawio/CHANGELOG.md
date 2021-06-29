@@ -1,9 +1,15 @@
 # Change Log
 
+## 1.0.1
+- NC22 compatibility
+- Unnecessary warnings removed from logs
+- Public Template for public links (#142)
+- French translation fixed (#144)
+
 ## 1.0.0
-- Auto MIME type registration for .drawio #122
-- Public Link support fixed #133
-- Client-side/JS bug fixes #138
+- Auto MIME type registration for .drawio (#122)
+- Public Link support fixed (#133)
+- Client-side/JS bug fixes (#138)
 - XML override deprecated (please rename your files to *.drawio)
 
 ## 0.9.9
