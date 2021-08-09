@@ -19,7 +19,7 @@ class AppConfig {
 
     private $predefDrawioUrl = "https://embed.diagrams.net";
     private $predefOfflineMode = "no";
-    private $predefTheme = "kennedy"; //kennedy, minimal, atlas, dark
+    private $predefTheme = "kennedy"; //kennedy, min (=minimal), atlas, dark
     private $predefLang = "auto";
     private $predefAutosave = "yes";
 
