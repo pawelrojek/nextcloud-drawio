@@ -12,7 +12,7 @@
     <label for='theme'><?php p($l->t("Theme:")) ?></label>
     <select id="theme">
       <option value="kennedy"<?php if ($_["drawioTheme"] === "kennedy") echo ' selected'; ?>><?php p($l->t("Kennedy")) ?></option>
-      <option value="minimal"<?php if ($_["drawioTheme"] === "minimal") echo ' selected'; ?>><?php p($l->t("Minimal")) ?></option>
+      <option value="min"<?php if ($_["drawioTheme"] === "min") echo ' selected'; ?>><?php p($l->t("Minimal")) ?></option>
       <option value="atlas"<?php if ($_["drawioTheme"] === "atlas") echo ' selected'; ?>><?php p($l->t("Atlas")) ?></option>
       <option value="dark"<?php if ($_["drawioTheme"] === "dark") echo ' selected'; ?>><?php p($l->t("Dark")) ?></option>
     </select>
