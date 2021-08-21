@@ -65,6 +65,7 @@ class SettingsController extends Controller
             "drawioTheme" => $this->config->GetTheme(),
             "drawioLang" => $this->config->GetLang(),
             "drawioAutosave" => $this->config->GetAutosave()
+            "drawioLibraries" => $this->config->GetLibraries()
         ];
         return new TemplateResponse($this->appName, "settings", $data, "blank");
     }
@@ -78,12 +79,14 @@ class SettingsController extends Controller
         $theme = trim($_POST['theme']);
         $lang = trim($_POST['lang']);
         $autosave = trim($_POST['autosave']);
+        $libraries = trim($_POST['libraries']);
 
         $this->config->SetDrawioUrl($drawio);
         $this->config->SetOfflineMode($offlinemode);
         $this->config->SetTheme($theme);
         $this->config->SetLang($lang);
         $this->config->SetAutosave($autosave);
+        $this->config->SetLibraries($libraries);
 
         if (version_compare(implode(".", \OCP\Util::getVersion()), "13", ">=")) {
             $checkmime = new \OCA\Drawio\Migration\CheckMimeType();
@@ -103,6 +106,7 @@ class SettingsController extends Controller
             "theme" => $this->config->GetTheme(),
             "lang" => $this->config->GetLang(),
             "drawioAutosave" =>$this->config->GetAutosave()
+            "drawioLibraries" =>$this->config->GetLibraries()
             ];
     }
 
