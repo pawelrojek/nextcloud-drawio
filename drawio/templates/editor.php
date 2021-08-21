@@ -7,6 +7,10 @@
     {
         $frame_params .= "&offline=1&stealth=1";
     }
+    if ($_["drawioLibraries"] == "yes")
+    {
+        $frame_params .= "&libraries=1";
+    }
     if (!empty($_["drawioTheme"])) $frame_params .= "&ui=".$_["drawioTheme"];
     if (!empty($_["drawioLang"])) $frame_params .= "&lang=".$_["drawioLang"];
     if (!empty($_["drawioUrlArgs"])) $frame_params .= "&".$_["drawioUrlArgs"];

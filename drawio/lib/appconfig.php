@@ -22,6 +22,7 @@ class AppConfig {
     private $predefTheme = "kennedy"; //kennedy, min (=minimal), atlas, dark
     private $predefLang = "auto";
     private $predefAutosave = "yes";
+    private $predefLibraries = "no";
 
     private $appName;
 
@@ -35,6 +36,7 @@ class AppConfig {
     private $_theme = "DrawioTheme";
     private $_lang = "DrawioLang";
     private $_autosave = "DrawioAutosave";
+    private $_libraries = "DrawioLibraries";
 
     public function __construct($AppName)
     {
@@ -112,6 +114,19 @@ class AppConfig {
     {
         $val = $this->config->getAppValue($this->appName, $this->_autosave);
         if (empty($val)) $val = $this->predefAutosave;
+        return $val;
+    }
+
+    public function SetLibraries($libraries)
+    {
+        $this->logger->info("SetLibraries: " . $libraries, array("app" => $this->appName));
+        $this->config->setAppValue($this->appName, $this->_libraries, $libraries);
+    }
+
+    public function GetLibraries()
+    {
+        $val = $this->config->getAppValue($this->appName, $this->_libraries);
+        if (empty($val)) $val = $this->predefLibraries;
         return $val;
     }
 

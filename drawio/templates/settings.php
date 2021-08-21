@@ -47,6 +47,14 @@
             </select>
     </p>
 
+    <p class="drawio-header">
+        <label for='drawioLibraries'><?php p($l->t("Enable libraries?")) ?>
+            <select id="drawioLibraries">
+                <option value="yes"<?php if ($_["drawioLibraries"] === "yes") echo ' selected'; ?>><?php p($l->t("Yes")) ?></option>
+                <option value="no"<?php if ($_["drawioLibraries"] === "no") echo ' selected'; ?>><?php p($l->t("No")) ?></option>
+            </select>
+    </p>
+
     <br />
     <a id="drawioSave" class="button"><?php p($l->t("Save")) ?></a>
 </div>

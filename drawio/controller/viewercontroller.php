@@ -183,6 +183,7 @@ class ViewerController extends Controller
       	    "drawioOfflineMode" => $offlineMode,
             //"drawioFilePath" => rawurlencode($relativePath), // info not needed for public view
             "drawioAutosave" => $this->config->GetAutosave(),
+            "drawioLibraries" =>$this->config->GetLibraries(),
             "fileId" => $fileId,
             "filePath" => $filePath,
             "shareToken" => $shareToken,
