@@ -108,8 +108,7 @@
                     
                     $.get(webdavUrl)
                     .then(function (contents, result, response) {
-                        etag = response.getResponseHeader('etag');
-                        console.log(etag);                       
+                        etag = response.getResponseHeader('etag');                                             
                         if (contents === " ") {
                             OCA.DrawIO.NewFileMode = true; //[workaround] "loading" file without content, to display "template" later in "load" callback event without another filename prompt
                             editWindow.postMessage(JSON.stringify({
@@ -164,7 +163,7 @@
                         })
                         .then(function (status, content, result) {                        
                             etag = result.getResponseHeader('etag');
-                            console.log(etag);
+                            
                             editWindow.postMessage(JSON.stringify({
                                 action: 'status',
                                 message: "Autosave successful at " + time.toLocaleTimeString(),
@@ -176,7 +175,7 @@
                             saveInProgress = false; 
 
                             if (result.status == 412) { // Wrong ETag -> 412="Precondition Failed"
-                                OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "Error while saving, please try saving manually."));	
+                                OC.Notification.showUpdate(t(OCA.DrawIO.AppName, "Error while saving, please try saving manually."));	
                                 editWindow.postMessage(JSON.stringify({
                                     action: 'status',
                                     message: "Error while saving, please try saving manually.",
@@ -189,18 +188,17 @@
                                     modified: false
                                 }), '*');
                             }
-                        })
-                        .done(function () {
-                            OC.Notification.hide(saveMsg);
                         });
 
                     }
 
-                } else if (payload.event === "save") {
+                } else if (payload.event === "save") {                                            
 
                     if (!saveInProgress) {
                         var saveMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Saving...")); 
 
+                        saveInProgress = true;
+                        var time = new Date();
                         $.ajax({
                             url: webdavUrl,
                             type: 'PUT',
@@ -216,6 +214,9 @@
                         })
                         .fail(function (result) {
                             // TODO: handle on failed write
+                            saveInProgress = false;
+                            OC.Notification.hide(saveMsg);
+
                             if (result.status == 412) { // Wrong ETag -> 412="Precondition Failed"
                                 OC.dialogs.confirmHtml(
                                     'File was already changed by another User. Overwrite?',
@@ -225,21 +226,31 @@
                                             return;
                                         }	
 
-                                        // Chose "Confirm":
+                                        // Chose "Confirm":  
+                                        saveInProgress = true;                                      
                                         $.ajax({
                                             url: webdavUrl,
                                             type: 'PUT',
                                             data: payload.xml,
                                             contentType: 'application/x-drawio',                                
                                         })
-                                        .then(function (status, content, result) {                        
-                                            etag = result.getResponseHeader('etag');                                            
+                                        .then(function (status, content, result) {                                          
                                             editWindow.postMessage(JSON.stringify({
                                                 action: 'status',
-                                                message: "Autosave successful at " + time.toLocaleTimeString(),
+                                                message: "Save successful at " + time.toLocaleTimeString(),
                                                 modified: false
                                             }), '*');
+                                            OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "File saved!"));
+                                            etag = result.getResponseHeader('etag'); 
+                                            saveInProgress = false;
                                         })
+                                        .fail(function (result) {                                            
+                                            saveInProgress = false; 
+                                            OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "Error while saving."));	
+                                        })                                        
+                                        .done(function () {                                            
+                                            saveInProgress = false;
+                                        });
                                   
                                     },
                                     true				  
@@ -249,6 +260,7 @@
                         })
                         .done(function () {
                             OC.Notification.hide(saveMsg);
+                            saveInProgress = false;
                         });
                     }                    
                 } else if (payload.event === "exit") {
