@@ -198,7 +198,6 @@
                         var saveMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Saving...")); 
 
                         saveInProgress = true;
-                        var time = new Date();
                         $.ajax({
                             url: webdavUrl,
                             type: 'PUT',
@@ -227,7 +226,8 @@
                                         }	
 
                                         // Chose "Confirm":  
-                                        saveInProgress = true;                                      
+                                        saveInProgress = true;
+                                        var time = new Date();                         
                                         $.ajax({
                                             url: webdavUrl,
                                             type: 'PUT',
