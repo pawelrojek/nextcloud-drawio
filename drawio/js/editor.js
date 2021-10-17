@@ -175,7 +175,7 @@
                         .fail(function (result) {
                             saveInProgress = false; 
 
-                            if (result.status == '412' && result.statusText == "Precondition Failed") { // Wrong ETag              
+                            if (result.status == 412) { // Wrong ETag -> 412="Precondition Failed"
                                 OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "Error while saving, please try saving manually."));	
                                 editWindow.postMessage(JSON.stringify({
                                     action: 'status',
@@ -189,6 +189,9 @@
                                     modified: false
                                 }), '*');
                             }
+                        })
+                        .done(function () {
+                            OC.Notification.hide(saveMsg);
                         });
 
                     }
@@ -213,7 +216,7 @@
                         })
                         .fail(function (result) {
                             // TODO: handle on failed write
-                            if (result.status == '412' && result.statusText == "Precondition Failed") { // Wrong ETag
+                            if (result.status == 412) { // Wrong ETag -> 412="Precondition Failed"
                                 OC.dialogs.confirmHtml(
                                     'File was already changed by another User. Overwrite?',
                                     'Save Failed !',
