@@ -7,7 +7,7 @@
  *
  **/
 
-(function (OCA) {
+ (function (OCA) {
 
     // ADD SUPPORT TO IE
     if (!String.prototype.includes) {
@@ -59,6 +59,8 @@
         var autosaveEnabled = autosave === "yes";
         var fileId = $("#iframeEditor").data("id");
         var shareToken = $("#iframeEditor").data("sharetoken");
+        var etag = null;
+        var saveInProgress = false;
         if (!fileId && !shareToken) {
             displayError(t(OCA.DrawIO.AppName, "FileId is empty"));
             return;
@@ -102,8 +104,12 @@
 			    }
 			});
 		    } else {
-                    ncClient.getFileContents(filePath)
-                    .then(function (status, contents) {
+                    webdavUrl =  OC.getProtocol() + '://' + OC.getHost() + OC.webroot + '/remote.php/dav/files/' + OC.currentUser + filePath;                                        
+                    
+                    $.get(webdavUrl)
+                    .then(function (contents, result, response) {
+                        etag = response.getResponseHeader('etag');
+                        console.log(etag);                       
                         if (contents === " ") {
                             OCA.DrawIO.NewFileMode = true; //[workaround] "loading" file without content, to display "template" later in "load" callback event without another filename prompt
                             editWindow.postMessage(JSON.stringify({
@@ -142,47 +148,106 @@
                 } else if (payload.event === "export") {
                     // TODO: handle export event
                 } else if (payload.event === "autosave") {
-                    var time = new Date();
-                    ncClient.putFileContents(
-                        filePath,
-                        payload.xml, {
-                            contentType: "application/x-drawio",
-                            overwrite: false
-                        }
-                    )
-                    .then(function (status) {
-                        editWindow.postMessage(JSON.stringify({
-                            action: 'status',
-                            message: "Autosave successful at " + time.toLocaleTimeString(),
-                            modified: false
-                        }), '*');
-                    })
-                    .fail(function (status) {
-                        editWindow.postMessage(JSON.stringify({
-                            action: 'status',
-                            message: "Autosave failed at " + time.toLocaleTimeString(),
-                            modified: false
-                        }), '*');
-                    });
+
+                    if (!saveInProgress) {
+                        var time = new Date();
+                        saveInProgress = true;
+
+                        $.ajax({
+                            url: webdavUrl,
+                            type: 'PUT',
+                            data: payload.xml,
+                            contentType: 'application/x-drawio',
+                            beforeSend: function(request){
+                                request.setRequestHeader('If-Match', etag); // Server will check if Remote-ETag matches this local etag
+                            },                   
+                        })
+                        .then(function (status, content, result) {                        
+                            etag = result.getResponseHeader('etag');
+                            console.log(etag);
+                            editWindow.postMessage(JSON.stringify({
+                                action: 'status',
+                                message: "Autosave successful at " + time.toLocaleTimeString(),
+                                modified: false
+                            }), '*');
+                            saveInProgress = false;
+                        })
+                        .fail(function (result) {
+                            saveInProgress = false; 
+
+                            if (result.status == '412' && result.statusText == "Precondition Failed") { // Wrong ETag              
+                                OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "Error while saving, please try saving manually."));	
+                                editWindow.postMessage(JSON.stringify({
+                                    action: 'status',
+                                    message: "Error while saving, please try saving manually.",
+                                    modified: false
+                                }), '*');
+                            } else {
+                                editWindow.postMessage(JSON.stringify({
+                                    action: 'status',
+                                    message: "Autosave failed at " + time.toLocaleTimeString(),
+                                    modified: false
+                                }), '*');
+                            }
+                        });
+
+                    }
+
                 } else if (payload.event === "save") {
-                    var saveMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Saving..."));
-                    ncClient.putFileContents(
-                        filePath,
-                        payload.xml, {
-                            contentType: "application/x-drawio",
-                            overwrite: false
-                        }
-                    )
-                    .then(function (status) {
-                        OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "File saved!"));
-                    })
-                    .fail(function (status) {
-                        // TODO: handle on failed write
-                        OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "File not saved!"));
-                    })
-                    .done(function () {
-                        OC.Notification.hide(saveMsg);
-                    });
+
+                    if (!saveInProgress) {
+                        var saveMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Saving...")); 
+
+                        $.ajax({
+                            url: webdavUrl,
+                            type: 'PUT',
+                            data: payload.xml,
+                            contentType: 'application/x-drawio',
+                            beforeSend: function(request){
+                                request.setRequestHeader('If-Match', etag); // Server will check if Remote-ETag matches this local etag
+                            },                   
+                        })
+                        .then(function (status, content, result) {                        
+                            etag = result.getResponseHeader('etag');                           
+                            OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "File saved!"));
+                        })
+                        .fail(function (result) {
+                            // TODO: handle on failed write
+                            if (result.status == '412' && result.statusText == "Precondition Failed") { // Wrong ETag
+                                OC.dialogs.confirmHtml(
+                                    'File was already changed by another User. Overwrite?',
+                                    'Save Failed !',
+                                    async function (confirmed) {
+                                        if (!confirmed) {		  
+                                            return;
+                                        }	
+
+                                        // Chose "Confirm":
+                                        $.ajax({
+                                            url: webdavUrl,
+                                            type: 'PUT',
+                                            data: payload.xml,
+                                            contentType: 'application/x-drawio',                                
+                                        })
+                                        .then(function (status, content, result) {                        
+                                            etag = result.getResponseHeader('etag');                                            
+                                            editWindow.postMessage(JSON.stringify({
+                                                action: 'status',
+                                                message: "Autosave successful at " + time.toLocaleTimeString(),
+                                                modified: false
+                                            }), '*');
+                                        })
+                                  
+                                    },
+                                    true				  
+                                );
+                            };
+                            OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "File not saved!"));
+                        })
+                        .done(function () {
+                            OC.Notification.hide(saveMsg);
+                        });
+                    }                    
                 } else if (payload.event === "exit") {
                     OCA.DrawIO.Cleanup(receiver, filePath);
                 } else {
