@@ -54,7 +54,7 @@
                         $("#theme").val(response.theme);
                         $("#lang").val(response.lang);
                         $("#drawioAutosave").val(response.drawioAutosave);
-                        $("#drawioLibraries").val(response.libraries);
+                        $("#drawioLibraries").val(response.drawioLibraries);
 
                         var message =
                             response.error

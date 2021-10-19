@@ -230,9 +230,9 @@
                                         draftShown = true; // Draft Modal was opened
                                         editWindow.postMessage(JSON.stringify({
                                             action: 'draft',
-                                            name: 'Remote File',                                            
-                                            editKey: 'Load',
-                                            discardKey: 'Overwrite',                                                                                                                    
+                                            name: 'REMOTE FILE',                                            
+                                            editKey: 'import',
+                                            discardKey: 'replace',                                                                                                                  
                                             xml: contents
                                         }), '*');
                                     
