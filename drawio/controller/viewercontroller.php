@@ -201,6 +201,11 @@ class ViewerController extends Controller
 
             if ($share_type === \OCP\Share::SHARE_TYPE_LINK) { // public links / anonymous editing should not be possible (?)
                 $params ['drawioReadOnly'] = true;
+
+                if (($share->getPermissions()) == 19) { // 19 = 16=PublicShare + 2=Update + 1=Read
+                    $params ['drawioReadOnly'] = false;
+                }          
+
             }
 
         }

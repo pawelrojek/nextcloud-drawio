@@ -76,6 +76,9 @@
             }
             if (shareToken) {
                 params.push("shareToken=" + encodeURIComponent(shareToken));
+                // For Public WebDav, shareToken is the Username, and Password is attached automatically to the upcoming ajax requests, 
+                // as it was already entered on the "Enter Password Page" that Nextcloud's Core provides:
+                webdavUrl =  OC.getProtocol() + '://' + encodeURIComponent(shareToken) + '@' + OC.getHost() + OC.webroot + '/public.php/webdav';
             }
             if (params.length) {
                 fileUrl += "?" + params.join("&");
@@ -88,13 +91,15 @@
                     var loadMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Loading, please wait."));
 		    if(!fileId) {
 		        $.ajax({
-        		    url: fileUrl,
-		            success: function onSuccess(data) {
+        		    url: webdavUrl,
+		            success: function onSuccess(data, result, response) {
                                     editWindow.postMessage(JSON.stringify({
 		                            action: "load",
-	                                    xml: data
+	                                xml: data,
+                                    autosave: Number(autosaveEnabled)
     		                    }), "*");
                 		    OC.Notification.hide(loadMsg);
+                            etag = response.getResponseHeader('etag');                             
 			    },
 			    fail: function (status) {
 
@@ -221,10 +226,11 @@
 
                             if (result.status == 412) { // Wrong ETag -> 412="Precondition Failed"
 
-                                // Let the User decide whether to Overwrite the remote file, or work the remote Draft
+                                // Let the User decide whether to Overwrite the Remote file, or import the remote Draft
+				                OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "Loading Remote Draft..."));
                                 $.get(webdavUrl)
                                 .then(function (contents, result, response) {
-                                        draftEtag = response.getResponseHeader('etag'); 
+                                        draftEtag = response.getResponseHeader('etag'); // Cache etag, if user will decide to use the draft
 
                                         tempDiagramXml = payload.xml; // Cache the current version, to perhaps save it in draft Modal
                                         draftShown = true; // Draft Modal was opened
