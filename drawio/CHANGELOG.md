@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.0.2
+- NC23 compatibility
+- Added Finnish translation (#157)
+- Added Czech translation (#152)
+- Various bug fixes
+
 ## 1.0.1
 - NC22 compatibility
 - Unnecessary warnings removed from logs
