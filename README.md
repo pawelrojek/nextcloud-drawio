@@ -15,9 +15,9 @@ Once installed, you will see an option to create a Draw.io diagram from the 'cre
 - Requires [Nextcloud](https://nextcloud.com) >11.0.0
 - Multi language support (l10n)
 - Inspired by the old Draw.io Integration and OnlyOffice
-- Tested with Chrome 58-91 and Firefox 53-89
+- Tested with Chrome 58-96 and Firefox 53-89
 - Tested with PHP 5.6/7.1/7.3/8.0/8.1
-- Draw.io Integration v1.0.1 tested with NextCloud 11.0.3 / 12.0.2 / 13.0.6 / 14.0.4 / 15.0.0 / 16.0.0 / 17.0.0 / 18.0.0 / 19.0.0 / 20.0.0 / 21.0.0 / 22.0.0 RC1
+- Draw.io Integration v1.0.2 tested with NextCloud 11.0.3 / 12.0.2 / 13.0.6 / 14.0.4 / 15.0.0 / 16.0.0 / 17.0.0 / 18.0.0 / 19.0.0 / 20.0.0 / 21.0.0 / 22.0.0 / 23.0.0
   
 
 ## Mimetype detection ##
@@ -40,23 +40,18 @@ following command:
     sudo -u www-data php occ files:scan --all
 
 ## Download ##
-Current release: [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v.1.0.1/drawio-v1.0.1.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v.1.0.1/drawio-v1.0.1.tar.gz)
+Current release: [zip](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v.1.0.2/drawio-v1.0.2.zip) or [tar.gz](https://github.com/pawelrojek/nextcloud-drawio/releases/download/v.1.0.2/drawio-v1.0.2.tar.gz)
 
 
 
 ## Changelog ##
 
-## 1.0.1
-- NC22 compatibility
-- Unnecessary warnings removed from logs
-- Public Template for public links (#142)
-- French translation fixed (#144)
+## 1.0.2
+- NC23 compatibility
+- Added Finnish translation (#157)
+- Added Czech translation (#152)
+- Various bug fixes
 
-## 1.0.0
-- Auto MIME type registration for .drawio #122
-- Public Link support fixed #133
-- Client-side/JS bug fixes #138
-- XML override deprecated (please rename your files to *.drawio)
 
 [Complete changelog](https://github.com/pawelrojek/nextcloud-drawio/blob/master/drawio/CHANGELOG.md)
 
@@ -89,6 +84,7 @@ If you would like to self-host Draw.io, you might want to consider https://githu
 ## Contributors ##
 - [geiseri](https://github.com/geiseri)
 - [arnowelzel](https://github.com/arnowelzel)
+- [githubkoma](https://github.com/githubkoma)
 - [schizophrene](https://github.com/schizophrene)
 - [xlyz](https://github.com/xlyz)
 - [cuthulino](https://github.com/cuthulino)
@@ -100,6 +96,8 @@ If you would like to self-host Draw.io, you might want to consider https://githu
 - [janLo](https://github.com/janLo)
 - [Irillit](https://github.com/Irillit/)
 - [Luckyvb](https://github.com/Luckyvb)
+- [teemue] (https://github.com/teemue)
+- [p-bo] (https://github.com/p-bo)
 
 [View all](https://github.com/pawelrojek/nextcloud-drawio/graphs/contributors)
 
