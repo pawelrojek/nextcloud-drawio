@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.3
+- NC24 compatibility
+- (Note) This is the last release maintained by [Pawel Rojek](https://github.com/pawelrojek)
+
 ## 1.0.2
 - NC23 compatibility
 - Added Finnish translation (#157)
