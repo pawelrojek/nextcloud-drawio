@@ -1,13 +1,13 @@
 # ![](screenshots/icon.png) :warning: [Archived] :warning: Nextcloud Draw.io integration app
 [May 2017-June 2022]
 
-:diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds:
+:diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds:
 <br>
-:warning: <font color=red>The new official repository is located here</font>: :warning:
+:diamonds: <font color=red>The new official repository is located here</font>: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:diamonds: 
 <br>
-https://github.com/jgraph/drawio-nextcloud/
+:diamonds: https://github.com/jgraph/drawio-nextcloud/ &nbsp; &nbsp; :diamonds:
 <br>
-:diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds:
+:diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds:
 
 <br>
 <br>
