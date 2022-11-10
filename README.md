@@ -1,5 +1,5 @@
 # ![](screenshots/icon.png) :warning: [Archived] :warning: Nextcloud Draw.io integration app
-[May 2017-May 2022]
+[May 2017-June 2022]
 
 :diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds:
 <br>
