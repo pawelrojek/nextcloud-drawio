@@ -1,4 +1,65 @@
-# ![](screenshots/icon.png) Nextcloud Draw.io / Diagrams.net integration app
+# ![](screenshots/icon.png) :warning: [Archived] :warning: Nextcloud Draw.io integration app
+[May 2017-May 2022]
+
+:diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds:
+<br>
+:warning: <font color=red>The new official repository is located here</font>: :warning:
+<br>
+https://github.com/jgraph/drawio-nextcloud/
+<br>
+:diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds::diamonds:
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 This app allows users to create and edit diagrams in [Nextcloud](https://nextcloud.com) using [Draw.io](https://app.diagrams.net) / Diagrams.net on-line editor.
 
