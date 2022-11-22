@@ -15,6 +15,7 @@
       <option value="min"<?php if ($_["drawioTheme"] === "min") echo ' selected'; ?>><?php p($l->t("Minimal")) ?></option>
       <option value="atlas"<?php if ($_["drawioTheme"] === "atlas") echo ' selected'; ?>><?php p($l->t("Atlas")) ?></option>
       <option value="dark"<?php if ($_["drawioTheme"] === "dark") echo ' selected'; ?>><?php p($l->t("Dark")) ?></option>
+      <option value="sketch"<?php if ($_["drawioTheme"] === "sketch") echo ' selected'; ?>><?php p($l->t("Sketch")) ?></option>
     </select>
     </p>
 

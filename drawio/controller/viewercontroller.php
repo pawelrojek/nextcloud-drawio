@@ -195,12 +195,19 @@ class ViewerController extends Controller
 
             $share_type = $share->getShareType();
 
-            if (($share->getPermissions() & Constants::PERMISSION_UPDATE) !== 0) {
+            $permissions = $share->getPermissions();
+            if (($permissions & Constants::PERMISSION_UPDATE) !== 0) {
                 $params ['drawioReadOnly'] = false;
             }
 
             if ($share_type === \OCP\Share::SHARE_TYPE_LINK) { // public links / anonymous editing should not be possible (?)
                 $params ['drawioReadOnly'] = true;
+                
+                if ($permissions == CONSTANTS::PERMISSION_READ + CONSTANTS::PERMISSION_UPDATE   // 3 = 1 + 2
+                    or $permissions == CONSTANTS::PERMISSION_SHARE + CONSTANTS::PERMISSION_READ + CONSTANTS::PERMISSION_UPDATE) { // 19 = 16 + 1 + 2
+                    $params ['drawioReadOnly'] = false;
+                }          
+
             }
 
         }

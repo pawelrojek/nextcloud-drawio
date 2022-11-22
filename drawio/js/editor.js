@@ -7,7 +7,7 @@
  *
  **/
 
-(function (OCA) {
+ (function (OCA) {
 
     // ADD SUPPORT TO IE
     if (!String.prototype.includes) {
@@ -59,6 +59,11 @@
         var autosaveEnabled = autosave === "yes";
         var fileId = $("#iframeEditor").data("id");
         var shareToken = $("#iframeEditor").data("sharetoken");
+        var etag = null;
+        var draftEtag = null; // cache the remote Draft's ETag
+        var saveInProgress = false;
+        var draftShown = false; // was the draftModal used recently?
+        var tempDiagramXml = null; // used if chosen to overwrite the remote Draft
         if (!fileId && !shareToken) {
             displayError(t(OCA.DrawIO.AppName, "FileId is empty"));
             return;
@@ -71,6 +76,9 @@
             }
             if (shareToken) {
                 params.push("shareToken=" + encodeURIComponent(shareToken));
+                // For Public WebDav, shareToken is the Username, and Password is attached automatically to the upcoming ajax requests, 
+                // as it was already entered on the "Enter Password Page" that Nextcloud's Core provides:
+                webdavUrl =  OC.getProtocol() + '://' + encodeURIComponent(shareToken) + '@' + OC.getHost() + OC.webroot + '/public.php/webdav';
             }
             if (params.length) {
                 fileUrl += "?" + params.join("&");
@@ -83,13 +91,15 @@
                     var loadMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Loading, please wait."));
 		    if(!fileId) {
 		        $.ajax({
-        		    url: fileUrl,
-		            success: function onSuccess(data) {
+        		    url: webdavUrl,
+		            success: function onSuccess(data, result, response) {
                                     editWindow.postMessage(JSON.stringify({
 		                            action: "load",
-	                                    xml: data
+	                                xml: data,
+                                    autosave: Number(autosaveEnabled)
     		                    }), "*");
                 		    OC.Notification.hide(loadMsg);
+                            etag = response.getResponseHeader('etag');                             
 			    },
 			    fail: function (status) {
 
@@ -102,8 +112,11 @@
 			    }
 			});
 		    } else {
-                    ncClient.getFileContents(filePath)
-                    .then(function (status, contents) {
+                    webdavUrl =  OC.getProtocol() + '://' + OC.getHost() + OC.webroot + '/remote.php/dav/files/' + OC.currentUser + filePath;                                        
+                    
+                    $.get(webdavUrl)
+                    .then(function (contents, result, response) {
+                        etag = response.getResponseHeader('etag');                                             
                         if (contents === " ") {
                             OCA.DrawIO.NewFileMode = true; //[workaround] "loading" file without content, to display "template" later in "load" callback event without another filename prompt
                             editWindow.postMessage(JSON.stringify({
@@ -142,52 +155,160 @@
                 } else if (payload.event === "export") {
                     // TODO: handle export event
                 } else if (payload.event === "autosave") {
-                    var time = new Date();
-                    ncClient.putFileContents(
-                        filePath,
-                        payload.xml, {
-                            contentType: "application/x-drawio",
-                            overwrite: false
-                        }
-                    )
-                    .then(function (status) {
-                        editWindow.postMessage(JSON.stringify({
-                            action: 'status',
-                            message: "Autosave successful at " + time.toLocaleTimeString(),
-                            modified: false
-                        }), '*');
-                    })
-                    .fail(function (status) {
-                        editWindow.postMessage(JSON.stringify({
-                            action: 'status',
-                            message: "Autosave failed at " + time.toLocaleTimeString(),
-                            modified: false
-                        }), '*');
-                    });
-                } else if (payload.event === "save") {
-                    var saveMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Saving..."));
-                    ncClient.putFileContents(
-                        filePath,
-                        payload.xml, {
-                            contentType: "application/x-drawio",
-                            overwrite: false
-                        }
-                    )
-                    .then(function (status) {
-                        OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "File saved!"));
-                    })
-                    .fail(function (status) {
-                        // TODO: handle on failed write
-                        OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "File not saved!"));
-                    })
-                    .done(function () {
-                        OC.Notification.hide(saveMsg);
-                    });
+
+                    if (!saveInProgress) {
+                        var time = new Date();
+                        saveInProgress = true;
+
+                        $.ajax({
+                            url: webdavUrl,
+                            type: 'PUT',
+                            data: payload.xml,
+                            contentType: 'application/x-drawio',
+                            beforeSend: function(request){
+                                request.setRequestHeader('If-Match', etag); // Server will check if Remote-ETag matches this local etag
+                            },                   
+                        })
+                        .then(function (status, content, result) {                        
+                            etag = result.getResponseHeader('etag');
+                            
+                            editWindow.postMessage(JSON.stringify({
+                                action: 'status',
+                                message: "Autosave successful at " + time.toLocaleTimeString(),
+                                modified: false
+                            }), '*');
+                            saveInProgress = false;
+                        })
+                        .fail(function (result) {
+                            saveInProgress = false; 
+
+                            if (result.status == 412) { // Wrong ETag -> 412="Precondition Failed"
+                                OC.Notification.showUpdate(t(OCA.DrawIO.AppName, "Error: Conflict, please try saving manually."));	
+                                editWindow.postMessage(JSON.stringify({
+                                    action: 'status',
+                                    message: "Error: Conflict, please try saving manually.",
+                                    modified: false
+                                }), '*');
+                            } else {
+                                editWindow.postMessage(JSON.stringify({
+                                    action: 'status',
+                                    message: "Autosave failed at " + time.toLocaleTimeString(),
+                                    modified: false
+                                }), '*');
+                            }
+                        });
+
+                    }
+
+                } else if (payload.event === "save") {                                            
+
+                    if (!saveInProgress) {
+                        var saveMsg = OC.Notification.show(t(OCA.DrawIO.AppName, "Saving...")); 
+
+                        saveInProgress = true;
+                        $.ajax({
+                            url: webdavUrl,
+                            type: 'PUT',
+                            data: payload.xml,
+                            contentType: 'application/x-drawio',
+                            beforeSend: function(request){
+                                request.setRequestHeader('If-Match', etag); // Server will check if Remote-ETag matches this local etag
+                            },                   
+                        })
+                        .then(function (status, content, result) {                        
+                            etag = result.getResponseHeader('etag');                           
+                            OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "File saved!"));
+                        })
+                        .fail(function (result) {
+                            // TODO: handle on failed write
+                            saveInProgress = false;
+                            OC.Notification.hide(saveMsg);
+
+                            if (result.status == 412) { // Wrong ETag -> 412="Precondition Failed"
+
+                                // Let the User decide whether to Overwrite the Remote file, or import the remote Draft
+				                OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "Loading Remote Draft..."));
+                                $.get(webdavUrl)
+                                .then(function (contents, result, response) {
+                                        draftEtag = response.getResponseHeader('etag'); // Cache etag, if user will decide to use the draft
+
+                                        tempDiagramXml = payload.xml; // Cache the current version, to perhaps save it in draft Modal
+                                        draftShown = true; // Draft Modal was opened
+                                        editWindow.postMessage(JSON.stringify({
+                                            action: 'draft',
+                                            name: 'REMOTE FILE',                                            
+                                            editKey: 'import',
+                                            discardKey: 'replace',                                                                                                                  
+                                            xml: contents
+                                        }), '*');
+                                    
+                                })
+                                .fail(function (status) {
+                                    console.log("Status Error: " + status);
+                                    // TODO: show error on failed read
+                                    OCA.DrawIO.Cleanup(receiver, filePath);
+                                });
+
+                            };
+                            OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "File not saved!"));
+                        })
+                        .done(function () {
+                            OC.Notification.hide(saveMsg);
+                            saveInProgress = false;
+                        });
+                    }                    
                 } else if (payload.event === "exit") {
-                    OCA.DrawIO.Cleanup(receiver, filePath);
+                    // Only Exit the Drawio Editor, if the usual "Exit" Button was used
+                    // dont exit, when the Draft Modal's Cancel/Exit Button was used
+                    if (!draftShown) {
+                        OCA.DrawIO.Cleanup(receiver, filePath);
+                    }
+                    draftShown = false;
+                } else if (payload.event === "draft") {                                      
+                    draftShown = false;
+                    switch (payload.result) {
+                        case "edit":    // Load and use the Remote Draft Version
+                            etag = draftEtag;
+                            editWindow.postMessage(JSON.stringify({
+                                action: 'load',                                
+                                xml: payload.message.xml,                                
+                            }), '*');
+                            break;
+
+                        case "discard":  // Overwrite the Remote Version                            
+                            saveInProgress = true;
+                            var time = new Date();                         
+                            $.ajax({
+                                url: webdavUrl,
+                                type: 'PUT',
+                                data: tempDiagramXml,
+                                contentType: 'application/x-drawio',                                
+                            })
+                            .then(function (status, content, result) {                                          
+                                editWindow.postMessage(JSON.stringify({
+                                    action: 'status',
+                                    message: "Save successful at " + time.toLocaleTimeString(),
+                                    modified: false
+                                }), '*');
+                                OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "File saved!"));
+                                etag = result.getResponseHeader('etag'); 
+                                saveInProgress = false;
+                            })
+                            .fail(function (result) {                                            
+                                saveInProgress = false; 
+                                OC.Notification.showTemporary(t(OCA.DrawIO.AppName, "Error while saving."));	
+                            })                                        
+                            .done(function () {                                            
+                                saveInProgress = false;
+                                tempDiagramXml = null;
+                            });
+                            break;
+
+                    }
+
                 } else {
                     console.log("DrawIO Integration: unknown event " + payload.event);
-                    console.dir(payload);
+                    draftShown = false;
                 }
             } else {
                 console.log("DrawIO Integration: bad origin " + evt.origin);
